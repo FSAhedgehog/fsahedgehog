@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const ThirteenF = db.define('thirteenF ', {
+const ThirteenF = db.define('thirteenF', {
   dateOfFiling: {
     type: Sequelize.DATE,
     allowNull: false,
