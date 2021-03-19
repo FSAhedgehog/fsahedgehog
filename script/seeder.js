@@ -86,7 +86,6 @@ async function findOrCreateHedgefund(data) {
         name: companyName,
       },
     })
-
     return hedgeFund[0]
   } catch (err) {
     console.log('error in findOrCreateHedgefund func—————', err)
