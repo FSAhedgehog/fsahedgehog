@@ -36,6 +36,7 @@
 const axios = require('axios')
 const {Hedgefund, ThirteenF, Stock} = require('../server/db/models')
 
+// Fiddle with these constants to change the query
 const API_KEY =
   '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
 
@@ -43,6 +44,7 @@ const HEDGEFUND = 'BILL & MELINDA'
 
 const SIZE = '5'
 
+// Don't fiddle with this query
 const QUERY = {
   query: {
     query_string: {
