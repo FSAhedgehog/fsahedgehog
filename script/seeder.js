@@ -37,8 +37,9 @@ const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
 // Fiddle with these constants to change the query
-const API_KEY = 'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
-  // '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
+const API_KEY =
+  'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
+// '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
 
 const HEDGEFUND = 'BILL & MELINDA'
 
@@ -86,7 +87,7 @@ async function findOrCreateHedgefund(data) {
         name: companyName,
       },
     })
-      // console.log(hedgeFund)
+    // console.log(hedgeFund)
     return hedgeFund[0]
   } catch (err) {
     console.log('error in findOrCreateHedgefund func—————', err)
@@ -100,39 +101,35 @@ async function seedData(apiKey, query) {
   const thirteenFs = await findOrCreate13F(data, hedgeFund)
   console.log(thirteenFs)
   //const stocks = await findOrCreateStock(data, thirteenFs, hedgefund)
- }
+}
 
-  async function findOrCreate13F(data, hedgeFund){
+async function findOrCreate13F(data, hedgeFund) {
   const thirteenFs = data.filings
 
-  const returnedThirteenFs = await thirteenFs.map( async elem =>{
-  const thirteenF = await thirteenFs.findOrCreate({
-       where:{
+  const returnedThirteenFs = await thirteenFs.map(async (elem) => {
+    const thirteenF = await thirteenFs.findOrCreate({
+      where: {
         hedgeFundId: hedgeFund.id,
         dateOfFiling: elem.filedAt,
-       }
+      },
     })
     return thirteenF[0]
-    }
-  )
-    return returnedThirteenFs
- }
+  })
+  return returnedThirteenFs
+}
 
 async function findOrCreateStock(data, returnedThirteenFs, hedgefund) {
   const jsonThirteenFs = data.filings
-  const holdingsArrays = await jsonThirteenFs.map(async elem => {
-    const stockArray = await elem.map(async aStock =>{
-        const stock = await Stock.findOrCreate({
-          where:{
-            hedgefundId: hedgefund.id,
-            qtyOfSharesHeld:
-          }
-        })
+  const holdingsArrays = await jsonThirteenFs.map(async (elem) => {
+    const stockArray = await elem.map(async (aStock) => {
+      const stock = await Stock.findOrCreate({
+        where: {
+          hedgefundId: hedgefund.id,
+          qtyOfSharesHeld: 23,
+        },
+      })
     })
-
-  }
+  })
 }
 
-
 seedData(API_KEY, QUERY)
-
