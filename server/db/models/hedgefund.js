@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const HedgeFund = db.define('HedgeFund', {
+const HedgeFund = db.define('hedgeFund', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
