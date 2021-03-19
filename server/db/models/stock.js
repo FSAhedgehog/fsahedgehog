@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const { convertToDollars, convertToPennies } = require('./utility')
+const {convertToDollars, convertToPennies} = require('./utility')
 
-const Stocks = db.define('stocks ', {
+const Stock = db.define('stock ', {
   ticker: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   qtyOfSharesHeld: {
     type: Sequelize.INTEGER,
@@ -14,12 +14,12 @@ const Stocks = db.define('stocks ', {
   price: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    get(){
+    get() {
       return convertToDollars(this.getDataValue('price'))
     },
-    set(value){
-      this.setDataValue('price',convertToPennies(value))
-      }
+    set(value) {
+      this.setDataValue('price', convertToPennies(value))
+    },
   },
   percentageOfPortfolio: {
     type: Sequelize.INTEGER,
@@ -27,4 +27,4 @@ const Stocks = db.define('stocks ', {
   },
 })
 
-export default Stocks
+module.exports = Stock
