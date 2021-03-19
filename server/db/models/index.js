@@ -14,11 +14,16 @@ const ThirteenF = require('./thirteenF')
  * we can just require it from 'db/models'
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
+ *
+ *
  */
+ThirteenF.belongsTo(HedgeFund)
+Stock.belongsTo(ThirteenF)
+Stock.belongsTo(HedgeFund)
+
 module.exports = {
   User,
   Stock,
   HedgeFund,
   ThirteenF
-
 }

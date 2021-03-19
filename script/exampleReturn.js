@@ -1,4 +1,4 @@
-{
+const data = {
   "total": {
     "value": 78,
     "relation": "eq"
@@ -1887,3 +1887,4 @@
     }
   ]
 }
+module.exports = data

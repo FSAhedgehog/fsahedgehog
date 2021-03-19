@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 const {convertToDollars, convertToPennies} = require('./utility')
 
-const Stock = db.define('stock ', {
+const Stock = db.define('stock', {
   cusip: {
     type: Sequelize.STRING,
     allowNull: false,
