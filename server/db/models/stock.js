@@ -3,6 +3,10 @@ const db = require('../db')
 const {convertToDollars, convertToPennies} = require('./utility')
 
 const Stock = db.define('stock ', {
+  cusip: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
   ticker: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -14,6 +18,15 @@ const Stock = db.define('stock ', {
   price: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    get() {
+      return convertToDollars(this.getDataValue('price'))
+    },
+    set(value) {
+      this.setDataValue('price', convertToPennies(value))
+    },
+  },
+  totalValue: {
+    type: Sequelize.INTEGER,
     get() {
       return convertToDollars(this.getDataValue('price'))
     },
