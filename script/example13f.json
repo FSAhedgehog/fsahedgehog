@@ -1,11 +1,11 @@
 {
   "total": {
     "value": 13,
-      "relation": "eq"
+    "relation": "eq"
   },
   "query": {
     "from": 0,
-      "size": 1
+    "size": 1
   },
   "filings": [
     {

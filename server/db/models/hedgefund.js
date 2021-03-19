@@ -4,7 +4,7 @@ const db = require('../db')
 const HedgeFund = db.define('hedgeFund ', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   yearOneReturn: {
     type: Sequelize.INTEGER,
@@ -13,7 +13,6 @@ const HedgeFund = db.define('hedgeFund ', {
   yearThreeReturn: {
     type: Sequelize.INTEGER,
     allowNull: true,
-
   },
   yearFiveReturn: {
     type: Sequelize.INTEGER,
@@ -21,4 +20,4 @@ const HedgeFund = db.define('hedgeFund ', {
   },
 })
 
-export default HedgeFund
+module.exports = HedgeFund
