@@ -77,39 +77,43 @@ async function getInitialData(apiKey, query) {
   }
 }
 
-async function findOrCreateHedgefund(data) {
+async function createHedgeFund(data) {
   try {
     const companyName = data.filings[0].companyName
 
-    const hedgeFund = await HedgeFund.findOrCreate({
-      where: {
-        name: companyName,
-      },
+    const hedgeFund = await HedgeFund.create({
+      name: companyName,
     })
-    return hedgeFund[0]
+
+    return hedgeFund
   } catch (err) {
-    console.log('error in findOrCreateHedgefund func—————', err)
+    console.log('error in createHedgeFund func—————', err)
   }
 }
 
-async function findOrCreate13F(data, hedgeFund) {
-  const thirteenFs = data.filings
+// async function create13F(data, hedgeFund) {
+//   const thirteenFs = data.filings
 
-  const returnedThirteenFs = await Promise.all(
-    thirteenFs.map(async (elem) => {
-      const thirteenF = await ThirteenF.findOrCreate({
-        where: {
-          hedgeFundId: hedgeFund.id,
-          dateOfFiling: elem.filedAt,
-        },
-      })
+//   const returnedThirteenFs = await Promise.all(
+//     thirteenFs.map(async (elem) => {
+//       const stockHoldings = elem.holdings
 
-      return thirteenF[0]
-    })
-  )
+//       const thirteenF = await ThirteenF.create({
+//         dateOfFiling: elem.filedAt,
+//       })
 
-  return returnedThirteenFs
-}
+//       const returnedStockHoldings = await Promise.all(stockHoldings.map(async (stockHolding) => {
+
+//         const createdStockHolding = Stock.create({
+
+//         })
+
+//       })
+//     })
+//   )
+
+//   return returnedThirteenFs
+// }
 
 async function findOrCreateStock(data, returnedThirteenFs, hedgefund) {
   // const holdingsArray = [13F (instance), 13F, 13F, 13F, 13F]
@@ -142,8 +146,8 @@ async function findOrCreateStock(data, returnedThirteenFs, hedgefund) {
 async function seedData(apiKey, query) {
   const data = await getInitialData(apiKey, query)
 
-  const hedgeFund = await findOrCreateHedgefund(data)
-  const thirteenFs = await findOrCreate13F(data, hedgeFund)
+  const hedgeFund = await createHedgeFund(data)
+  const thirteenFs = await create13F(data, hedgeFund)
 
   const stocks = await Promise.all(
     thirteenFs.map((thirteenF) => {
