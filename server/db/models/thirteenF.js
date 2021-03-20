@@ -34,3 +34,21 @@ module.exports = ThirteenF
 ThirteenF.beforeValidate((thirteenF) => {
   thirteenF.year = thirteenF.year.slice(0, 4)
 })
+
+//QUARTER HOOK
+function findQuarter(date) {
+  date = Number(date.slice(5, 7))
+  if (date <= 2) {
+    return 1
+  } else if (date > 2 && date <= 5) {
+    return 2
+  } else if (date > 5 && date <= 8) {
+    return 3
+  } else {
+    return 4
+  }
+}
+
+ThirteenF.beforeValidate((thirteenF) => {
+  thirteenF.quarter = findQuarter(thirteenF.quarter)
+})
