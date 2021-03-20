@@ -38,7 +38,7 @@ const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
 // Fiddle with these constants to change the query
-const API_KEY = apiKey
+const API_KEY = apiKey //placed in secretes file
 
 const HEDGEFUND = 'BILL & MELINDA'
 
