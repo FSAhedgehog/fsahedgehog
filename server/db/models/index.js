@@ -24,10 +24,6 @@ ThirteenF.hasMany(Stock)
 Stock.belongsTo(HedgeFund)
 HedgeFund.hasMany(Stock)
 
-console.log('STOCK MODEL—————', Object.keys(Stock.prototype))
-console.log('THIRTEENF MODEL——————', Object.keys(ThirteenF.prototype))
-console.log('HEDGEFUND MODEL———————', Object.keys(HedgeFund.prototype))
-
 module.exports = {
   User,
   Stock,

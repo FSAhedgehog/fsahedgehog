@@ -9,15 +9,14 @@ const Stock = db.define('stock', {
   },
   ticker: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
   qtyOfSharesHeld: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     allowNull: false,
   },
   price: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
+    type: Sequelize.BIGINT,
+    allowNull: true,
     get() {
       return convertToDollars(this.getDataValue('price'))
     },
@@ -26,7 +25,7 @@ const Stock = db.define('stock', {
     },
   },
   totalValue: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     get() {
       return convertToDollars(this.getDataValue('price'))
     },
@@ -38,6 +37,12 @@ const Stock = db.define('stock', {
     type: Sequelize.INTEGER,
     allowNull: true,
   },
+})
+
+Stock.beforeCreate((stock) => {
+  if (stock.cusip.length < 9) {
+    stock.cusip = '0' + stock.cusip
+  }
 })
 
 module.exports = Stock

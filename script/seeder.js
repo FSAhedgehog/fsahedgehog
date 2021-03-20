@@ -91,56 +91,44 @@ async function createHedgeFund(data) {
   }
 }
 
-// async function create13F(data, hedgeFund) {
-//   const thirteenFs = data.filings
+async function create13F(data, hedgeFund) {
+  try {
+    const thirteenFs = data.filings
 
-//   const returnedThirteenFs = await Promise.all(
-//     thirteenFs.map(async (elem) => {
-//       const stockHoldings = elem.holdings
+    const returnedThirteenFs = await Promise.all(
+      thirteenFs.map(async (elem) => {
+        const stockHoldings = elem.holdings
 
-//       const thirteenF = await ThirteenF.create({
-//         dateOfFiling: elem.filedAt,
-//       })
-
-//       const returnedStockHoldings = await Promise.all(stockHoldings.map(async (stockHolding) => {
-
-//         const createdStockHolding = Stock.create({
-
-//         })
-
-//       })
-//     })
-//   )
-
-//   return returnedThirteenFs
-// }
-
-async function findOrCreateStock(data, returnedThirteenFs, hedgefund) {
-  // const holdingsArray = [13F (instance), 13F, 13F, 13F, 13F]
-
-  // const holdingsArray = [[stock, stock, stock, etc.], [stock, stock, stock, etc.], [stock, etc.]]
-
-  const jsonThirteenFs = data.filings
-
-  const holdingsArrays = await Promise.all(
-    jsonThirteenFs.map(async (elem) => {
-      const stockArray = await Promise.all(
-        elem.map(async (aStock) => {
-          const stock = await Stock.create({
-            cusip: aStock.cusip,
-            totalValue: aStock.value,
-            qtyOfSharesHeld: aStock.shrsOrPrnAmt.sshPrnamt,
-          })
-
-          return stock
+        const thirteenF = await ThirteenF.create({
+          dateOfFiling: elem.filedAt,
         })
-      )
 
-      return stockArray
-    })
-  )
+        const returnedStockHoldings = await Promise.all(
+          stockHoldings
+            .filter((stockHolding) => !stockHolding.putCall)
+            .map(async (stockHolding) => {
+              const createdStockHolding = await Stock.create({
+                cusip: stockHolding.cusip,
+                totalValue: stockHolding.value,
+                qtyOfSharesHeld: stockHolding.shrsOrPrnAmt.sshPrnamt,
+              })
 
-  return holdingsArrays
+              return createdStockHolding
+            })
+        )
+
+        await thirteenF.addStocks(returnedStockHoldings)
+        await hedgeFund.addThirteenF(thirteenF)
+        await hedgeFund.addStocks(returnedStockHoldings)
+
+        return thirteenF
+      })
+    )
+
+    return returnedThirteenFs
+  } catch (err) {
+    console.log('error in create13F func——————', err)
+  }
 }
 
 async function seedData(apiKey, query) {
@@ -149,11 +137,7 @@ async function seedData(apiKey, query) {
   const hedgeFund = await createHedgeFund(data)
   const thirteenFs = await create13F(data, hedgeFund)
 
-  const stocks = await Promise.all(
-    thirteenFs.map((thirteenF) => {
-      const stock = findOrCreateStock(data, thirteenF, hedgeFund)
-    })
-  )
+  console.log('FINAL THIRTEENFS————————', thirteenFs)
 }
 
 seedData(API_KEY, QUERY)
