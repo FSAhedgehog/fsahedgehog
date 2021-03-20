@@ -25,3 +25,11 @@ script:
 #   app: YOUR-HEROKU-APP-NAME-HERE # see README
 #   api_key:
 #     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  app: hedgehog
+  on:
+    branch: origin
+  api_key:
+    secure: vMA7F306gj3alOc/HPKlOkfYXaut2x9YH4lME7QrllPUffu++31OT1ufZskAty6GovxACxE7gCcvBDiAsOfZw/ydu7dUcsn+q3dzpbyGa7erGJTQUad8wEW6OUboO+rLf2B7ScrDzgBMRbmcUTWC+0W2QorSKwS8OL2n5xcBYSxjgr1ZXiVBLqqKkYNySMxurwfW1z34plo4khoVtGaLVCBXbiCGYOhOssQ02wUMW6IXafYz46+TzJC7Uu4jdE/omM72dUyxLehJvSlYHDKNB1CCpcPooZK0OFbzyIFr2Oo4N0ZnGHhmExGWzoZN7kprgAf2i0xbMyFX8aBp192iuo1pvC10tuDQr3sOh58olnZAu9Yh0gOY+i1NT+U8lwHYnbLGVYKMp+MKBApj4Tyvaj3ALKX5w52PJdMmdKyw6OXZfCUPFxF5/YeEDev2avEODOA4aRlzlyM+nS0EeZN5dbN9Lbnrk2eiE453Ol/jyJpgJssX+dnDIiOyF8hdlGWLBkOO7/AY/SttgesatXKCkF4leMqviGLjocb68JWcQ6SKXH3P+kVlRRs7g0cQOiDa1L1B70XRNCDdauktPcnzt5Bxib31jurXfWiXKgoF6fleU6x0ix++XjuQPl8O1MEnffUqJZRxwoSJVc6vg/jNo9UkTB+++qysqhrZbFlw7p0=
