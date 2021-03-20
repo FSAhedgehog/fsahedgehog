@@ -44,9 +44,8 @@ module.exports = Stock
 
 //CUSIP HOOK
 //if string is less than 9 characters
-Stock.beforeValidate((string) => {
-  if (string.length < 9) {
-    string = '0' + string
+Stock.beforeValidate((stock) => {
+  if (stock.cusip.length < 9) {
+    stock.cusip = '0' + stock.cusip
   }
-  return string
 })

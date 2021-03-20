@@ -28,3 +28,9 @@ const ThirteenF = db.define('thirteenF', {
 })
 
 module.exports = ThirteenF
+
+//YEAR HOOK
+
+ThirteenF.beforeValidate((thirteenF) => {
+  thirteenF.year = thirteenF.year.slice(0, 4)
+})
