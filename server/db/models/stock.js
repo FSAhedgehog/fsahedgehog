@@ -39,10 +39,4 @@ const Stock = db.define('stock', {
   },
 })
 
-Stock.beforeCreate((stock) => {
-  if (stock.cusip.length < 9) {
-    stock.cusip = '0' + stock.cusip
-  }
-})
-
 module.exports = Stock
