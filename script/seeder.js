@@ -38,39 +38,40 @@ const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
 // Fiddle with these constants to change the query
 const API_KEY =
-  'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
-// '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
+  // 'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
+  '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
 
-const HEDGEFUND = 'BILL & MELINDA'
+const HEDGEFUNDS = ['BILL & MELINDA', 'AKO CAPITAL']
 
 const SIZE = '5'
 
-// Don't fiddle with this query
-const QUERY = {
-  query: {
-    query_string: {
-      query: `formType:\\"13F\\" AND companyName:\\"${HEDGEFUND}\\"`,
-    },
-  },
-  from: '0',
-  size: `${SIZE}`,
-  sort: [
-    {
-      filedAt: {
-        order: 'desc',
+function buildQuery(hedgeFund, size) {
+  return {
+    query: {
+      query_string: {
+        query: `formType:\\"13F\\" AND companyName:\\"${hedgeFund}\\"`,
       },
     },
-  ],
+    from: '0',
+    size: `${size}`,
+    sort: [
+      {
+        filedAt: {
+          order: 'desc',
+        },
+      },
+    ],
+  }
 }
 
 async function getInitialData(apiKey, query) {
   try {
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    //)
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
     //console.log(data)
-    const data = require('./exampleReturn')
+    // const data = require('./exampleReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
@@ -140,4 +141,12 @@ async function seedData(apiKey, query) {
   console.log('FINAL THIRTEENFS————————', thirteenFs)
 }
 
-seedData(API_KEY, QUERY)
+async function seedMultiple(apiKey, hedgeFunds, size) {
+  while (hedgeFunds.length) {
+    const hedgeFund = hedgeFunds.pop()
+    const query = buildQuery(hedgeFund, size)
+    await seedData(apiKey, query)
+  }
+}
+
+seedMultiple(API_KEY, HEDGEFUNDS, SIZE)
