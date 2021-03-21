@@ -1,27 +1,27 @@
 language: node_js
 node_js:
-  - 14 # uses version 14
+  - 14
 services:
-  - postgresql # starts up postgres
+  - postgresql
 addons:
-  postgresql: '10' # recent postgres version on Travis
-dist: xenial # uses xenial environment
+  postgresql: '10'
+dist: xenial
 notifications:
   email:
-    on_success: change # default: change (only when going from broken to fixed)
-    on_failure: always # default: always (which is annoying, as it should be)
+    on_success: change
+    on_failure: always
 install:
-  - npm ci # faster, goes only from package-lock
+  - npm ci
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "hedgehog";' -U postgres
 script:
-  - npm test # test the code
-  - npm run build-client # make the bundle
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+  - npm test
+  - npm run build-client
+deploy: # see README for details on these keys
+  skip_cleanup: true
+  provider: heroku
+  app: fsahedgehog
+  api_key:
+    secure: sd+cGDWrwpnGRnVdi0eP/W1xRgPYV2CyJERVs8xcZw1uCy43+ya5ziiIFNAa2w72Y1gALiUhO+Xn7wEQSUlS6AB4eq5wXz55zJDlD0D8PrwzAPcb52QYJfE8R3qPpXUypRrqkkMRiiS/TYqId6NYVBPIyeFDfEy1BuD/rOiyrsb1mlZgktnWcbtizZ0LZUQ0EEqEpqJjvREQJuerlYDoRXOTnYGVvksHBwC0RgaMaZL2YL1dHbo1jTBVWeWDKqGrTgbUQRPKAhHw7w9zHPaOORfkgVrCBGGMp/pwXzaWT3BkR/w1wyZiGsdG1wq492fF6XbWxlb5I0zMAbVHDFiptzUQW05sDLmcOzARId+F1ZbUmjVHY90Y5jLBUhD7lC3aV7lhHUdbKBmazRkKtWsn/y07uwR+nBNBGijh85iE+ahLUmT9fxrAB+fZVNDsj1cTgHyFDwyivanJdX/16czTlG57zrq52i5C8oTNVJwAqLqWYaEFlTLDfSK/NDZy/LSeVpvQVDOStQK4R2To2zPAFyEcVLnQ4O5yLMhj/Ymvs/06msvcMlAgb4/advWNYIo4O+0f09swfOrVP8z9iT8bQ40o82o3Eaxa7hDxFYM0uwPyA8dgnCHZ2iJxbwWcbvFz0m9ZEVRi1pelLKu5bi5c91260cbprpNoP4UhXZK6yN0=
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
