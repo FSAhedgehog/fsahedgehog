@@ -170,26 +170,31 @@ async function seedMultiple(apiKey, hedgeFunds, size) {
     const query = buildQuery(hedgeFund, size)
     await seedData(apiKey, query)
   }
-
-  await db.close()
-}
-
-async function updateTicker() {
-  const stocks = await Stock.findAll()
-
-  var clearIntervalKey = setInterval(async () => {
-    console.log('IN SET INTERVAL')
-    const stockInstance = stocks.pop()
-    stockInstance.ticker = await getTicker(stockInstance.cusip)
-    await stockInstance.save()
-  }, 1000)
-
-  function myStopFunction() {
-    clearInterval(clearIntervalKey)
-  }
-
-  setTimeout(myStopFunction(), 10000)
 }
 
 seedMultiple(API_KEY, HEDGEFUNDS, SIZE)
-updateTicker()
+
+const timer = setInterval(addTicker, 300)
+
+async function addTicker() {
+  try {
+    console.log('IN SET INTERVAL')
+    const stock = await Stock.findOne({
+      where: {
+        ticker: null,
+      },
+    })
+
+    if (!stock) {
+      console.log('exiting setInterval')
+      clearInterval(timer)
+      await db.close()
+      return
+    }
+
+    stock.ticker = await getTicker(stock.cusip)
+    await stock.save()
+  } catch (err) {
+    console.log(err)
+  }
+}
