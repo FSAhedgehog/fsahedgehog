@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 const {convertToDollars, convertToPennies} = require('./utility')
+const {getTicker} = require('../../../script/seederUtility')
 
 const Stock = db.define('stock', {
   cusip: {
@@ -43,8 +44,25 @@ module.exports = Stock
 
 //CUSIP HOOK
 //if string is less than 9 characters
-Stock.beforeValidate((stock) => {
+Stock.beforeCreate((stock) => {
   if (stock.cusip.length < 9) {
     stock.cusip = '0' + stock.cusip
   }
 })
+
+// before update
+Stock.beforeUpdate((stock) => {
+  if (stock.cusip.length < 9) {
+    stock.cusip = '0' + stock.cusip
+  }
+})
+
+// Stock.beforeCreate(async (stock) => {
+//   const ticker = await setInterval(() => getTicker(stock.cusip), 300)
+//   stock.ticker = ticker
+// })
+
+// Stock.beforeUpdate(async (stock) => {
+//   const ticker = await getTicker(stock.cusip)
+//   stock.ticker = ticker
+// })
