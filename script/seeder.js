@@ -34,15 +34,17 @@
 //percentage of portfolio
 
 const axios = require('axios')
+const db = require('../server/db')
 
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
+const {getTicker} = require('./seederUtility')
 
 const API_KEY =
   'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
 // '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
 
 // ADD HEDGEFUNDS HERE
-const HEDGEFUNDS = ['BILL & MELINDA', 'AKO CAPITAL']
+const HEDGEFUNDS = ['BILL & MELINDA']
 
 // CHANGE SIZE HERE
 const SIZE = '5'
@@ -70,13 +72,13 @@ function buildQuery(hedgeFund, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    const {data} = await axios.post(
-      `https://api.sec-api.io?token=${apiKey}`,
-      query
-    )
+    // const {data} = await axios.post(
+    //   `https://api.sec-api.io?token=${apiKey}`,
+    //   query
+    // )
     // Uncomment this for testing purpose
-    //console.log(data)
-    // const data = require('./exampleReturn')
+    // console.log(data)
+    const data = require('./exampleReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
@@ -97,6 +99,19 @@ async function createHedgeFund(data) {
   }
 }
 
+function findQuarter(month) {
+  month = Number(month)
+  if (month <= 2) {
+    return 1
+  } else if (month > 2 && month <= 5) {
+    return 2
+  } else if (month > 5 && month <= 8) {
+    return 3
+  } else {
+    return 4
+  }
+}
+
 async function create13F(data, hedgeFund) {
   try {
     const thirteenFs = data.filings
@@ -105,6 +120,8 @@ async function create13F(data, hedgeFund) {
       thirteenFs.map(async (elem) => {
         const thirteenF = await ThirteenF.create({
           dateOfFiling: elem.filedAt,
+          year: elem.periodOfReport.slice(0, 4),
+          quarter: findQuarter(elem.periodOfReport.slice(5, 7)),
         })
 
         const stockHoldings = elem.holdings
@@ -143,15 +160,36 @@ async function seedData(apiKey, query) {
   const hedgeFund = await createHedgeFund(data)
   const thirteenFs = await create13F(data, hedgeFund)
 
-  console.log('FINAL THIRTEENFS————————', thirteenFs)
+  // console.log('FINAL THIRTEENFS————————', thirteenFs)
 }
 
 async function seedMultiple(apiKey, hedgeFunds, size) {
+  await db.sync({force: true})
   while (hedgeFunds.length) {
     const hedgeFund = hedgeFunds.pop()
     const query = buildQuery(hedgeFund, size)
     await seedData(apiKey, query)
   }
+
+  await db.close()
+}
+
+async function updateTicker() {
+  const stocks = await Stock.findAll()
+
+  var clearIntervalKey = setInterval(async () => {
+    console.log('IN SET INTERVAL')
+    const stockInstance = stocks.pop()
+    stockInstance.ticker = await getTicker(stockInstance.cusip)
+    await stockInstance.save()
+  }, 1000)
+
+  function myStopFunction() {
+    clearInterval(clearIntervalKey)
+  }
+
+  setTimeout(myStopFunction(), 10000)
 }
 
 seedMultiple(API_KEY, HEDGEFUNDS, SIZE)
+updateTicker()

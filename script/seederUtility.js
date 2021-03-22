@@ -27,7 +27,7 @@ async function getTicker(cusip) {
     console.log(data[0].data[0].ticker)
     return data[0].data[0].ticker
   } catch (error) {
-    console.log(error)
+    console.log('oopsie!')
   }
 }
 // needs to be passed in double quotation string
@@ -247,3 +247,7 @@ function topTenOwnedReturn() {
 }
 
 // function createTopTenPortfolio
+
+module.exports = {
+  getTicker,
+}
