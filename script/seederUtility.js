@@ -6,12 +6,8 @@ function isCharacterALetter(char) {
   return /[A-Z]/.test(char)
 }
 async function getTicker(cusip) {
-  let postData
-  if (isCharacterALetter(cusip[0])) {
-    postData = [{idType: 'ID_CINS', idValue: cusip}]
-  } else {
-    postData = [{idType: 'ID_CUSIP', idValue: cusip}]
-  }
+  const idType = isCharacterALetter(cusip[0]) ? 'ID_CINS' : 'ID_CUSIP'
+  let postData = [{idType, idValue: cusip, exchCode:'UA'}]
   let axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
