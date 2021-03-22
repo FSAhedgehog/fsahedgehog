@@ -14,7 +14,7 @@
 
 // Month      getMonth()  quarter
 // --------- ----------  -------
-//   January         0         1
+// January         0         1
 // February        1         1
 // March           2         1
 // April           3         2
@@ -34,16 +34,21 @@
 //percentage of portfolio
 
 const axios = require('axios')
+
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
 // Fiddle with these constants to change the query
+
 const API_KEY =
   // 'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
   '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
 
+
+
 const HEDGEFUNDS = ['BILL & MELINDA', 'AKO CAPITAL']
 
 const SIZE = '5'
+
 
 function buildQuery(hedgeFund, size) {
   return {
@@ -62,6 +67,7 @@ function buildQuery(hedgeFund, size) {
       },
     ],
   }
+
 }
 
 async function getInitialData(apiKey, query) {
@@ -82,8 +88,10 @@ async function createHedgeFund(data) {
   try {
     const companyName = data.filings[0].companyName
 
+
     const hedgeFund = await HedgeFund.create({
       name: companyName,
+
     })
 
     return hedgeFund
@@ -92,6 +100,7 @@ async function createHedgeFund(data) {
   }
 }
 
+
 async function create13F(data, hedgeFund) {
   try {
     const thirteenFs = data.filings
@@ -99,6 +108,7 @@ async function create13F(data, hedgeFund) {
     const returnedThirteenFs = await Promise.all(
       thirteenFs.map(async (elem) => {
         const stockHoldings = elem.holdings
+
 
         const thirteenF = await ThirteenF.create({
           dateOfFiling: elem.filedAt,
@@ -138,6 +148,7 @@ async function seedData(apiKey, query) {
   const hedgeFund = await createHedgeFund(data)
   const thirteenFs = await create13F(data, hedgeFund)
 
+
   console.log('FINAL THIRTEENFS————————', thirteenFs)
 }
 
@@ -147,6 +158,7 @@ async function seedMultiple(apiKey, hedgeFunds, size) {
     const query = buildQuery(hedgeFund, size)
     await seedData(apiKey, query)
   }
+
 }
 
 seedMultiple(API_KEY, HEDGEFUNDS, SIZE)
