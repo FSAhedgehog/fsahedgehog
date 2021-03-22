@@ -38,6 +38,8 @@ function addDayToDate(date) {
 }
 
 function getPrice(ticker, date) {
+  ticker = ticker.replace('/', '-')
+
   return yahooFinance.historical(
     {
       symbol: ticker,
@@ -47,10 +49,11 @@ function getPrice(ticker, date) {
     },
     function (err, quotes) {
       if (err) {
-        throw err
+        console.error(err)
+      } else {
+        const price = quotes[0] ? quotes[0].close : null
+        return price
       }
-      console.log(quotes[0].close)
-      return quotes[0].close
     }
   )
 }
@@ -250,4 +253,5 @@ function topTenOwnedReturn() {
 
 module.exports = {
   getTicker,
+  getPrice,
 }

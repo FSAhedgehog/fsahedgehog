@@ -37,7 +37,7 @@ const axios = require('axios')
 const db = require('../server/db')
 
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-const {getTicker} = require('./seederUtility')
+const {getTicker, getPrice} = require('./seederUtility')
 
 const API_KEY =
   'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
@@ -183,6 +183,7 @@ async function addTicker() {
       where: {
         ticker: null,
       },
+      include: [ThirteenF],
     })
 
     if (!stock) {
@@ -192,9 +193,12 @@ async function addTicker() {
       return
     }
 
-    stock.ticker = await getTicker(stock.cusip)
+    const ticker = await getTicker(stock.cusip)
+    stock.ticker = ticker
+    const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
+    stock.price = price[0] ? price[0].close : null
     await stock.save()
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
