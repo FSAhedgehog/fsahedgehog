@@ -14,7 +14,7 @@
 
 // Month      getMonth()  quarter
 // --------- ----------  -------
-//   January         0         1
+// January         0         1
 // February        1         1
 // March           2         1
 // April           3         2
