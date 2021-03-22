@@ -9,15 +9,14 @@ const Stock = db.define('stock', {
   },
   ticker: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
   qtyOfSharesHeld: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     allowNull: false,
   },
   price: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
+    type: Sequelize.BIGINT,
+    allowNull: true,
     get() {
       return convertToDollars(this.getDataValue('price'))
     },
@@ -26,12 +25,12 @@ const Stock = db.define('stock', {
     },
   },
   totalValue: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     get() {
-      return convertToDollars(this.getDataValue('price'))
+      return convertToDollars(this.getDataValue('totalValue'))
     },
     set(value) {
-      this.setDataValue('price', convertToPennies(value))
+      this.setDataValue('totalValue', convertToPennies(value))
     },
   },
   percentageOfPortfolio: {

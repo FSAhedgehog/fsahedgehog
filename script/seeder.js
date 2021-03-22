@@ -38,117 +38,127 @@ const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
 // Fiddle with these constants to change the query
-const API_KEY = apiKey //placed in secretes file
 
-const HEDGEFUND = 'BILL & MELINDA'
+const API_KEY =
+  // 'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
+  '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
+
+
+
+const HEDGEFUNDS = ['BILL & MELINDA', 'AKO CAPITAL']
 
 const SIZE = '5'
 
-// Don't fiddle with this query
-const QUERY = {
-  query: {
-    query_string: {
-      query: `formType:\\"13F\\" AND companyName:\\"${HEDGEFUND}\\"`
-    }
-  },
-  from: '0',
-  size: `${SIZE}`,
-  sort: [
-    {
-      filedAt: {
-        order: 'desc'
-      }
-    }
-  ]
+
+function buildQuery(hedgeFund, size) {
+  return {
+    query: {
+      query_string: {
+        query: `formType:\\"13F\\" AND companyName:\\"${hedgeFund}\\"`,
+      },
+    },
+    from: '0',
+    size: `${size}`,
+    sort: [
+      {
+        filedAt: {
+          order: 'desc',
+        },
+      },
+    ],
+  }
+
 }
 
 async function getInitialData(apiKey, query) {
   try {
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    //)
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
     //console.log(data)
-    const data = require('./exampleReturn')
+    // const data = require('./exampleReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
   }
 }
 
-async function findOrCreateHedgefund(data) {
+async function createHedgeFund(data) {
   try {
     const companyName = data.filings[0].companyName
 
-    const hedgeFund = await HedgeFund.findOrCreate({
-      where: {
-        name: companyName
-      }
+
+    const hedgeFund = await HedgeFund.create({
+      name: companyName,
+
     })
-    return hedgeFund[0]
+
+    return hedgeFund
   } catch (err) {
-    console.log('error in findOrCreateHedgefund func—————', err)
+    console.log('error in createHedgeFund func—————', err)
   }
 }
 
-async function findOrCreate13F(data, hedgeFund) {
-  const thirteenFs = data.filings
 
-  const returnedThirteenFs = await Promise.all(
-    thirteenFs.map(async elem => {
-      const thirteenF = await ThirteenF.findOrCreate({
-        where: {
-          hedgeFundId: hedgeFund.id,
-          dateOfFiling: elem.filedAt
-        }
-      })
+async function create13F(data, hedgeFund) {
+  try {
+    const thirteenFs = data.filings
 
-      return thirteenF[0]
-    })
-  )
+    const returnedThirteenFs = await Promise.all(
+      thirteenFs.map(async (elem) => {
+        const stockHoldings = elem.holdings
 
-  return returnedThirteenFs
-}
 
-async function findOrCreateStock(data, returnedThirteenFs, hedgefund) {
-  // const holdingsArray = [13F (instance), 13F, 13F, 13F, 13F]
-
-  // const holdingsArray = [[stock, stock, stock, etc.], [stock, stock, stock, etc.], [stock, etc.]]
-
-  const jsonThirteenFs = data.filings
-
-  const holdingsArrays = await Promise.all(
-    jsonThirteenFs.map(async elem => {
-      const stockArray = await Promise.all(
-        elem.map(async aStock => {
-          const stock = await Stock.create({
-            cusip: aStock.cusip,
-            totalValue: aStock.value,
-            qtyOfSharesHeld: aStock.shrsOrPrnAmt.sshPrnamt
-          })
-
-          return stock
+        const thirteenF = await ThirteenF.create({
+          dateOfFiling: elem.filedAt,
         })
-      )
 
-      return stockArray
-    })
-  )
+        const returnedStockHoldings = await Promise.all(
+          stockHoldings
+            .filter((stockHolding) => !stockHolding.putCall)
+            .map(async (stockHolding) => {
+              const createdStockHolding = await Stock.create({
+                cusip: stockHolding.cusip,
+                totalValue: stockHolding.value,
+                qtyOfSharesHeld: stockHolding.shrsOrPrnAmt.sshPrnamt,
+              })
 
-  return holdingsArrays
+              return createdStockHolding
+            })
+        )
+
+        await thirteenF.addStocks(returnedStockHoldings)
+        await hedgeFund.addThirteenF(thirteenF)
+        await hedgeFund.addStocks(returnedStockHoldings)
+
+        return thirteenF
+      })
+    )
+
+    return returnedThirteenFs
+  } catch (err) {
+    console.log('error in create13F func——————', err)
+  }
 }
 
 async function seedData(apiKey, query) {
   const data = await getInitialData(apiKey, query)
 
-  const hedgeFund = await findOrCreateHedgefund(data)
-  const thirteenFs = await findOrCreate13F(data, hedgeFund)
+  const hedgeFund = await createHedgeFund(data)
+  const thirteenFs = await create13F(data, hedgeFund)
 
-  const stocks = await Promise.all(
-    thirteenFs.map(thirteenF => {
-      const stock = findOrCreateStock(data, thirteenF, hedgeFund)
-    })
-  )
+
+  console.log('FINAL THIRTEENFS————————', thirteenFs)
 }
 
-seedData(API_KEY, QUERY)
+async function seedMultiple(apiKey, hedgeFunds, size) {
+  while (hedgeFunds.length) {
+    const hedgeFund = hedgeFunds.pop()
+    const query = buildQuery(hedgeFund, size)
+    await seedData(apiKey, query)
+  }
+
+}
+
+seedMultiple(API_KEY, HEDGEFUNDS, SIZE)
