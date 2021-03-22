@@ -3,7 +3,6 @@ secrets.js
 .DS_Store
 npm-debug.log
 yarn-error.log
-package-lock.json
 public/bundle.js
 public/bundle.js.map
 
