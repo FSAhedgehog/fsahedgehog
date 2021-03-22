@@ -98,7 +98,7 @@ function calcMimicReturn(hedgeFundId, years) {
     if (!prevPortfolio) prevPortfolio = portfolio
     // find the new value of the prevPortfolio, should be the same first time
     let newValue = findInvestmentPortfolioNewValue(prevPortfolio, date)
-    // create portfolio of the thirteenF with the previous or starting value
+    // create portfolio of the thirteenF with the new value or starting value
     portfolio = createPortfolio(thirteenF, newValue)
     // grab the value of the previous portfolio to the new value of the previous portfolio
     prevValue = prevPortfolio.value
@@ -180,6 +180,7 @@ function topTenOwnedReturn() {
   // go through each portfolio and add the percentage to the ticker or create the ticker and % if it hasn't been seen
   // then create a top ten obj
   // add the tickers in order of the top ten percentages from the % tracker obj
+  // assume 10% of each stock in portfolio at beg
   // next quarter find new prices and re-adjust portfolio like mimic return
   // initial value used as a base to calculate the return on
   let prevValue = 10000
