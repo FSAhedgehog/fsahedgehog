@@ -37,19 +37,17 @@ const axios = require('axios')
 
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
-// Fiddle with these constants to change the query
-
 const API_KEY =
-  // 'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
-  '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
+  'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
+// '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
 
-
-
+// ADD HEDGEFUNDS HERE
 const HEDGEFUNDS = ['BILL & MELINDA', 'AKO CAPITAL']
 
+// CHANGE SIZE HERE
 const SIZE = '5'
 
-
+// TODO: CHANGE QUERY
 function buildQuery(hedgeFund, size) {
   return {
     query: {
@@ -67,15 +65,16 @@ function buildQuery(hedgeFund, size) {
       },
     ],
   }
-
 }
 
 async function getInitialData(apiKey, query) {
   try {
+    // Comment this out for testing purposes
     const {data} = await axios.post(
       `https://api.sec-api.io?token=${apiKey}`,
       query
     )
+    // Uncomment this for testing purpose
     //console.log(data)
     // const data = require('./exampleReturn')
     return data
@@ -88,10 +87,8 @@ async function createHedgeFund(data) {
   try {
     const companyName = data.filings[0].companyName
 
-
     const hedgeFund = await HedgeFund.create({
       name: companyName,
-
     })
 
     return hedgeFund
@@ -100,19 +97,17 @@ async function createHedgeFund(data) {
   }
 }
 
-
 async function create13F(data, hedgeFund) {
   try {
     const thirteenFs = data.filings
 
     const returnedThirteenFs = await Promise.all(
       thirteenFs.map(async (elem) => {
-        const stockHoldings = elem.holdings
-
-
         const thirteenF = await ThirteenF.create({
           dateOfFiling: elem.filedAt,
         })
+
+        const stockHoldings = elem.holdings
 
         const returnedStockHoldings = await Promise.all(
           stockHoldings
@@ -148,7 +143,6 @@ async function seedData(apiKey, query) {
   const hedgeFund = await createHedgeFund(data)
   const thirteenFs = await create13F(data, hedgeFund)
 
-
   console.log('FINAL THIRTEENFS————————', thirteenFs)
 }
 
@@ -158,7 +152,6 @@ async function seedMultiple(apiKey, hedgeFunds, size) {
     const query = buildQuery(hedgeFund, size)
     await seedData(apiKey, query)
   }
-
 }
 
 seedMultiple(API_KEY, HEDGEFUNDS, SIZE)
