@@ -32,7 +32,7 @@ module.exports = ThirteenF
 //YEAR HOOK
 
 ThirteenF.beforeValidate((thirteenF) => {
-  thirteenF.year = thirteenF.year.slice(0, 4)
+  thirteenF.year = Number(thirteenF.year.slice(0, 4))
 })
 
 //QUARTER HOOK
