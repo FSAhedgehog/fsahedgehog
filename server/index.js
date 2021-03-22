@@ -105,7 +105,7 @@ const startListening = () => {
   require('./socket')(io)
 }
 
-const syncDb = () => db.sync({logging: true})
+const syncDb = () => db.sync()
 
 async function bootApp() {
   await sessionStore.sync()

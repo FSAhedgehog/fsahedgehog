@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 const {convertToDollars, convertToPennies} = require('./utility')
-const {getTicker} = require('../../../script/seederUtility')
 
 const Stock = db.define('stock', {
   cusip: {
@@ -56,13 +55,3 @@ Stock.beforeUpdate((stock) => {
     stock.cusip = '0' + stock.cusip
   }
 })
-
-// Stock.beforeCreate(async (stock) => {
-//   const ticker = await setInterval(() => getTicker(stock.cusip), 300)
-//   stock.ticker = ticker
-// })
-
-// Stock.beforeUpdate(async (stock) => {
-//   const ticker = await getTicker(stock.cusip)
-//   stock.ticker = ticker
-// })

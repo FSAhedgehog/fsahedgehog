@@ -13,7 +13,7 @@ notifications:
 install:
   - npm ci
 before_script:
-  - psql -c 'create database "hedgehog";' -U postgres
+  - psql -c 'create database "hedgehog-test";' -U postgres
 script:
   - npm test
   - npm run build-client
@@ -25,4 +25,3 @@ deploy: # see README for details on these keys
     secure: sd+cGDWrwpnGRnVdi0eP/W1xRgPYV2CyJERVs8xcZw1uCy43+ya5ziiIFNAa2w72Y1gALiUhO+Xn7wEQSUlS6AB4eq5wXz55zJDlD0D8PrwzAPcb52QYJfE8R3qPpXUypRrqkkMRiiS/TYqId6NYVBPIyeFDfEy1BuD/rOiyrsb1mlZgktnWcbtizZ0LZUQ0EEqEpqJjvREQJuerlYDoRXOTnYGVvksHBwC0RgaMaZL2YL1dHbo1jTBVWeWDKqGrTgbUQRPKAhHw7w9zHPaOORfkgVrCBGGMp/pwXzaWT3BkR/w1wyZiGsdG1wq492fF6XbWxlb5I0zMAbVHDFiptzUQW05sDLmcOzARId+F1ZbUmjVHY90Y5jLBUhD7lC3aV7lhHUdbKBmazRkKtWsn/y07uwR+nBNBGijh85iE+ahLUmT9fxrAB+fZVNDsj1cTgHyFDwyivanJdX/16czTlG57zrq52i5C8oTNVJwAqLqWYaEFlTLDfSK/NDZy/LSeVpvQVDOStQK4R2To2zPAFyEcVLnQ4O5yLMhj/Ymvs/06msvcMlAgb4/advWNYIo4O+0f09swfOrVP8z9iT8bQ40o82o3Eaxa7hDxFYM0uwPyA8dgnCHZ2iJxbwWcbvFz0m9ZEVRi1pelLKu5bi5c91260cbprpNoP4UhXZK6yN0=
 before_deploy: # omit node_modules, since we set skip_cleanup below
   - rm -rf node_modules
-
