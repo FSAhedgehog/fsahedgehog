@@ -25,5 +25,5 @@ module.exports = {
   User,
   Stock,
   HedgeFund,
-  ThirteenF
+  ThirteenF,
 }
