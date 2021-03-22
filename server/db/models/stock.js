@@ -41,3 +41,11 @@ const Stock = db.define('stock', {
 })
 
 module.exports = Stock
+
+//CUSIP HOOK
+//if string is less than 9 characters
+Stock.beforeValidate((stock) => {
+  if (stock.cusip.length < 9) {
+    stock.cusip = '0' + stock.cusip
+  }
+})
