@@ -2,6 +2,19 @@ const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
+function findQuarter(month) {
+  month = Number(month)
+  if (month <= 2) {
+    return 1
+  } else if (month > 2 && month <= 5) {
+    return 2
+  } else if (month > 5 && month <= 8) {
+    return 3
+  } else {
+    return 4
+  }
+}
+
 function isCharacterALetter(char) {
   return /[A-Z]/.test(char)
 }
@@ -254,4 +267,5 @@ function topTenOwnedReturn() {
 module.exports = {
   getTicker,
   getPrice,
+  findQuarter,
 }

@@ -1,44 +1,7 @@
-//Things to calculate later
-//HF Model year 1/3/5
-//13f portfolio value
-
-//hedgefund model
-//object.filings[0].companyName = name
-
-//13f
-//date of filing object.filings[0].filedAt = date of filing
-//year object.filings[0]periodOfReport.slice(0,4) wrap in Number/parsedInt()
-//quarter march june sept dec/ object.filings[0]periodOfReport.slice(5,7) conditionals to check number and get quarter
-
-//portfolio value:
-
-// Month      getMonth()  quarter
-// --------- ----------  -------
-// January         0         1
-// February        1         1
-// March           2         1
-// April           3         2
-// May             4         2
-// June            5         2
-// July            6         3
-// August          7         3
-// September       8         3
-// October         9         4
-// November       10         4
-// December       11         4
-
-//stocks
-//ticker cant bull from 13f
-//qtyOfSharesHeld
-//price
-//percentage of portfolio
-
 const axios = require('axios')
 const db = require('../server/db')
-
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-const {getTicker, getPrice} = require('./seederUtility')
-
+const {getTicker, getPrice, findQuarter} = require('./seederUtility')
 const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
@@ -47,7 +10,7 @@ const HEDGEFUNDS = [
   'BERKSHIRE HATHAWAY INC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
-  'BILL ACKMAN - PERSHING SQUARE CAPITAL MANAGEMENT',
+  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
 
 // CHANGE SIZE HERE
@@ -125,7 +88,6 @@ async function create13F(createdHedgeFund, filing) {
 
 async function createStocks(createdHedgeFund, created13F, holdings) {
   try {
-    console.log('IN CREATE STOCKS—————————')
     const createdStocks = await Promise.all(
       holdings
         .filter((holding) => !holding.putCall)
@@ -148,60 +110,59 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
   }
 }
 
-function findQuarter(month) {
-  month = Number(month)
-  if (month <= 2) {
-    return 1
-  } else if (month > 2 && month <= 5) {
-    return 2
-  } else if (month > 5 && month <= 8) {
-    return 3
-  } else {
-    return 4
-  }
-}
-
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
     await db.sync({force: true})
     const query = buildQuery(hedgeFundNames, size)
-    console.log('QUERY——————', query)
     const data = await getInitialData(apiKey, query)
-    console.log('data———————', data)
-    console.log('data.filings—————', data.filings)
     await createHedgeFunds(data.filings)
   } catch (err) {
     console.error(err)
   }
 }
 
+async function findStock() {
+  const stock = await Stock.findOne({
+    where: {
+      ticker: null,
+    },
+    include: [ThirteenF],
+  })
+
+  return stock
+}
+
+async function endThrottle(timer) {
+  console.log('exiting setInterval')
+  clearInterval(timer)
+  await db.close()
+}
+
+async function addTickerAndPrice(stock, ticker) {
+  stock.ticker = ticker
+  const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
+  stock.price = price[0] ? price[0].close : null
+  await stock.save()
+}
+
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
 
-  const timer = setInterval(addTicker, 300)
-  async function addTicker() {
+  const timer = setInterval(throttleApiCall, 300)
+
+  async function throttleApiCall() {
     try {
-      const stock = await Stock.findOne({
-        where: {
-          ticker: null,
-        },
-        include: [ThirteenF],
-      })
+      const stock = await findStock()
 
       if (!stock) {
-        console.log('exiting setInterval')
-        clearInterval(timer)
-        await db.close()
+        endThrottle(timer)
         return
       }
 
       const ticker = await getTicker(stock.cusip)
 
       if (ticker) {
-        stock.ticker = ticker
-        const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
-        stock.price = price[0] ? price[0].close : null
-        await stock.save()
+        addTickerAndPrice(stock, ticker)
       } else {
         stock.ticker = 'COULD NOT FIND'
         await stock.save()
