@@ -2,9 +2,23 @@ const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 
+function findQuarter(month) {
+  month = Number(month)
+  if (month <= 2) {
+    return 1
+  } else if (month > 2 && month <= 5) {
+    return 2
+  } else if (month > 5 && month <= 8) {
+    return 3
+  } else {
+    return 4
+  }
+}
+
 function isCharacterALetter(char) {
   return /[A-Z]/.test(char)
 }
+
 async function getTicker(cusip) {
   const idType = isCharacterALetter(cusip[0]) ? 'ID_CINS' : 'ID_CUSIP'
   let postData = [{idType, idValue: cusip, exchCode:'UA'}]
@@ -34,6 +48,8 @@ function addDayToDate(date) {
 }
 
 function getPrice(ticker, date) {
+  ticker = ticker.replace('/', '-')
+
   return yahooFinance.historical(
     {
       symbol: ticker,
@@ -43,10 +59,11 @@ function getPrice(ticker, date) {
     },
     function (err, quotes) {
       if (err) {
-        throw err
+        console.error(err)
+      } else {
+        const price = quotes[0] ? quotes[0].close : null
+        return price
       }
-      console.log(quotes[0].close)
-      return quotes[0].close
     }
   )
 }
@@ -246,4 +263,6 @@ function topTenOwnedReturn() {
 
 module.exports = {
   getTicker,
+  getPrice,
+  findQuarter,
 }
