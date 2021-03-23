@@ -198,3 +198,25 @@ async function addTicker() {
     console.log(err)
   }
 }
+
+async function getFundValue(thirteenFId) {
+  const data = await Stock.findAll({
+    where: {thirteenFId: thirteenFId},
+  })
+  return data.reduce(function (total, elem) {
+    return total + Number(elem.totalValue)
+  }, 0)
+}
+
+async function getStockPercentageOfFund(ticker, thirteenFId) {
+  let totalFundValue = getFundValue(thirteenFId)
+
+  const stock = await Stock.findOne({
+    where: {
+      ticker: ticker,
+      thirteenFId: thirteenFId,
+    },
+  })
+
+  return stock[0].totalValue / totalFundValue
+}
