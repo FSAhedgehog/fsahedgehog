@@ -25,6 +25,12 @@ const ThirteenF = db.define('thirteenF', {
       min: 1,
     },
   },
+  quarterlyValue: {
+    type: Sequelize.INTEGER,
+  },
+  quarterlyStart: {
+    type: Sequelize.BOOLEAN,
+  },
 })
 
 module.exports = ThirteenF

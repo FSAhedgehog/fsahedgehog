@@ -260,8 +260,9 @@ function topTenOwnedReturn() {
     // grab the value of the previous portfolio to the new value of the previous portfolio
     prevValue = prevPortfolio.value
     // finding the quarterlyReturn incase we would like to use later for graphing
-    let quarterlyReturn = (newValue / prevValue) * 100
-    quarterlyReturns[`${year}Q${quarter}`] = quarterlyReturn
+    // changed to make quarterly value!!
+    let quarterlyValue = newValue
+    quarterlyReturns[`${year}Q${quarter}`] = quarterlyValue
     // redifine the prevPortfolio as the current portfolio for the next time around
     prevPortfolio = portfolio
     // get the next quarter
