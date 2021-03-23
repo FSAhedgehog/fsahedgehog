@@ -33,7 +33,7 @@ export class LineChart extends React.Component {
         padding={75}
         minDomain={{y: 0}}
         animate={{
-          duration: 2000,
+          duration: 4000,
           onLoad: {duration: 1000},
         }}
       >

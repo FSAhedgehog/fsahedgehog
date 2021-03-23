@@ -228,7 +228,7 @@ function (_React$Component) {
           y: 0
         },
         animate: {
-          duration: 2000,
+          duration: 4000,
           onLoad: {
             duration: 1000
           }
