@@ -1,6 +1,7 @@
 const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
+const {OPEN_FIJI_KEY} = require('../secrets')
 
 function findQuarter(month) {
   month = Number(month)
@@ -25,7 +26,7 @@ async function getTicker(cusip) {
   let axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
-      'X-OPENFIGI-APIKEY': '51b9d8a0-a4e7-4b79-94c3-14456ad13a62',
+      'X-OPENFIGI-APIKEY': OPEN_FIJI_KEY,
     },
   }
   try {
