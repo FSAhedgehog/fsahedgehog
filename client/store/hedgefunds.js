@@ -4,7 +4,7 @@ const GETHEDGEFUNDS = 'GETHEDGEFUNDS'
 
 const initialState = {
   loading: true,
-  hedgefunds: {},
+  hedgefunds: [],
 }
 
 const setHedgefunds = (hedgefunds) => {
@@ -14,7 +14,7 @@ const setHedgefunds = (hedgefunds) => {
   }
 }
 
-export const getHedgefunds = () => {
+export const fetchAllHedgeFunds = () => {
   return async (dispatch) => {
     try {
       const {data} = await axios.get('/api/hedgefunds')

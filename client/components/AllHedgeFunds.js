@@ -40,7 +40,7 @@ const data = {
 
 class AllHedgeFunds extends React.Component {
   componentDidMount() {
-    this.props.getOrders()
+    // this.props.getOrders()
   }
 
   render() {
