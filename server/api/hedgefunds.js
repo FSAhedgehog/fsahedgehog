@@ -20,16 +20,12 @@ router.get('/:id', async (req, res, next) => {
       include: [
         {
           model: ThirteenF,
-          order: ['dateOfFiling', 'DESC'],
           include: [Stock],
         },
       ],
     })
-    res.json(
-      singleHedgeFund.thirteenFs.sort(
-        (a, b) => b.dateOfFiling - a.dateOfFiling
-      )[0]
-    )
+    singleHedgeFund.thirteenFs.sort((a, b) => b.dateOfFiling - a.dateOfFiling)
+    res.json(singleHedgeFund)
   } catch (err) {
     next(err)
   }
