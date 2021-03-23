@@ -1,21 +1,32 @@
 const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
+const {OPEN_FIJI_KEY} = require('../secrets')
+
+function findQuarter(month) {
+  month = Number(month)
+  if (month <= 2) {
+    return 1
+  } else if (month > 2 && month <= 5) {
+    return 2
+  } else if (month > 5 && month <= 8) {
+    return 3
+  } else {
+    return 4
+  }
+}
 
 function isCharacterALetter(char) {
   return /[A-Z]/.test(char)
 }
+
 async function getTicker(cusip) {
-  let postData
-  if (isCharacterALetter(cusip[0])) {
-    postData = [{idType: 'ID_CINS', idValue: cusip}]
-  } else {
-    postData = [{idType: 'ID_CUSIP', idValue: cusip}]
-  }
+  const idType = isCharacterALetter(cusip[0]) ? 'ID_CINS' : 'ID_CUSIP'
+  let postData = [{idType, idValue: cusip, exchCode: 'UA'}]
   let axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
-      'X-OPENFIGI-APIKEY': '51b9d8a0-a4e7-4b79-94c3-14456ad13a62',
+      'X-OPENFIGI-APIKEY': OPEN_FIJI_KEY,
     },
   }
   try {
@@ -38,6 +49,8 @@ function addDayToDate(date) {
 }
 
 function getPrice(ticker, date) {
+  ticker = ticker.replace('/', '-')
+
   return yahooFinance.historical(
     {
       symbol: ticker,
@@ -47,10 +60,11 @@ function getPrice(ticker, date) {
     },
     function (err, quotes) {
       if (err) {
-        throw err
+        console.error(err)
+      } else {
+        const price = quotes[0] ? quotes[0].close : null
+        return price
       }
-      console.log(quotes[0].close)
-      return quotes[0].close
     }
   )
 }
@@ -65,12 +79,12 @@ function getPrice(ticker, date) {
 // at the end divide the total value of the investment by the original
 
 // need to make sure to calculate new investment value before writing over it
-function calcMimicReturn(hedgeFundId, years) {
+function calcMimicReturn(hedgeFundId, year, quarter) {
   // initial value used as a base to calculate the return on
   let prevValue = 10000
   // 5 years ago minus a quarter
-  let year = 2016
-  let quarter = 1
+  year = 2016
+  quarter = 1
   let quarterlyReturns = {}
   // need to define to have in the if statements for the first time through the loop
   let prevPortfolio = null
@@ -113,6 +127,7 @@ function calcMimicReturn(hedgeFundId, years) {
   } while (thirteenF)
   let totalReturn = (prevPortfolio.value / 10000) * 100
   // will be in percent
+  // need to give quarterly return for the charts
   return {totalReturn, quarterlyReturns}
 }
 
@@ -160,6 +175,18 @@ function getNextYearAndQuarter(year, quarter) {
   return {year, quarter}
 }
 
+// this will be used in the mimicReturn to just return the total
+function findStartingQuarterAndYear(yearsAgo) {}
+
+function getDateOfReporting(year, quarter) {
+  let date = `${year}`
+  date += quarter === 1 ? '-03-31' : ''
+  date += quarter === 2 ? '-06-30' : ''
+  date += quarter === 3 ? '-09-30' : ''
+  date += quarter === 4 ? '-12-31' : ''
+  return date
+}
+function calcSAndPReturn() {}
 // // if completed would allow us to use this function for 1,3, and 5 years
 // function findStartingYearAndQuarter(years) {
 //   let date = new Date()
@@ -229,7 +256,7 @@ function topTenOwnedReturn() {
     // find the new value of the prevPortfolio, should be the same first time
     let newValue = findInvestmentPortfolioNewValue(prevPortfolio, date)
     // create portfolio of the thirteenF with the previous or starting value
-    portfolio = createPortfolio(thirteenF, newValue)
+    portfolio = createPortfolio(thirteenFArr, newValue)
     // grab the value of the previous portfolio to the new value of the previous portfolio
     prevValue = prevPortfolio.value
     // finding the quarterlyReturn incase we would like to use later for graphing
@@ -250,4 +277,6 @@ function topTenOwnedReturn() {
 
 module.exports = {
   getTicker,
+  getPrice,
+  findQuarter,
 }
