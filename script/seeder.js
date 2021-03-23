@@ -147,7 +147,7 @@ async function addTickerAndPrice(stock, ticker) {
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
 
-  const timer = setInterval(throttleApiCall, 500)
+  const timer = setInterval(throttleApiCall, 240)
 
   const allStocks = await Stock.findAll({include: [ThirteenF]})
   let index = 0
