@@ -189,7 +189,8 @@ function (_React$Component) {
 
   _createClass(AllHedgeFunds, [{
     key: "componentDidMount",
-    value: function componentDidMount() {// this.props.getOrders()
+    value: function componentDidMount() {
+      this.props.getOrders();
     }
   }, {
     key: "render",
@@ -676,7 +677,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var GETHEDGEFUNDS = 'GETHEDGEFUNDS';
 var initialState = {
   loading: true,
-  hedgefunds: []
+  hedgefunds: {}
 };
 
 var setHedgefunds = function setHedgefunds(hedgefunds) {

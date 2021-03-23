@@ -4,7 +4,7 @@ const GETHEDGEFUNDS = 'GETHEDGEFUNDS'
 
 const initialState = {
   loading: true,
-  hedgefunds: [],
+  hedgefunds: {},
 }
 
 const setHedgefunds = (hedgefunds) => {
