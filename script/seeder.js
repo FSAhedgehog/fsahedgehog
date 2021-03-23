@@ -14,7 +14,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '100'
+const SIZE = '10'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
@@ -123,44 +123,43 @@ async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   }
 }
 
-async function findNullTicker() {
+async function endThrottle(timer) {
   try {
-    const stock = await Stock.findOne({
-      where: {
-        ticker: null,
-      },
-      include: [ThirteenF],
-    })
-
-    return stock
+    console.log('exiting setInterval')
+    clearInterval(timer)
+    await db.close()
   } catch (err) {
     console.error(err)
   }
 }
 
-async function endThrottle(timer) {
-  console.log('exiting setInterval')
-  clearInterval(timer)
-  await db.close()
-}
-
 async function addTickerAndPrice(stock, ticker) {
-  stock.ticker = ticker
-  const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
-  stock.price = price[0] ? price[0].close : null
-  await stock.save()
+  try {
+    stock.ticker = ticker
+    const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
+    stock.price = price[0] ? price[0].close : null
+    await stock.save()
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
 
-  const timer = setInterval(throttleApiCall, 300)
+  const timer = setInterval(throttleApiCall, 240)
+
+  const allStocks = await Stock.findAll({include: [ThirteenF]})
+  let index = 0
 
   async function throttleApiCall() {
     try {
-      const stock = await findNullTicker()
+      const stock = allStocks[index]
+      console.log('STOCK ID——————————', stock.id)
 
-      if (!stock) {
+      index++
+
+      if (index >= allStocks.length) {
         endThrottle(timer)
         return
       }

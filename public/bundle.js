@@ -620,7 +620,7 @@ var getHedgefunds = function getHedgefunds() {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('');
+                return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/hedgefunds');
 
               case 3:
                 _ref2 = _context.sent;
@@ -762,7 +762,7 @@ var getSingleHedgefund = function getSingleHedgefund(hedgefund) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(hedgefund.id));
+                return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/hedgefunds/".concat(hedgefund.id));
 
               case 3:
                 _ref2 = _context.sent;
@@ -44525,7 +44525,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
