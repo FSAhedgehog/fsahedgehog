@@ -14,7 +14,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '100'
+const SIZE = '60'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
@@ -154,7 +154,7 @@ async function addTickerAndPrice(stock, ticker) {
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
 
-  const timer = setInterval(throttleApiCall, 300)
+  const timer = setInterval(throttleApiCall, 240)
 
   async function throttleApiCall() {
     try {
