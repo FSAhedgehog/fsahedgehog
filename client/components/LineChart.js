@@ -40,7 +40,7 @@ export class LineChart extends React.Component {
         <VictoryAxis
           fixLabelOverlap
           style={{
-            tickLabels: {padding: 5, fontSize: 6},
+            tickLabels: {padding: 30, fontSize: 6},
             grid: {stroke: '#818e99', strokeWidth: 0.5},
           }}
         />
