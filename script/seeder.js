@@ -14,7 +14,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '5'
+const SIZE = '100'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
