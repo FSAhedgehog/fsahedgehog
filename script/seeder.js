@@ -87,22 +87,40 @@ async function create13F(createdHedgeFund, filing) {
   }
 }
 
-async function createStocks(createdHedgeFund, created13F, holdings) {
-  // "holdings" is stocks in the JSON from the API call
-  try {
-    const createdStocks = await Promise.all(
-      holdings
-        .filter((holding) => !holding.putCall)
-        .map(async (stockHolding) => {
-          const createdStockHolding = await Stock.create({
-            cusip: stockHolding.cusip,
-            totalValue: stockHolding.value,
-            qtyOfSharesHeld: stockHolding.shrsOrPrnAmt.sshPrnamt,
-          })
+function filterStocks(holdings) {
+  const sumStocks = {}
+  const filteredStocks = holdings.filter((holding) => !holding.putCall)
+  filteredStocks.forEach((holding) => {
+    if (!sumStocks[holding.cusip]) {
+      sumStocks[holding.cusip] = {
+        totalValue: holding.value,
+        qtyOfSharesHeld: holding.shrsOrPrnAmt.sshPrnamt,
+      }
+    } else {
+      sumStocks[holding.cusip].totalValue += holding.value
+      sumStocks[holding.cusip].qtyOfSharesHeld += holding.shrsOrPrnAmt.sshPrnamt
+    }
+  })
 
-          return createdStockHolding
+  return sumStocks
+}
+
+async function createStocks(createdHedgeFund, created13F, holdings) {
+  try {
+    const sumStocks = filterStocks(holdings)
+    const createdStocks = []
+
+    for (let key in sumStocks) {
+      if (sumStocks.hasOwnProperty(key)) {
+        const createdStockHolding = await Stock.create({
+          cusip: key,
+          totalValue: sumStocks[key].totalValue,
+          qtyOfSharesHeld: sumStocks[key].qtyOfSharesHeld,
         })
-    )
+
+        createdStocks.push(createdStockHolding)
+      }
+    }
 
     await created13F.addStocks(createdStocks)
     await createdHedgeFund.addThirteenF(created13F)
