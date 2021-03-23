@@ -14,7 +14,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '10'
+const SIZE = '5'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
@@ -133,12 +133,20 @@ async function endThrottle(timer) {
   }
 }
 
-async function addTickerAndPrice(stock, ticker) {
+async function addTickerAndPrice(stock, ticker, lastOne, timer) {
   try {
-    stock.ticker = ticker
-    const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
-    stock.price = price[0] ? price[0].close : null
-    await stock.save()
+    if (ticker) {
+      stock.ticker = ticker
+      const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
+      stock.price = price[0] ? price[0].close : null
+      await stock.save()
+    } else {
+      stock.ticker = 'COULD NOT FIND'
+      await stock.save()
+    }
+    if (lastOne) {
+      endThrottle(timer)
+    }
   } catch (err) {
     console.error(err)
   }
@@ -151,27 +159,21 @@ async function seedData(apiKey, hedgeFundNames, size) {
 
   const allStocks = await Stock.findAll({include: [ThirteenF]})
   let index = 0
+  let lastOne = false
 
   async function throttleApiCall() {
     try {
+      if (index === allStocks.length - 1) lastOne = true
+      if (index >= allStocks.length) return
       const stock = allStocks[index]
+
       // console.log('STOCK ID——————————', stock.id)
 
       index++
 
-      if (index >= allStocks.length) {
-        endThrottle(timer)
-        return
-      }
-
       const ticker = await getTicker(stock.cusip)
 
-      if (ticker) {
-        addTickerAndPrice(stock, ticker)
-      } else {
-        stock.ticker = 'COULD NOT FIND'
-        await stock.save()
-      }
+      addTickerAndPrice(stock, ticker, lastOne, timer)
     } catch (err) {
       console.error(err)
     }
