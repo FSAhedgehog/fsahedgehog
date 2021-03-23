@@ -13,13 +13,23 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const singleHedgefund = await HedgeFund.findOne({
+    const singleHedgeFund = await HedgeFund.findOne({
       where: {
         id: req.params.id,
       },
-      include: [ThirteenF, Stock],
+      include: [
+        {
+          model: ThirteenF,
+          order: ['dateOfFiling', 'DESC'],
+          include: [Stock],
+        },
+      ],
     })
-    res.json(singleHedgefund)
+    res.json(
+      singleHedgeFund.thirteenFs.sort(
+        (a, b) => b.dateOfFiling - a.dateOfFiling
+      )[0]
+    )
   } catch (err) {
     next(err)
   }
