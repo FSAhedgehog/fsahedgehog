@@ -59,13 +59,14 @@ async function createHedgeFunds(filings) {
   try {
     for (let i = 0; i < filings.length; i++) {
       const filing = filings[i]
-      const createdHedgeFundArray = await HedgeFund.findOrCreate({
+      const response = await HedgeFund.findOrCreate({
         where: {
           name: filing.companyName,
         },
       })
+      const createdHedgeFund = response[0]
 
-      await create13F(createdHedgeFundArray[0], filing)
+      await create13F(createdHedgeFund, filing)
     }
   } catch (err) {
     console.error('error in createHedgeFund func—————', err)
@@ -121,15 +122,19 @@ async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   }
 }
 
-async function findStock() {
-  const stock = await Stock.findOne({
-    where: {
-      ticker: null,
-    },
-    include: [ThirteenF],
-  })
+async function findNullTicker() {
+  try {
+    const stock = await Stock.findOne({
+      where: {
+        ticker: null,
+      },
+      include: [ThirteenF],
+    })
 
-  return stock
+    return stock
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 async function endThrottle(timer) {
@@ -152,7 +157,7 @@ async function seedData(apiKey, hedgeFundNames, size) {
 
   async function throttleApiCall() {
     try {
-      const stock = await findStock()
+      const stock = await findNullTicker()
 
       if (!stock) {
         endThrottle(timer)
