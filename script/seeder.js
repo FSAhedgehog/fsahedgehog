@@ -14,7 +14,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '5'
+const SIZE = '100'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
@@ -88,6 +88,7 @@ async function create13F(createdHedgeFund, filing) {
 }
 
 async function createStocks(createdHedgeFund, created13F, holdings) {
+  // "holdings" is stocks in the JSON from the API call
   try {
     const createdStocks = await Promise.all(
       holdings

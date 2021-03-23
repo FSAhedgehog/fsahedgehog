@@ -18,6 +18,7 @@ function findQuarter(month) {
 function isCharacterALetter(char) {
   return /[A-Z]/.test(char)
 }
+
 async function getTicker(cusip) {
   let postData
   if (isCharacterALetter(cusip[0])) {
