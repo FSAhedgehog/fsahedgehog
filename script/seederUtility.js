@@ -7,7 +7,7 @@ function isCharacterALetter(char) {
 }
 async function getTicker(cusip) {
   const idType = isCharacterALetter(cusip[0]) ? 'ID_CINS' : 'ID_CUSIP'
-  let postData = [{idType, idValue: cusip, exchCode:'UA'}]
+  let postData = [{idType, idValue: cusip, exchCode: 'UA'}]
   let axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
@@ -61,12 +61,12 @@ function getPrice(ticker, date) {
 // at the end divide the total value of the investment by the original
 
 // need to make sure to calculate new investment value before writing over it
-function calcMimicReturn(hedgeFundId, years) {
+function calcMimicReturn(hedgeFundId, year, quarter) {
   // initial value used as a base to calculate the return on
   let prevValue = 10000
   // 5 years ago minus a quarter
-  let year = 2016
-  let quarter = 1
+  year = 2016
+  quarter = 1
   let quarterlyReturns = {}
   // need to define to have in the if statements for the first time through the loop
   let prevPortfolio = null
@@ -109,6 +109,7 @@ function calcMimicReturn(hedgeFundId, years) {
   } while (thirteenF)
   let totalReturn = (prevPortfolio.value / 10000) * 100
   // will be in percent
+  // need to give quarterly return for the charts
   return {totalReturn, quarterlyReturns}
 }
 
@@ -156,6 +157,18 @@ function getNextYearAndQuarter(year, quarter) {
   return {year, quarter}
 }
 
+// this will be used in the mimicReturn to just return the total
+function findStartingQuarterAndYear(yearsAgo) {}
+
+function getDateOfReporting(year, quarter) {
+  let date = `${year}`
+  date += quarter === 1 ? '-03-31' : ''
+  date += quarter === 2 ? '-06-30' : ''
+  date += quarter === 3 ? '-09-30' : ''
+  date += quarter === 4 ? '-12-31' : ''
+  return date
+}
+function calcSAndPReturn() {}
 // // if completed would allow us to use this function for 1,3, and 5 years
 // function findStartingYearAndQuarter(years) {
 //   let date = new Date()
@@ -225,7 +238,7 @@ function topTenOwnedReturn() {
     // find the new value of the prevPortfolio, should be the same first time
     let newValue = findInvestmentPortfolioNewValue(prevPortfolio, date)
     // create portfolio of the thirteenF with the previous or starting value
-    portfolio = createPortfolio(thirteenF, newValue)
+    portfolio = createPortfolio(thirteenFArr, newValue)
     // grab the value of the previous portfolio to the new value of the previous portfolio
     prevValue = prevPortfolio.value
     // finding the quarterlyReturn incase we would like to use later for graphing
