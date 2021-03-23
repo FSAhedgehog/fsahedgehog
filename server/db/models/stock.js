@@ -15,7 +15,7 @@ const Stock = db.define('stock', {
     allowNull: false,
   },
   price: {
-    type: Sequelize.BIGINT,
+    type: Sequelize.INTEGER,
     allowNull: true,
     get() {
       return convertToDollars(this.getDataValue('price'))
