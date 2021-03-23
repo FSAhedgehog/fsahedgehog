@@ -117,7 +117,7 @@ var App = function App() {
 /*!****************************************!*\
   !*** ./client/components/LineChart.js ***!
   \****************************************/
-/*! exports provided: LineChart */
+/*! exports provided: LineChart, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -125,7 +125,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LineChart", function() { return LineChart; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var victory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! victory */ "./node_modules/victory/es/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_singleHedgeFund__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/singleHedgeFund */ "./client/store/singleHedgeFund.js");
+/* harmony import */ var victory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! victory */ "./node_modules/victory/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -143,6 +145,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -219,9 +223,15 @@ function (_React$Component) {
   }
 
   _createClass(LineChart, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log('PROPS', this.props);
+      this.props.getMySingleHedgeFund(1);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_1__["VictoryChart"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_3__["VictoryChart"], {
         domainPadding: 20,
         padding: 75,
         minDomain: {
@@ -233,7 +243,7 @@ function (_React$Component) {
             duration: 1000
           }
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_1__["VictoryAxis"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_3__["VictoryAxis"], {
         fixLabelOverlap: true,
         style: {
           tickLabels: {
@@ -245,9 +255,9 @@ function (_React$Component) {
             strokeWidth: 0.5
           }
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_1__["VictoryAxis"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_3__["VictoryAxis"], {
         dependentAxis: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_1__["VictoryLine"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_3__["VictoryLine"], {
         data: sampleData,
         style: {
           data: {
@@ -260,6 +270,23 @@ function (_React$Component) {
 
   return LineChart;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  console.log('STATE', state);
+  return {
+    singleHedgeFund: state.singleHedgeFund.singleHedgeFund
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    getMySingleHedgeFund: function getMySingleHedgeFund(id) {
+      return dispatch(Object(_store_singleHedgeFund__WEBPACK_IMPORTED_MODULE_2__["getSingleHedgeFund"])(id));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(LineChart));
 
 /***/ }),
 
@@ -734,7 +761,7 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         exact: true,
         path: "/linechart",
-        component: _components_LineChart__WEBPACK_IMPORTED_MODULE_6__["LineChart"]
+        component: _components_LineChart__WEBPACK_IMPORTED_MODULE_6__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         exact: true,
         path: "/piechart",
@@ -805,16 +832,16 @@ socket.on('connect', function () {
 
 /***/ }),
 
-/***/ "./client/store/hedgefunds.js":
+/***/ "./client/store/hedgeFunds.js":
 /*!************************************!*\
-  !*** ./client/store/hedgefunds.js ***!
+  !*** ./client/store/hedgeFunds.js ***!
   \************************************/
-/*! exports provided: getHedgefunds, default */
+/*! exports provided: getHedgeFunds, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getHedgefunds", function() { return getHedgefunds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getHedgeFunds", function() { return getHedgeFunds; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -831,17 +858,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var GETHEDGEFUNDS = 'GETHEDGEFUNDS';
 var initialState = {
   loading: true,
-  hedgefunds: {}
+  hedgeFunds: {}
 };
 
-var setHedgefunds = function setHedgefunds(hedgefunds) {
+var setHedgeFunds = function setHedgeFunds(hedgeFunds) {
   return {
     type: GETHEDGEFUNDS,
-    hedgefunds: hedgefunds
+    hedgeFunds: hedgeFunds
   };
 };
 
-var getHedgefunds = function getHedgefunds() {
+var getHedgeFunds = function getHedgeFunds() {
   return (
     /*#__PURE__*/
     function () {
@@ -861,7 +888,7 @@ var getHedgefunds = function getHedgefunds() {
               case 3:
                 _ref2 = _context.sent;
                 data = _ref2.data;
-                dispatch(setHedgefunds(data));
+                dispatch(setHedgeFunds(data));
                 _context.next = 11;
                 break;
 
@@ -892,7 +919,7 @@ var getHedgefunds = function getHedgefunds() {
     case GETHEDGEFUNDS:
       return _objectSpread({}, state, {
         loading: false,
-        hedgefunds: action.hedgefunds
+        hedgeFunds: action.hedgeFunds
       });
 
     default:
@@ -918,8 +945,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user */ "./client/store/user.js");
-/* harmony import */ var _singleHedgefund__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./singleHedgefund */ "./client/store/singleHedgefund.js");
-/* harmony import */ var _hedgefunds__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hedgefunds */ "./client/store/hedgefunds.js");
+/* harmony import */ var _singleHedgeFund__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./singleHedgeFund */ "./client/store/singleHedgeFund.js");
+/* harmony import */ var _hedgeFunds__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hedgeFunds */ "./client/store/hedgeFunds.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "me", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["me"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "auth", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["auth"]; });
@@ -935,8 +962,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var reducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   user: _user__WEBPACK_IMPORTED_MODULE_4__["default"],
-  singleHedgefund: _singleHedgefund__WEBPACK_IMPORTED_MODULE_5__["default"],
-  hedgefunds: _hedgefunds__WEBPACK_IMPORTED_MODULE_6__["default"]
+  singleHedgeFund: _singleHedgeFund__WEBPACK_IMPORTED_MODULE_5__["default"],
+  hedgeFunds: _hedgeFunds__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 var middleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], Object(redux_logger__WEBPACK_IMPORTED_MODULE_1__["createLogger"])({
   collapsed: true
@@ -947,16 +974,16 @@ var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, m
 
 /***/ }),
 
-/***/ "./client/store/singleHedgefund.js":
+/***/ "./client/store/singleHedgeFund.js":
 /*!*****************************************!*\
-  !*** ./client/store/singleHedgefund.js ***!
+  !*** ./client/store/singleHedgeFund.js ***!
   \*****************************************/
-/*! exports provided: getSingleHedgefund, default */
+/*! exports provided: getSingleHedgeFund, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSingleHedgefund", function() { return getSingleHedgefund; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSingleHedgeFund", function() { return getSingleHedgeFund; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -973,17 +1000,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var GETSINGLEHEDGEFUND = 'GETSINGLEHEDGEFUND';
 var initialState = {
   loading: true,
-  singleHedgefund: {}
+  singleHedgeFund: {}
 };
 
-var setSingleHedgefund = function setSingleHedgefund(hedgefund) {
+var setSingleHedgeFund = function setSingleHedgeFund(hedgeFund) {
   return {
     type: GETSINGLEHEDGEFUND,
-    hedgefund: hedgefund
+    hedgeFund: hedgeFund
   };
 };
 
-var getSingleHedgefund = function getSingleHedgefund(hedgefund) {
+var getSingleHedgeFund = function getSingleHedgeFund(hedgeFund) {
   return (
     /*#__PURE__*/
     function () {
@@ -998,12 +1025,12 @@ var getSingleHedgefund = function getSingleHedgefund(hedgefund) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/hedgefunds/".concat(hedgefund.id));
+                return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/hedgefunds/".concat(hedgeFund.id));
 
               case 3:
                 _ref2 = _context.sent;
                 data = _ref2.data;
-                dispatch(setSingleHedgefund(data));
+                dispatch(setSingleHedgeFund(data));
                 _context.next = 11;
                 break;
 
@@ -1034,7 +1061,7 @@ var getSingleHedgefund = function getSingleHedgefund(hedgefund) {
     case GETSINGLEHEDGEFUND:
       return _objectSpread({}, state, {
         loading: false,
-        singleHedgefund: action.singleHedgefund
+        singleHedgeFund: action.singleHedgeFund
       });
 
     default:
@@ -67282,7 +67309,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

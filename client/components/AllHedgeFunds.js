@@ -1,5 +1,5 @@
 import React from 'react'
-import {fetchAllHedgeFunds} from '../store/hedgefunds'
+import {fetchAllHedgeFunds} from '../store/hedgeFunds'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
