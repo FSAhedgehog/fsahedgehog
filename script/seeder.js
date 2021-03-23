@@ -39,9 +39,7 @@ const db = require('../server/db')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 const {getTicker, getPrice} = require('./seederUtility')
 
-const API_KEY =
-  // 'f36058d1e794c3b5fa2f98ac653ae3db6584a005a67ec4088044ecdb5f72bee3'
-  '0550e731e5d49bfc8c0fae6ac5a5b446fc536c6c95650673d7e01c6eada56dc9'
+const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
@@ -214,4 +212,4 @@ async function seedData(apiKey, hedgeFundNames, size) {
   }
 }
 
-seedData(API_KEY, HEDGEFUNDS, SIZE)
+seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)
