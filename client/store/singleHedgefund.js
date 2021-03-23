@@ -14,7 +14,7 @@ const setSingleHedgefund = (hedgefund) => {
 export const getSingleHedgefund = (hedgefund) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`${hedgefund.id}`)
+      const {data} = await axios.get(`/api/hedgefunds/${hedgefund.id}`)
       dispatch(setSingleHedgefund(data))
     } catch (err) {
       console.err(err)

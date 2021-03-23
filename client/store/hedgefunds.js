@@ -17,7 +17,7 @@ const setHedgefunds = (hedgefunds) => {
 export const getHedgefunds = () => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get('')
+      const {data} = await axios.get('/api/hedgefunds')
       dispatch(setHedgefunds(data))
     } catch (err) {
       console.err(err)
