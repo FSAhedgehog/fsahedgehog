@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 a {
@@ -13,9 +13,24 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
+  color: #8affc1;
+}
+
+img {
+  width: 7%;
+  height: 7%;
 }
 
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.flex-cont {
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  color: #8affc1;
 }
