@@ -47,13 +47,13 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    const {data} = await axios.post(
-      `https://api.sec-api.io?token=${apiKey}`,
-      query
-    )
+    // const {data} = await axios.post(
+    //   `https://api.sec-api.io?token=${apiKey}`,
+    //   query
+    // )
     // Uncomment this for testing purpose
     // console.log(data)
-    // const data = require('./exampleFiveReturn')
+    const data = require('./exampleFiveReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
@@ -170,7 +170,7 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       await stock.save()
     }
     if (lastOne) {
-      endThrottle(timer)
+      await endThrottle(timer)
     }
   } catch (err) {
     console.error(err)
@@ -189,16 +189,16 @@ async function seedData(apiKey, hedgeFundNames, size) {
   async function throttleApiCall() {
     try {
       if (index === allStocks.length - 1) lastOne = true
-      if (index >= allStocks.length) return
-      const stock = allStocks[index]
+      if (index <= allStocks.length) {
+        const stock = allStocks[index]
 
-      console.log('STOCK ID——————————', stock.id)
+        console.log('STOCK ID——————————', stock.id)
 
-      index++
+        index++
 
-      const ticker = await getTicker(stock.cusip)
-      console.log(stock.thirteenF.dateOfFiling, 'IN THROTTLE')
-      addTickerAndPrice(stock, ticker, lastOne, timer)
+        const ticker = await getTicker(stock.cusip)
+        addTickerAndPrice(stock, ticker, lastOne, timer)
+      }
     } catch (err) {
       console.error(err)
     }
@@ -250,6 +250,8 @@ async function setMimicReturn() {
       },
     ],
   })
+
+  console.log('HEDGEFUNDS——————', hedgeFunds[0].thirteenFs[0].stocks[0])
   await hedgeFunds.forEach((hedgeFund) => {
     const hedgeyReturnObj = calcMimicReturn(hedgeFund.id)
     hedgeFund.thirteenFs.forEach((thirteenF) => {
