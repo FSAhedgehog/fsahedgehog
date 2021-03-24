@@ -122,9 +122,8 @@ var App = function App() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _store_hedgefunds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/hedgefunds */ "./client/store/hedgefunds.js");
+/* harmony import */ var _store_hedgeFunds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/hedgeFunds */ "./client/store/hedgeFunds.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -146,30 +145,34 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-
 var data = {
   hedgeFunds: [{
     name: 'Bill & Melinda Gates Foundation Trust',
+    id: 1,
     year1: 136,
     year3: 154,
     year5: 246
   }, {
     name: 'Pershing Square Capital Management',
+    id: 2,
     year1: 123,
     year3: 166,
     year5: 298
   }, {
     name: 'Daily Journal Corp',
+    id: 3,
     year1: 87,
     year3: 123,
     year5: 176
   }, {
     name: 'Greenlight Capital',
+    id: 4,
     year1: 199,
     year3: 266,
     year5: 456
   }, {
     name: 'Berkshire Hathaway',
+    id: 5,
     year1: 155,
     year3: 283,
     year5: 298
@@ -189,14 +192,17 @@ function (_React$Component) {
 
   _createClass(AllHedgeFunds, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.getOrders();
+    value: function componentDidMount() {// this.props.getOrders()
     }
   }, {
     key: "render",
     value: function render() {
       var hedgeFunds = data.hedgeFunds;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, hedgeFunds.map(function (hedgeFund) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: hedgeFund.id
+        }, hedgeFund.name, " ", hedgeFund.year5);
+      })));
     }
   }]);
 
@@ -212,7 +218,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getHedgeFunds: function getHedgeFunds() {
-      dispatch(Object(_store_hedgefunds__WEBPACK_IMPORTED_MODULE_1__["fetchAllHedgeFunds"])());
+      dispatch(Object(_store_hedgeFunds__WEBPACK_IMPORTED_MODULE_1__["fetchAllHedgeFunds"])());
     }
   };
 };
@@ -651,9 +657,9 @@ socket.on('connect', function () {
 
 /***/ }),
 
-/***/ "./client/store/hedgefunds.js":
+/***/ "./client/store/hedgeFunds.js":
 /*!************************************!*\
-  !*** ./client/store/hedgefunds.js ***!
+  !*** ./client/store/hedgeFunds.js ***!
   \************************************/
 /*! exports provided: fetchAllHedgeFunds, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -677,13 +683,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var GETHEDGEFUNDS = 'GETHEDGEFUNDS';
 var initialState = {
   loading: true,
-  hedgefunds: {}
+  hedgeFunds: {}
 };
 
-var setHedgefunds = function setHedgefunds(hedgefunds) {
+var setHedgeFunds = function setHedgeFunds(hedgeFunds) {
   return {
     type: GETHEDGEFUNDS,
-    hedgefunds: hedgefunds
+    hedgeFunds: hedgeFunds
   };
 };
 
@@ -707,7 +713,7 @@ var fetchAllHedgeFunds = function fetchAllHedgeFunds() {
               case 3:
                 _ref2 = _context.sent;
                 data = _ref2.data;
-                dispatch(setHedgefunds(data));
+                dispatch(setHedgeFunds(data));
                 _context.next = 11;
                 break;
 
@@ -738,7 +744,7 @@ var fetchAllHedgeFunds = function fetchAllHedgeFunds() {
     case GETHEDGEFUNDS:
       return _objectSpread({}, state, {
         loading: false,
-        hedgefunds: action.hedgefunds
+        hedgeFunds: action.hedgeFunds
       });
 
     default:
@@ -764,8 +770,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
 /* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user */ "./client/store/user.js");
-/* harmony import */ var _singleHedgefund__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./singleHedgefund */ "./client/store/singleHedgefund.js");
-/* harmony import */ var _hedgefunds__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hedgefunds */ "./client/store/hedgefunds.js");
+/* harmony import */ var _singleHedgeFund__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./singleHedgeFund */ "./client/store/singleHedgeFund.js");
+/* harmony import */ var _hedgeFunds__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hedgeFunds */ "./client/store/hedgeFunds.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "me", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["me"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "auth", function() { return _user__WEBPACK_IMPORTED_MODULE_4__["auth"]; });
@@ -781,8 +787,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var reducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   user: _user__WEBPACK_IMPORTED_MODULE_4__["default"],
-  singleHedgefund: _singleHedgefund__WEBPACK_IMPORTED_MODULE_5__["default"],
-  hedgefunds: _hedgefunds__WEBPACK_IMPORTED_MODULE_6__["default"]
+  singleHedgefund: _singleHedgeFund__WEBPACK_IMPORTED_MODULE_5__["default"],
+  hedgeFunds: _hedgeFunds__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 var middleware = Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], Object(redux_logger__WEBPACK_IMPORTED_MODULE_1__["createLogger"])({
   collapsed: true
@@ -793,9 +799,9 @@ var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(reducer, m
 
 /***/ }),
 
-/***/ "./client/store/singleHedgefund.js":
+/***/ "./client/store/singleHedgeFund.js":
 /*!*****************************************!*\
-  !*** ./client/store/singleHedgefund.js ***!
+  !*** ./client/store/singleHedgeFund.js ***!
   \*****************************************/
 /*! exports provided: getSingleHedgefund, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
