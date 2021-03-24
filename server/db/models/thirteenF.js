@@ -3,7 +3,7 @@ const db = require('../db')
 
 const ThirteenF = db.define('thirteenF', {
   dateOfFiling: {
-    type: Sequelize.DATE,
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       isDate: true,

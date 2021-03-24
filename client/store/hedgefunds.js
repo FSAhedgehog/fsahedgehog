@@ -4,21 +4,21 @@ const GETHEDGEFUNDS = 'GETHEDGEFUNDS'
 
 const initialState = {
   loading: true,
-  hedgefunds: {},
+  hedgeFunds: {},
 }
 
-const setHedgefunds = (hedgefunds) => {
+const setHedgeFunds = (hedgeFunds) => {
   return {
     type: GETHEDGEFUNDS,
-    hedgefunds,
+    hedgeFunds,
   }
 }
 
-export const getHedgefunds = () => {
+export const getHedgeFunds = () => {
   return async (dispatch) => {
     try {
       const {data} = await axios.get('/api/hedgefunds')
-      dispatch(setHedgefunds(data))
+      dispatch(setHedgeFunds(data))
     } catch (err) {
       console.err(err)
     }
@@ -28,7 +28,7 @@ export const getHedgefunds = () => {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GETHEDGEFUNDS:
-      return {...state, loading: false, hedgefunds: action.hedgefunds}
+      return {...state, loading: false, hedgeFunds: action.hedgeFunds}
     default:
       return state
   }
