@@ -5,11 +5,11 @@ const {OPEN_FIJI_KEY} = require('../secrets')
 
 function findQuarter(month) {
   month = Number(month)
-  if (month <= 2) {
+  if (month === 3) {
     return 1
-  } else if (month > 2 && month <= 5) {
+  } else if (month > 3 && month <= 6) {
     return 2
-  } else if (month > 5 && month <= 8) {
+  } else if (month > 7 && month <= 9) {
     return 3
   } else {
     return 4
@@ -22,7 +22,7 @@ function isCharacterALetter(char) {
 
 async function getTicker(cusip) {
   const idType = isCharacterALetter(cusip[0]) ? 'ID_CINS' : 'ID_CUSIP'
-  let postData = [{idType, idValue: cusip, exchCode: 'UA'}]
+  let postData = [{idType, idValue: cusip, exchCode: 'US'}]
   let axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ function addDayToDate(date) {
 
 function getPrice(ticker, date) {
   ticker = ticker.replace('/', '-')
-
+  console.log(ticker, 'TICKER', date, 'DATE')
   return yahooFinance.historical(
     {
       symbol: ticker,
@@ -79,20 +79,21 @@ function getPrice(ticker, date) {
 // at the end divide the total value of the investment by the original
 
 // need to make sure to calculate new investment value before writing over it
-function calcMimicReturn(hedgeFundId, year, quarter) {
+async function calcMimicReturn(hedgeFundId, year, quarter) {
   // initial value used as a base to calculate the return on
   let prevValue = 10000
   // 5 years ago minus a quarter
-  year = 2016
+  year = 2019
   quarter = 1
-  let quarterlyReturns = {}
+  // console.log(hedgeFundId, year, quarter, 'GOT HERE')
+  let quarterlyValues = {}
   // need to define to have in the if statements for the first time through the loop
   let prevPortfolio = null
   let portfolio = null
   let thirteenF = 'need to add to make the do while loop before defined in loop'
   do {
     // grab the thirteenF
-    thirteenF = ThirteenF.findOne({
+    thirteenF = await ThirteenF.findOne({
       where: {
         year: year,
         quarter: quarter,
@@ -101,12 +102,12 @@ function calcMimicReturn(hedgeFundId, year, quarter) {
       include: [
         {
           model: Stock,
-          as: 'Holdings',
         },
       ],
     })
+    if (!thirteenF) break
     // grab the date for finding update prices
-    let date = thirteenF.dateOfFiling
+    let date = await thirteenF.dataValues.dateOfFiling
     // if there is no portfolio and prevPortfolio aka the first time we just redifine the prev as the current
     if (!portfolio) portfolio = createPortfolio(thirteenF, prevValue)
     if (!prevPortfolio) prevPortfolio = portfolio
@@ -115,20 +116,22 @@ function calcMimicReturn(hedgeFundId, year, quarter) {
     // create portfolio of the thirteenF with the new value or starting value
     portfolio = createPortfolio(thirteenF, newValue)
     // grab the value of the previous portfolio to the new value of the previous portfolio
-    prevValue = prevPortfolio.value
+    prevValue = await prevPortfolio.value
     // finding the quarterlyReturn incase we would like to use later for graphing
-    let quarterlyReturn = (newValue / prevValue) * 100
-    quarterlyReturns[`${year}Q${quarter}`] = quarterlyReturn
+    let quarterlyValue = newValue
+    quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
     // redifine the prevPortfolio as the current portfolio for the next time around
     prevPortfolio = portfolio
     // get the next quarter
     ;({year, quarter} = getNextYearAndQuarter(year, quarter))
     // find the next 13F
   } while (thirteenF)
-  let totalReturn = (prevPortfolio.value / 10000) * 100
+  console.log(prevPortfolio, 'PREV PORTFOLIO')
+  // let totalReturn = (prevPortfolio.value / 10000) * 100
   // will be in percent
   // need to give quarterly return for the charts
-  return {totalReturn, quarterlyReturns}
+  // console.log(totalReturn, 'TOTAL RETURN')
+  return quarterlyValues
 }
 
 function createPortfolio(thirteenF, value) {
@@ -136,7 +139,7 @@ function createPortfolio(thirteenF, value) {
   // not sure what this instance looks like
   // portfolio is used in the next 13F so using past tense "prev"
   // iterate through each stock and populate a portfolio obj
-  thirteenF.holdings.forEach((stock) => {
+  thirteenF.stocks.forEach((stock) => {
     portfolio[stock.ticker] = {
       percentage: stock.percentageOfPortfolio,
       prevPrice: stock.price,
@@ -279,4 +282,5 @@ module.exports = {
   getTicker,
   getPrice,
   findQuarter,
+  calcMimicReturn,
 }
