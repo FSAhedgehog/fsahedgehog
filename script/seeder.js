@@ -12,15 +12,14 @@ const {EDGAR_KEY} = require('../secrets')
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
   'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
-  // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  'BERKSHIRE HATHAWAY INC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
+  'GREENLIGHT CAPITAL INC',
+  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
 
-// THIS WAS ADDED
 // CHANGE SIZE HERE
-const SIZE = '9'
+const SIZE = '100'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
@@ -80,14 +79,12 @@ async function createHedgeFunds(filings) {
 }
 
 async function create13F(createdHedgeFund, filing) {
-  console.log(filing.filedAt, ' IN CREATE 13F filing')
   try {
     const created13F = await ThirteenF.create({
       dateOfFiling: filing.filedAt,
       year: filing.periodOfReport.slice(0, 4),
       quarter: findQuarter(filing.periodOfReport.slice(5, 7)),
     })
-    console.log(created13F.dateOfFiling, 'IN CREATE 13F')
     await createStocks(createdHedgeFund, created13F, filing.holdings)
   } catch (err) {
     console.error(err)
@@ -165,7 +162,6 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
   try {
     if (ticker) {
       stock.ticker = ticker
-      console.log(stock.thirteenF.dateOfFiling, 'IN ADDTICKERANDPRICE')
       const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
       stock.price = price[0] ? price[0].close : null
       await stock.save()
