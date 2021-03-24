@@ -12,14 +12,14 @@ const {EDGAR_KEY} = require('../secrets')
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
   'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
-  // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  'BERKSHIRE HATHAWAY INC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
+  'GREENLIGHT CAPITAL INC',
+  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '9'
+const SIZE = '20'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
@@ -183,7 +183,7 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
 
-  const timer = setInterval(throttleApiCall, 300)
+  const timer = setInterval(throttleApiCall, 400)
 
   const allStocks = await Stock.findAll({include: [ThirteenF]})
   let index = 0

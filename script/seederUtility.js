@@ -48,13 +48,16 @@ function addDayToDate(date) {
   return nextDate
 }
 
+//'2021-01-08T21:52:22-05:00'
+
 function getPrice(ticker, date) {
   ticker = ticker.replace('/', '-')
   console.log(ticker, 'TICKER', date, 'DATE')
+  console.log(addDayToDate(date), 'ADD DAY TO DATE')
   return yahooFinance.historical(
     {
       symbol: ticker,
-      from: date,
+      from: date.slice(0, 10),
       to: addDayToDate(date),
       period: 'd',
     },
