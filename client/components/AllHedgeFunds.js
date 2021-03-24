@@ -1,5 +1,5 @@
 import React from 'react'
-import {fetchAllHedgeFunds} from '../store/hedgeFunds'
+import {getHedgeFunds} from '../store/hedgeFunds'
 import {connect} from 'react-redux'
 
 const data = {
@@ -74,7 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getHedgeFunds: () => {
-    dispatch(fetchAllHedgeFunds())
+    dispatch(getHedgeFunds())
   },
 })
 
