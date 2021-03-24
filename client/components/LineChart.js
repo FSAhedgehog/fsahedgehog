@@ -27,6 +27,14 @@ const sampleData = [
   {x: '2020Q4', y: 389},
 ]
 
+const sampleUserData = [
+  {x: '2016Q1', y: 100},
+  {x: '2017Q1', y: 110},
+  {x: '2018Q1', y: 90},
+  {x: '2019Q1', y: 200},
+  {x: '2020Q1', y: 230},
+]
+
 export class LineChart extends React.Component {
   componentDidMount() {
     console.log('PROPS', this.props)
@@ -52,6 +60,7 @@ export class LineChart extends React.Component {
         />
         <VictoryAxis dependentAxis />
         <VictoryLine data={sampleData} style={{data: {stroke: 'red'}}} />
+        <VictoryLine data={sampleUserData} style={{data: {stroke: 'green'}}} />
       </VictoryChart>
     )
   }

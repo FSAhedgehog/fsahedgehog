@@ -211,6 +211,22 @@ var sampleData = [{
   x: '2020Q4',
   y: 389
 }];
+var sampleUserData = [{
+  x: '2016Q1',
+  y: 100
+}, {
+  x: '2017Q1',
+  y: 110
+}, {
+  x: '2018Q1',
+  y: 90
+}, {
+  x: '2019Q1',
+  y: 200
+}, {
+  x: '2020Q1',
+  y: 230
+}];
 var LineChart =
 /*#__PURE__*/
 function (_React$Component) {
@@ -262,6 +278,13 @@ function (_React$Component) {
         style: {
           data: {
             stroke: 'red'
+          }
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_3__["VictoryLine"], {
+        data: sampleUserData,
+        style: {
+          data: {
+            stroke: 'green'
           }
         }
       }));
@@ -1037,7 +1060,7 @@ var getSingleHedgeFund = function getSingleHedgeFund(hedgeFund) {
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
-                console.err(_context.t0);
+                console.log(_context.t0);
 
               case 11:
               case "end":
@@ -67309,7 +67332,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
