@@ -1,5 +1,6 @@
 import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
+import LineChart from './LineChart'
 
 export const Main = (props) => {
   return (
@@ -10,6 +11,7 @@ export const Main = (props) => {
       <div className="flex-cont space-btw">
         <AllHedgeFunds />
         <img className="right" src="images/hog.png" alt="hedgehog icon"></img>
+        <LineChart />
       </div>
     </div>
   )

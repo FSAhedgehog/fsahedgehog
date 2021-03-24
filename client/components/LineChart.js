@@ -38,7 +38,7 @@ const sampleUserData = [
 export class LineChart extends React.Component {
   componentDidMount() {
     console.log('PROPS', this.props)
-    this.props.getMySingleHedgeFund(1)
+    // this.props.getMySingleHedgeFund(1)
   }
   render() {
     return (
