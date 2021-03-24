@@ -14,7 +14,7 @@ const setHedgeFunds = (hedgeFunds) => {
   }
 }
 
-export const fetchAllHedgeFunds = () => {
+export const getHedgeFunds = () => {
   return async (dispatch) => {
     try {
       const {data} = await axios.get('/api/hedgefunds')

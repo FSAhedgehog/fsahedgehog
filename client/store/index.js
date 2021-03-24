@@ -3,10 +3,10 @@ import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
-import singleHedgefund from './singleHedgeFund'
+import singleHedgeFund from './singleHedgeFund'
 import hedgeFunds from './hedgeFunds'
 
-const reducer = combineReducers({user, singleHedgefund, hedgeFunds})
+const reducer = combineReducers({user, singleHedgeFund, hedgeFunds})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
