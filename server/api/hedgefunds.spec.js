@@ -70,6 +70,7 @@ describe('HedgeFund routes', () => {
 
       expect(res.body).to.be.an('object')
       expect(res.body.id).to.equal(2)
+      expect(res.body).to.have.property('thirteenFs')
     })
   }) // end describe('/api/hedgefunds/:id)
 }) // end describe('Hedgefund routes')
