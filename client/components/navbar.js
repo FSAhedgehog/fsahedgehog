@@ -3,7 +3,9 @@ import {Link} from 'react-router-dom'
 
 export const Navbar = (props) => (
   <div>
-    <h1 className="flex-cont">Hedgehog</h1>
+    <div className="flex-cont icon">
+      <h1 className="flex-cont">Hedgehog</h1>
+    </div>
     <nav>
       <div className="flex-cont">
         <Link to="/">Home</Link>

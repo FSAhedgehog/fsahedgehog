@@ -16,6 +16,11 @@ nav a {
   color: #8affc1;
 }
 
+img {
+  width: 7%;
+  height: 7%;
+}
+
 form div {
   margin: 1em;
   display: inline-block;
