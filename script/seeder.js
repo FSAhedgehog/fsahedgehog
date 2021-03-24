@@ -87,22 +87,40 @@ async function create13F(createdHedgeFund, filing) {
   }
 }
 
-async function createStocks(createdHedgeFund, created13F, holdings) {
-  // "holdings" is stocks in the JSON from the API call
-  try {
-    const createdStocks = await Promise.all(
-      holdings
-        .filter((holding) => !holding.putCall)
-        .map(async (stockHolding) => {
-          const createdStockHolding = await Stock.create({
-            cusip: stockHolding.cusip,
-            totalValue: stockHolding.value,
-            qtyOfSharesHeld: stockHolding.shrsOrPrnAmt.sshPrnamt,
-          })
+function filterStocks(holdings) {
+  const sumStocks = {}
+  const filteredStocks = holdings.filter((holding) => !holding.putCall)
+  filteredStocks.forEach((holding) => {
+    if (!sumStocks[holding.cusip]) {
+      sumStocks[holding.cusip] = {
+        totalValue: holding.value,
+        qtyOfSharesHeld: holding.shrsOrPrnAmt.sshPrnamt,
+      }
+    } else {
+      sumStocks[holding.cusip].totalValue += holding.value
+      sumStocks[holding.cusip].qtyOfSharesHeld += holding.shrsOrPrnAmt.sshPrnamt
+    }
+  })
 
-          return createdStockHolding
+  return sumStocks
+}
+
+async function createStocks(createdHedgeFund, created13F, holdings) {
+  try {
+    const sumStocks = filterStocks(holdings)
+    const createdStocks = []
+
+    for (let key in sumStocks) {
+      if (sumStocks.hasOwnProperty(key)) {
+        const createdStockHolding = await Stock.create({
+          cusip: key,
+          totalValue: sumStocks[key].totalValue,
+          qtyOfSharesHeld: sumStocks[key].qtyOfSharesHeld,
         })
-    )
+
+        createdStocks.push(createdStockHolding)
+      }
+    }
 
     await created13F.addStocks(createdStocks)
     await createdHedgeFund.addThirteenF(created13F)
@@ -123,60 +141,83 @@ async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   }
 }
 
-async function findNullTicker() {
+async function endThrottle(timer) {
   try {
-    const stock = await Stock.findOne({
-      where: {
-        ticker: null,
-      },
-      include: [ThirteenF],
-    })
-
-    return stock
+    console.log('exiting setInterval')
+    clearInterval(timer)
+    await db.close()
   } catch (err) {
     console.error(err)
   }
 }
 
-async function endThrottle(timer) {
-  console.log('exiting setInterval')
-  clearInterval(timer)
-  await db.close()
-}
-
-async function addTickerAndPrice(stock, ticker) {
-  stock.ticker = ticker
-  const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
-  stock.price = price[0] ? price[0].close : null
-  await stock.save()
+async function addTickerAndPrice(stock, ticker, lastOne, timer) {
+  try {
+    if (ticker) {
+      stock.ticker = ticker
+      const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
+      stock.price = price[0] ? price[0].close : null
+      await stock.save()
+    } else {
+      stock.ticker = 'COULD NOT FIND'
+      await stock.save()
+    }
+    if (lastOne) {
+      endThrottle(timer)
+    }
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
 
-  const timer = setInterval(throttleApiCall, 300)
+  const timer = setInterval(throttleApiCall, 240)
+
+  const allStocks = await Stock.findAll({include: [ThirteenF]})
+  let index = 0
+  let lastOne = false
 
   async function throttleApiCall() {
     try {
-      const stock = await findNullTicker()
+      if (index === allStocks.length - 1) lastOne = true
+      if (index >= allStocks.length) return
+      const stock = allStocks[index]
 
-      if (!stock) {
-        endThrottle(timer)
-        return
-      }
+      console.log('STOCK ID——————————', stock.id)
+
+      index++
 
       const ticker = await getTicker(stock.cusip)
 
-      if (ticker) {
-        addTickerAndPrice(stock, ticker)
-      } else {
-        stock.ticker = 'COULD NOT FIND'
-        await stock.save()
-      }
+      addTickerAndPrice(stock, ticker, lastOne, timer)
     } catch (err) {
       console.error(err)
     }
   }
+}
+
+async function getFundValue(thirteenFId) {
+  const data = await Stock.findAll({
+    where: {thirteenFId: thirteenFId},
+  })
+  return data.reduce(function (total, elem) {
+    return total + Number(elem.totalValue)
+  }, 0)
+}
+
+async function getStockPercentageOfFund(ticker, thirteenFId) {
+  let totalFundValue = getFundValue(thirteenFId)
+
+  const stock = await Stock.findOne({
+    where: {
+      ticker: ticker,
+      thirteenFId: thirteenFId,
+    },
+  })
+
+  return stock[0].totalValue / totalFundValue
 }
 
 seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)
