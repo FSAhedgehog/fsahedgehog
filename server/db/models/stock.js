@@ -26,12 +26,6 @@ const Stock = db.define('stock', {
   },
   totalValue: {
     type: Sequelize.BIGINT,
-    get() {
-      return convertToDollars(this.getDataValue('totalValue'))
-    },
-    set(value) {
-      this.setDataValue('totalValue', convertToPennies(value))
-    },
   },
   percentageOfPortfolio: {
     type: Sequelize.INTEGER,

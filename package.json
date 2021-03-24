@@ -62,6 +62,7 @@
     "redux-thunk": "^2.3.0",
     "sequelize": "^5.3.1",
     "socket.io": "^2.2.0",
+    "victory": "^35.4.12",
     "yahoo-finance": "^0.3.7"
   },
   "devDependencies": {
