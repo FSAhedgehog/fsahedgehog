@@ -368,14 +368,65 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 var sampleData = [{
-  x: 'STOCK1',
-  y: 33
+  x: '1',
+  y: 5
 }, {
-  x: 'STOCK2',
-  y: 33
+  x: '2',
+  y: 5
 }, {
-  x: 'STOCK3',
-  y: 33
+  x: '3',
+  y: 5
+}, {
+  x: '4',
+  y: 5
+}, {
+  x: '5',
+  y: 5
+}, {
+  x: '6',
+  y: 5
+}, {
+  x: '7',
+  y: 5
+}, {
+  x: '8',
+  y: 5
+}, {
+  x: '9',
+  y: 5
+}, {
+  x: '10',
+  y: 5
+}, {
+  x: '11',
+  y: 5
+}, {
+  x: '12',
+  y: 5
+}, {
+  x: '13',
+  y: 5
+}, {
+  x: '14',
+  y: 5
+}, {
+  x: '15',
+  y: 5
+}, {
+  x: '16',
+  y: 5
+}, {
+  x: '17',
+  y: 5
+}, {
+  x: '18',
+  y: 5
+}, {
+  x: '19',
+  y: 5
+}, {
+  x: '20',
+  y: 5
 }];
 var PieChart =
 /*#__PURE__*/
@@ -392,13 +443,21 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_1__["VictoryPie"], {
+        containerComponent: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(victory__WEBPACK_IMPORTED_MODULE_1__["VictoryContainer"], {
+          responsive: false
+        }),
         data: sampleData,
         labels: function labels(_ref) {
           var datum = _ref.datum;
-          return "".concat(datum.x, ": ").concat(datum.y, "%");
+          return "".concat(datum.x);
         },
         padding: 100,
-        theme: victory__WEBPACK_IMPORTED_MODULE_1__["VictoryTheme"].material
+        theme: victory__WEBPACK_IMPORTED_MODULE_1__["VictoryTheme"].material,
+        style: {
+          labels: {
+            padding: 30
+          }
+        }
       });
     }
   }]);
