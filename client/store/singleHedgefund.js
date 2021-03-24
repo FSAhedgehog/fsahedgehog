@@ -2,22 +2,22 @@ import axios from 'axios'
 
 const GETSINGLEHEDGEFUND = 'GETSINGLEHEDGEFUND'
 
-const initialState = {loading: true, singleHedgefund: {}}
+const initialState = {loading: true, singleHedgeFund: {}}
 
-const setSingleHedgefund = (hedgefund) => {
+const setSingleHedgeFund = (hedgeFund) => {
   return {
     type: GETSINGLEHEDGEFUND,
-    hedgefund,
+    hedgeFund,
   }
 }
 
-export const getSingleHedgefund = (hedgefund) => {
+export const getSingleHedgeFund = (hedgeFund) => {
   return async (dispatch) => {
     try {
-      const {data} = await axios.get(`/api/hedgefunds/${hedgefund.id}`)
-      dispatch(setSingleHedgefund(data))
+      const {data} = await axios.get(`/api/hedgefunds/${hedgeFund.id}`)
+      dispatch(setSingleHedgeFund(data))
     } catch (err) {
-      console.err(err)
+      console.log(err)
     }
   }
 }
@@ -25,7 +25,7 @@ export const getSingleHedgefund = (hedgefund) => {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GETSINGLEHEDGEFUND:
-      return {...state, loading: false, singleHedgefund: action.singleHedgefund}
+      return {...state, loading: false, singleHedgeFund: action.singleHedgeFund}
     default:
       return state
   }
