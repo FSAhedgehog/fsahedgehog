@@ -3,13 +3,13 @@ import AllHedgeFunds from './AllHedgeFunds'
 
 export const Main = (props) => {
   return (
-    <div>
+    <div className="flex-cont column">
       <div>
-        <h3 className="flex-cont">Welcome, future wealthy person!</h3>
+        <h3 className="flex-cont bottom">Welcome, future wealthy person!</h3>
       </div>
-      <div>
+      <div className="flex-cont space-btw">
         <AllHedgeFunds />
-        <img src="images/hog.png" alt="hedgehog icon"></img>
+        <img className="right" src="images/hog.png" alt="hedgehog icon"></img>
       </div>
     </div>
   )
