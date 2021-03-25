@@ -1,7 +1,7 @@
 const axios = require('axios')
 const db = require('../server/db')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-const {getTicker, getPrice, findQuarter} = require('./seederUtility')
+const {getTicker, getPrice, findQuarter, getBeta} = require('./seederUtility')
 const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
@@ -157,6 +157,8 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       stock.ticker = ticker
       const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
       stock.price = price[0] ? price[0].close : null
+      const beta =  await getBeta(ticker)
+      stock.beta = beta
       await stock.save()
     } else {
       stock.ticker = 'COULD NOT FIND'
