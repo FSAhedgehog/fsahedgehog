@@ -3,7 +3,7 @@ const db = require('../db')
 
 const ThirteenF = db.define('thirteenF', {
   dateOfFiling: {
-    type: Sequelize.DATE,
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
       isDate: true,
@@ -20,10 +20,13 @@ const ThirteenF = db.define('thirteenF', {
     },
   },
   portfolioValue: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     validate: {
       min: 1,
     },
+  },
+  quarterlyValue: {
+    type: Sequelize.FLOAT,
   },
 })
 

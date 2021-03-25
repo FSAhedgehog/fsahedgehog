@@ -1,7 +1,8 @@
 import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
+import WhatToBuy from './WhatToBuy'
 
-export const Main = (props) => {
+export const Main = () => {
   return (
     <div>
       <div>
@@ -9,6 +10,7 @@ export const Main = (props) => {
       </div>
       <div>
         <AllHedgeFunds />
+        <WhatToBuy  />
         <img src="images/hog.png" alt="hedgehog icon"></img>
       </div>
     </div>
