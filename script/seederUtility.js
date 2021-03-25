@@ -3,7 +3,6 @@ const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 const {OPEN_FIJI_KEY} = require('../secrets')
 
-
 function findQuarter(month) {
   month = Number(month)
   if (month === 3) {
@@ -298,26 +297,28 @@ function topTenOwnedReturn() {
 
 // eslint-disable-line no-irregular-whitespace
 // async function getBeta(ticker) {
-//   const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
+const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
 //   const encodedURI = encodeURI(URI)
 //   const data =await axios.get(encodedURI)
 //   return data.data
 // }
 
 function getBeta(ticker) {
-  return yahooFinance.quote({
-    symbol: ticker,
-    modules: ['summaryDetail']
-  }, function (err, quotes) {
-    if (err) {
-      console.log(err)
-    } else {
-      let beta = quotes.summaryDetail.beta
-      // console.log("THIS IS BETA", beta)
-      return beta
-
+  return yahooFinance.quote(
+    {
+      symbol: ticker,
+      modules: ['summaryDetail'],
+    },
+    function (err, quotes) {
+      if (err) {
+        console.log(err)
+      } else {
+        let beta = quotes.summaryDetail.beta
+        // console.log("THIS IS BETA", beta)
+        return beta
+      }
     }
-  });
+  )
 }
 async function fundRisk(thirteenFId) {
   const data = await Stock.findAll({
@@ -343,4 +344,3 @@ module.exports = {
   calcMimicReturn,
   fundRisk,
 }
-
