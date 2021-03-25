@@ -36,11 +36,15 @@ const sampleUserData = [
 ]
 
 export class LineChart extends React.Component {
-  componentDidMount() {
-    console.log('PROPS', this.props)
-    // this.props.getMySingleHedgeFund(1)
+  constructor() {
+    super()
+    this.hedgeFundData = this.hedgeFundData.bind(this)
+  }
+  hedgeFundData() {
+    console.log('LINE PROPS', this.props)
   }
   render() {
+    console.log('PROPS', this.props)
     return (
       <VictoryChart
         domainPadding={20}
@@ -70,7 +74,6 @@ export class LineChart extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('STATE', state)
   return {
     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
   }

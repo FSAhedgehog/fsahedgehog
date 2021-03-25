@@ -7,18 +7,25 @@ class AllHedgeFunds extends React.Component {
   constructor() {
     super()
     this.clickHedgeFund = this.clickHedgeFund.bind(this)
+    this.moveHedgeHogToState = this.moveHedgeHogToState.bind(this)
   }
   componentDidMount() {
     this.props.getHedgeFunds()
-    // if (!this.props.singleHedgeFund) {
-    //   this.props.getMySingleHedgeFund(1)
-    // }
+    if (!this.props.singleHedgeFund.id) {
+      this.props.getMySingleHedgeFund(1)
+    }
   }
   clickHedgeFund(hedgeFundId) {
-    // evt.preventDefault()
-    console.log('CLICK', hedgeFundId)
-    console.log('PROPS', this.props)
+    this.moveHedgeHogToState()
     return this.props.getMySingleHedgeFund(hedgeFundId)
+  }
+  moveHedgeHogToState(hedgeFundId) {
+    console.log('MOVING HOG')
+    if (this.props.singleHedgeFund.id === hedgeFundId) {
+      return (
+        <img className="right" src="images/hog.png" alt="hedgehog icon"></img>
+      )
+    }
   }
 
   render() {
@@ -36,6 +43,7 @@ class AllHedgeFunds extends React.Component {
                 >
                   {hedgeFund.name} {hedgeFund.year5}
                 </button>
+                {this.moveHedgeHogToState(hedgeFund.id)}
               </div>
             )
           })}
