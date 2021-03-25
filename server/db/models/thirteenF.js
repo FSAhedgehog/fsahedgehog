@@ -21,9 +21,6 @@ const ThirteenF = db.define('thirteenF', {
   },
   portfolioValue: {
     type: Sequelize.BIGINT,
-    validate: {
-      min: 1,
-    },
   },
   quarterlyValue: {
     type: Sequelize.FLOAT,

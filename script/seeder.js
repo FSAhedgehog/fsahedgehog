@@ -14,10 +14,10 @@ const {EDGAR_KEY} = require('../secrets')
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
   'DAILY JOURNAL CORP',
-  'BERKSHIRE HATHAWAY INC',
-  'BILL & MELINDA GATES FOUNDATION TRUST',
-  'GREENLIGHT CAPITAL INC',
-  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  // 'BERKSHIRE HATHAWAY INC',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'GREENLIGHT CAPITAL INC',
+  // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
 
 // CHANGE SIZE HERE
@@ -49,13 +49,13 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    // )
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
     // Uncomment this for testing purpose
     // console.log(data)
-    const data = require('./exampleFiveReturn')
+    // const data = require('./exampleFiveReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
@@ -184,10 +184,7 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
 
       await stock.save()
     } else {
-      // added to get rid of stocks we can't find the ticker of
       await stock.destroy()
-      // stock.ticker = 'COULD NOT FIND'
-      // await stock.save()
     }
     if (lastOne) {
       await endThrottle(timer)
@@ -209,12 +206,13 @@ async function seedData(apiKey, hedgeFundNames, size) {
   async function throttleApiCall() {
     try {
       if (index === allStocks.length - 1) lastOne = true
-      if (index <= allStocks.length) {
+      if (index < allStocks.length) {
         const stock = allStocks[index]
 
         console.log('STOCK ID——————————', stock.id)
         index++
-        const ticker = await getTicker(stock.cusip)
+        let ticker = await getTicker(stock.cusip)
+        if (ticker) ticker = ticker.replace('/', '-')
         console.log(stock.thirteenF.dateOfFiling, 'IN THROTTLE')
         addTickerAndPrice(stock, ticker, lastOne, timer)
       }
