@@ -35,6 +35,10 @@ form div {
   justify-content: space-between;
 }
 
+.align-center {
+  align-items: center;
+}
+
 .column {
   flex-direction: column;
 }
@@ -44,11 +48,11 @@ form div {
 }
 
 .left {
-  margin-left: 2rem;
+  margin-left: 5rem;
 }
 
 .right {
-  margin-right: 2rem;
+  margin-right: 5rem;
 }
 
 .bottom {

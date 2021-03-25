@@ -38,7 +38,7 @@ const sampleUserData = [
 export class LineChart extends React.Component {
   componentDidMount() {
     console.log('PROPS', this.props)
-    this.props.getMySingleHedgeFund(1)
+    // this.props.getMySingleHedgeFund(1)
   }
   render() {
     return (
@@ -59,8 +59,11 @@ export class LineChart extends React.Component {
           }}
         />
         <VictoryAxis dependentAxis />
-        <VictoryLine data={sampleData} style={{data: {stroke: 'red'}}} />
-        <VictoryLine data={sampleUserData} style={{data: {stroke: 'green'}}} />
+        <VictoryLine data={sampleData} style={{data: {stroke: '#8affc1'}}} />
+        <VictoryLine
+          data={sampleUserData}
+          style={{data: {stroke: '#DABFFF'}}}
+        />
       </VictoryChart>
     )
   }
