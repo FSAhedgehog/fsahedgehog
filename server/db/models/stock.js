@@ -34,7 +34,7 @@ const Stock = db.define('stock', {
     },
   },
   percentageOfPortfolio: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     allowNull: true,
   },
   beta: {
@@ -48,7 +48,7 @@ module.exports = Stock
 //CUSIP HOOK
 //if string is less than 9 characters
 Stock.beforeCreate((stock) => {
-  if (stock.cusip.length < 9) {
+  if (stock.cusip.length === 8) {
     stock.cusip = '0' + stock.cusip
   }
 })
