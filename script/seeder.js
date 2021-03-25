@@ -154,14 +154,16 @@ async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
 }
 
 async function setPortfolioValueAndPercentageOfFund() {
+  console.log('IN SET PORTFOLIOVALUE———————')
   const thirteenFs = await ThirteenF.findAll()
   thirteenFs.forEach(async (thirteenF) => {
     thirteenF.portfolioValue = await getFundValue(thirteenF.id)
     await thirteenF.save()
-    setStockPercentageOfFund(thirteenF)
+    await setStockPercentageOfFund(thirteenF)
   })
 }
 async function setFundRisk() {
+  console.log('IN SETFUNDRISK———————')
   const thirteenFs = await ThirteenF.findAll()
   thirteenFs.forEach(async (thirteenF) => {
     thirteenF.thirteenFBeta = await fundRisk(thirteenF.id)
@@ -171,6 +173,7 @@ async function setFundRisk() {
 
 async function getOldestYearAndQuarter() {
   try {
+    console.log('IN GET OLDEST YEAR______')
     const thirteenFs = await ThirteenF.findAll({
       order: [['dateOfFiling', 'ASC']],
     })
@@ -209,14 +212,14 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       stock.beta = beta.summaryDetail.beta
 
       if (!price[0]) {
-        console.log('STOCK TO BE DESTROYED———————', stock.ticker)
+        // console.log('STOCK TO BE DESTROYED———————', stock.ticker)
         console.log('PRICE RETURNED FROM YAHOO———————', price)
         await stock.destroy()
       }
 
       await stock.save()
     } else {
-      console.log('TICKER NOT FOUND———————', stock.dataValues)
+      // console.log('TICKER NOT FOUND———————', stock.dataValues)
       await stock.destroy()
     }
     if (lastOne) {
@@ -274,14 +277,10 @@ async function setStockPercentageOfFund(created13F) {
   })
 }
 
-// S&P STUFF IN THIS FUNCTION
-// SET OLDEST ROW AS START = TRUE
-// SET QUARTERLY VALUE FOR OLDEST ROW AS $10,0000 or size?
-
 async function setMimicReturn(year, quarter) {
   try {
-    console.log('year &&&&&&&& quarter', year, quarter)
-
+    // console.log('year &&&&&&&& quarter', year, quarter)
+    console.log('IN SET MIMIC RETURN')
     const hedgeFunds = await HedgeFund.findAll({
       include: [
         {
@@ -312,12 +311,11 @@ async function setMimicReturn(year, quarter) {
 
 async function calculateSPValue() {
   try {
+    console.log('IN CALCULATE SPVALUE')
     const hedgeFunds = await HedgeFund.findAll({
       include: ThirteenF,
       order: [[ThirteenF, 'dateOfFiling', 'ASC']],
     })
-
-    console.log(hedgeFunds[0].thirteenFs)
 
     hedgeFunds.forEach(async (hedgeFund) => {
       const thirteenFs = hedgeFund.thirteenFs
@@ -326,12 +324,11 @@ async function calculateSPValue() {
       await first13F.save()
       let initialPrice = await getPrice('^GSPC', first13F.dateOfFiling)
       initialPrice = initialPrice[0].close
-      console.log('INITIAL PRICE——————', initialPrice)
+
       const startingShares = STARTING_VALUE / initialPrice
 
       for (let i = 1; i < thirteenFs.length; i++) {
         const current13F = thirteenFs[i]
-        console.log('13F ID—————', current13F.id)
         let currentPrice = await getPrice('^GSPC', current13F.dateOfFiling)
         currentPrice = currentPrice[0].close
         const currentValue = Math.round(startingShares * currentPrice)
