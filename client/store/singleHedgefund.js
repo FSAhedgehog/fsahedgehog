@@ -11,7 +11,7 @@ const setSingleHedgeFund = (singleHedgeFund) => {
   }
 }
 
-export const getSingleHedgeFund = (hedgeFund) => {
+export const getSingleHedgeFund = (hedgeFund = 1) => {
   return async (dispatch) => {
     try {
       const {data} = await axios.get(`/api/hedgefunds/${hedgeFund}`)

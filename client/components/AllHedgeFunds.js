@@ -20,7 +20,6 @@ class AllHedgeFunds extends React.Component {
     return this.props.getMySingleHedgeFund(hedgeFundId)
   }
   moveHedgeHogToState(hedgeFundId) {
-    console.log('MOVING HOG')
     if (this.props.singleHedgeFund.id === hedgeFundId) {
       return (
         <img className="right" src="images/hog.png" alt="hedgehog icon"></img>
