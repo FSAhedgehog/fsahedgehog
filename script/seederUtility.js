@@ -293,7 +293,21 @@ async function getBeta(ticker) {
   const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
   const encodedURI = encodeURI(URI)
   const {data} = await axios.get(encodedURI)
+  console.log(data)
   return data.data
+}
+async function fundRisk(thirteenFId) {
+  const data = await Stock.findAll({
+    where: {thirteenFId: thirteenFId},
+  })
+  let thirteenFBeta = data
+    .map((stock) => {
+      return stock.percentageOfPortfolio * stock.beta
+    })
+    .reduce((total, curVal) => {
+      return total + curVal
+    })
+  return thirteenFBeta
 }
 
 // function createTopTenPortfolio
@@ -304,4 +318,5 @@ module.exports = {
   findQuarter,
   getBeta,
   calcMimicReturn,
+  fundRisk,
 }

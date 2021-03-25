@@ -25,6 +25,10 @@ const ThirteenF = db.define('thirteenF', {
   quarterlyValue: {
     type: Sequelize.FLOAT,
   },
+  thirteenFBeta: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
 })
 
 module.exports = ThirteenF
