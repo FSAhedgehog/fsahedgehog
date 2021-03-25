@@ -1,15 +1,18 @@
+import Stock from './server/db/models/stock'
+
+//13F-portfolio risk
 async function fundRisk(thirteenFId) {
-  //get all stocks in most recent 13f with value and percentage of portfolio
-  //will return  cusip, ticker, gtyofshares,price, totalvalue,percentage of portfolio
-  const {data} = await Stock.findAll({
-    where: {
-      thirteenFId: thirteenFId,
+const { data } = await Stock.findAll({
+where: {
+  thirteenFId: thirteenFId,
     },
   })
-
-  const getBeta = await axios.post()
+return data.map((stock) => {
+ return  stock.percentageOfPortfolio * stock.beta
+}).reduce((total,curVal )=>{
+  return total + curVal
+})
 }
-
 module.exports = {
   fundRisk,
 }
