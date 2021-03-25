@@ -15,12 +15,22 @@ async function setMimicReturn() {
   await hedgeFunds.forEach(async (hedgeFund) => {
     const hedgeyReturnObj = await calcMimicReturn(hedgeFund.id)
     hedgeFund.thirteenFs.forEach(async (thirteenF) => {
-      thirteenF.quarterlyValue =
-        hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
       console.log(
-        hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`],
-        'IN THE SETMIMIC'
+        Math.round(
+          parseFloat(hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]),
+          'ROUNDED'
+        )
       )
+      // thirteenF.quarterlyValue = Math.round(
+      //   parseFloat(hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`])
+      // )
+      thirteenF.quarterlyValue = Math.round(
+        hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
+      )
+      // console.log(
+      //   hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`],
+      //   'IN THE SETMIMIC'
+      // )
       await thirteenF.save()
     })
   })

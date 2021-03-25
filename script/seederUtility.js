@@ -83,7 +83,7 @@ async function calcMimicReturn(hedgeFundId, year, quarter) {
   // initial value used as a base to calculate the return on
   let prevValue = 10000
   // 5 years ago minus a quarter
-  year = 2019
+  year = 2016
   quarter = 1
 
   let quarterlyValues = {}
@@ -153,8 +153,10 @@ async function findInvestmentPortfolioNewValue(portfolio, date) {
     if (key !== 'value') {
       // do I need to await a npm package call?
       // grab the current price of the stock
+      console.log(key, 'KEY IN FIND NEW VALUE')
       let currPrice = await getPrice(key, date)
       // find the percentage of the new price compared to old. ex: old: $1.10 new: $1.24 -> 112.7%
+      console.log(currPrice[0].close, 'CURRENT PRICE IN FIND NEW VALUE')
       let pricePercentage = currPrice[0].close / portfolio[key].prevPrice
       // add to the value the pricePercentage * portfolios prev value * that stocks % of portfolio
       console.log(

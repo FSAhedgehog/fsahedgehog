@@ -13,9 +13,9 @@ const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
-  'DAILY JOURNAL CORP',
+  // 'DAILY JOURNAL CORP',
   // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'GREENLIGHT CAPITAL INC',
   // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
@@ -258,7 +258,7 @@ async function setStockPercentageOfFund(created13F) {
 }
 
 // needs to run after
-async function setMimicReturn() {
+async function setMimicReturn(startingYear, startingQuarter) {
   const hedgeFunds = await HedgeFund.findAll({
     include: [
       {
@@ -271,18 +271,56 @@ async function setMimicReturn() {
   await hedgeFunds.forEach((hedgeFund) => {
     const hedgeyReturnObj = calcMimicReturn(hedgeFund.id)
     hedgeFund.thirteenFs.forEach(async (thirteenF) => {
-      thirteenF.quarterlyValue =
+      thirteenF.quarterlyValue = Math.round(
         hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
+      )
       await thirteenF.save()
     })
+    // NEED TO GET STARTING QUARTER AND YEAR
+    calcHedgeFundReturn(startingYear, startingQuarter, hedgeFund)
   })
 }
 
-function calcHedgeFundReturn(years) {
-  // find the starting year and Q some how and fine the last
-  // grab the quarterlyValue and divide
-  // put it in the hedgeFund
-  // make sure to do it for all of the hedgefunds
+async function calcHedgeFundReturn(year, quarter, hedgeFund) {
+  const starting13F = await ThirteenF.findOne({
+    where: {
+      id: hedgeFund.id,
+      year: year,
+      quarter: quarter,
+    },
+  })
+  const startingValue = starting13F.quarterlyValue
+  const threeYearsAway13F = await ThirteenF.findOne({
+    where: {
+      id: hedgeFund.id,
+      year: year,
+      quarter: quarter,
+    },
+  })
+  const thirdYearValue = threeYearsAway13F.quarterlyValue
+  const oneYearAway13F = await ThirteenF.findOne({
+    where: {
+      id: hedgeFund.id,
+      year: year,
+      quarter: quarter,
+    },
+  })
+  const oneYearValue = oneYearAway13F.quarterlyValue
+  const current13F = await ThirteenF.findOne({
+    where: {
+      id: hedgeFund.id,
+      year: year,
+      quarter: quarter,
+    },
+  })
+  const currentValue = current13F.quarterlyValue
+  const fiveYearReturn = currentValue / startingValue
+  const threeYearReturn = currentValue / thirdYearValue
+  const oneYearReturn = currentValue / oneYearValue
+  hedgeFund.yearOneReturn = oneYearReturn
+  hedgeFund.yearThreeReturn = threeYearReturn
+  hedgeFund.yearFiveReturn = fiveYearReturn
+  await hedgeFund.save()
 }
 
 seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)
