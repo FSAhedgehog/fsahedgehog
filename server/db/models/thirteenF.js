@@ -26,7 +26,7 @@ const ThirteenF = db.define('thirteenF', {
     },
   },
   quarterlyValue: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
   },
 })
 
