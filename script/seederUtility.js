@@ -84,8 +84,9 @@ async function calcMimicReturn(hedgeFundId, year, quarter) {
   // initial value used as a base to calculate the return on
   let prevValue = 10000
   // 5 years ago minus a quarter
-  year = 2016
+  year = 2019
   quarter = 1
+  
   let quarterlyValues = {}
   // need to define to have in the if statements for the first time through the loop
   let prevPortfolio = null
@@ -116,7 +117,7 @@ async function calcMimicReturn(hedgeFundId, year, quarter) {
     // create portfolio of the thirteenF with the new value or starting value
     portfolio = createPortfolio(thirteenF, newValue)
     // grab the value of the previous portfolio to the new value of the previous portfolio
-    prevValue = prevPortfolio.value
+    prevValue = await prevPortfolio.value
     // finding the quarterlyReturn incase we would like to use later for graphing
     let quarterlyValue = newValue
     quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
@@ -303,9 +304,6 @@ module.exports = {
   getTicker,
   getPrice,
   findQuarter,
-
   getBeta,
-
   calcMimicReturn,
-
 }

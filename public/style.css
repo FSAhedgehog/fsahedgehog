@@ -12,7 +12,7 @@ label {
 
 nav a {
   display: inline-block;
-  margin: 1em;
+  margin: 1rem;
   color: #8affc1;
 }
 
@@ -22,7 +22,7 @@ img {
 }
 
 form div {
-  margin: 1em;
+  margin: 1rem;
   display: inline-block;
 }
 
@@ -31,6 +31,26 @@ form div {
   justify-content: center;
 }
 
+.space-btw {
+  justify-content: space-between;
+}
+
+.column {
+  flex-direction: column;
+}
+
 .link {
   color: #8affc1;
+}
+
+.left {
+  margin-left: 2rem;
+}
+
+.right {
+  margin-right: 2rem;
+}
+
+.bottom {
+  margin-bottom: 4rem;
 }

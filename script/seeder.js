@@ -1,7 +1,6 @@
 const axios = require('axios')
 const db = require('../server/db')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-
 const {
   getTicker,
   getPrice,
@@ -50,13 +49,13 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    const {data} = await axios.post(
-      `https://api.sec-api.io?token=${apiKey}`,
-      query
-    )
+    // const {data} = await axios.post(
+    //   `https://api.sec-api.io?token=${apiKey}`,
+    //   query
+    // )
     // Uncomment this for testing purpose
     // console.log(data)
-    // const data = require('./exampleFiveReturn')
+    const data = require('./exampleFiveReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
@@ -129,6 +128,9 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
       }
     }
     await created13F.addStocks(createdStocks)
+    created13F.portfolioValue = await getFundValue(created13F.id)
+    created13F.save()
+    setStockPercentageOfFund(created13F)
     await createdHedgeFund.addThirteenF(created13F)
     await createdHedgeFund.addStocks(createdStocks)
   } catch (err) {
@@ -188,9 +190,7 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       // await stock.save()
     }
     if (lastOne) {
-      endThrottle(timer)
-      // geting the mimic return
-      // await setMimicReturn()
+      await endThrottle(timer)
     }
   } catch (err) {
     console.error(err)
@@ -209,13 +209,11 @@ async function seedData(apiKey, hedgeFundNames, size) {
   async function throttleApiCall() {
     try {
       if (index === allStocks.length - 1) lastOne = true
-      if (index >= allStocks.length) return
-      const stock = allStocks[index]
+      if (index <= allStocks.length) {
+        const stock = allStocks[index]
 
-      console.log('STOCK ID——————————', stock.id)
-
-      index++
-
+        console.log('STOCK ID——————————', stock.id)
+        index++
       const ticker = await getTicker(stock.cusip)
       console.log(stock.thirteenF.dateOfFiling, 'IN THROTTLE')
       addTickerAndPrice(stock, ticker, lastOne, timer)
@@ -270,6 +268,7 @@ async function setMimicReturn() {
       },
     ],
   })
+
   await hedgeFunds.forEach((hedgeFund) => {
     const hedgeyReturnObj = calcMimicReturn(hedgeFund.id)
     hedgeFund.thirteenFs.forEach(async (thirteenF) => {

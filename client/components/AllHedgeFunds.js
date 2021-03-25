@@ -51,7 +51,7 @@ class AllHedgeFunds extends React.Component {
     const {hedgeFunds} = data
 
     return (
-      <div>
+      <div className="left">
         <div>
           {hedgeFunds.map((hedgeFund) => {
             return (
