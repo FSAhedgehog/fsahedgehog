@@ -86,7 +86,7 @@ async function calcMimicReturn(hedgeFundId, year, quarter) {
   // 5 years ago minus a quarter
   year = 2019
   quarter = 1
-  
+
   let quarterlyValues = {}
   // need to define to have in the if statements for the first time through the loop
   let prevPortfolio = null
@@ -289,14 +289,13 @@ function topTenOwnedReturn() {
   return {totalReturn, quarterlyReturns}
 }
 
+// eslint-disable-line no-irregular-whitespace
 async function getBeta(ticker) {
-  const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36`
+  const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
   const encodedURI = encodeURI(URI)
-  const { data } = await axios.get(encodedURI)
+  const {data} = await axios.get(encodedURI)
   return data.data
 }
-
-
 
 // function createTopTenPortfolio
 

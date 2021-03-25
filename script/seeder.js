@@ -6,7 +6,7 @@ const {
   getPrice,
   findQuarter,
   calcMimicReturn,
-    getBeta
+  getBeta,
 } = require('./seederUtility')
 
 const {EDGAR_KEY} = require('../secrets')
@@ -177,7 +177,7 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
       stock.price = price[0] ? price[0].close : null
 
-      const beta =  await getBeta(ticker)
+      const beta = await getBeta(ticker)
       stock.beta = beta
 
       if (!price[0]) await stock.destroy()
@@ -214,9 +214,10 @@ async function seedData(apiKey, hedgeFundNames, size) {
 
         console.log('STOCK ID——————————', stock.id)
         index++
-      const ticker = await getTicker(stock.cusip)
-      console.log(stock.thirteenF.dateOfFiling, 'IN THROTTLE')
-      addTickerAndPrice(stock, ticker, lastOne, timer)
+        const ticker = await getTicker(stock.cusip)
+        console.log(stock.thirteenF.dateOfFiling, 'IN THROTTLE')
+        addTickerAndPrice(stock, ticker, lastOne, timer)
+      }
     } catch (err) {
       console.error(err)
     }
