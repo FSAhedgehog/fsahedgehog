@@ -36,10 +36,10 @@ async function getTicker(cusip) {
       postData,
       axiosConfig
     )
-    console.log(data[0].data[0].ticker)
+    // console.log(data[0].data[0].ticker)
     return data[0].data[0].ticker
   } catch (error) {
-    console.log('oopsie!')
+    // console.log('oopsie!')
   }
 }
 // needs to be passed in double quotation string
@@ -52,6 +52,7 @@ function addDayToDate(date) {
 //'2021-01-08T21:52:22-05:00'
 
 function getPrice(ticker, date) {
+  // console.log('TICKER————————', ticker)
   return yahooFinance.historical(
     {
       symbol: ticker,
@@ -80,12 +81,9 @@ console.log(getPrice)
 // at the end divide the total value of the investment by the original
 
 // need to make sure to calculate new investment value before writing over it
-async function calcMimicReturn(hedgeFundId, year, quarter) {
+async function calcMimicReturn(hedgeFundId, year, quarter, startingValue) {
   // initial value used as a base to calculate the return on
-  let prevValue = 10000
-  // 5 years ago minus a quarter
-  year = 2019
-  quarter = 1
+  let prevValue = startingValue
 
   let quarterlyValues = {}
   // need to define to have in the if statements for the first time through the loop
@@ -152,11 +150,20 @@ async function findInvestmentPortfolioNewValue(portfolio, date) {
   // iterate through each stock
   for (let key in portfolio) {
     if (key !== 'value') {
+      console.log('KEY', key)
+      console.log('DATE', date)
       // do I need to await a npm package call?
       // grab the current price of the stock
       let currPrice = await getPrice(key, date)
+      let finalPrice
+
+      currPrice.length
+        ? (finalPrice = currPrice[0].close)
+        : (finalPrice = portfolio[key].prevPrice)
+
+      console.log('CURRPRICE', currPrice)
       // find the percentage of the new price compared to old. ex: old: $1.10 new: $1.24 -> 112.7%
-      let pricePercentage = currPrice[0].close / portfolio[key].prevPrice
+      let pricePercentage = finalPrice / portfolio[key].prevPrice
       // add to the value the pricePercentage * portfolios prev value * that stocks % of portfolio
       console.log(
         key,
