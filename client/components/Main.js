@@ -1,6 +1,7 @@
 import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
 import LineChart from './LineChart'
+import {PieChart} from '../components'
 
 export const Main = (props) => {
   return (
@@ -12,7 +13,10 @@ export const Main = (props) => {
         <AllHedgeFunds />
         <img className="right" src="images/hog.png" alt="hedgehog icon"></img>
       </div>
-      <LineChart />
+      <div className="flex-cont align-center">
+        <LineChart />
+        <PieChart />
+      </div>
     </div>
   )
 }
