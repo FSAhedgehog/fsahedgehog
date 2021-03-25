@@ -184,10 +184,7 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
 
       await stock.save()
     } else {
-      // added to get rid of stocks we can't find the ticker of
       await stock.destroy()
-      // stock.ticker = 'COULD NOT FIND'
-      // await stock.save()
     }
     if (lastOne) {
       await endThrottle(timer)
@@ -209,12 +206,13 @@ async function seedData(apiKey, hedgeFundNames, size) {
   async function throttleApiCall() {
     try {
       if (index === allStocks.length - 1) lastOne = true
-      if (index <= allStocks.length) {
+      if (index < allStocks.length) {
         const stock = allStocks[index]
 
         console.log('STOCK ID——————————', stock.id)
         index++
-        const ticker = await getTicker(stock.cusip)
+        let ticker = await getTicker(stock.cusip)
+        if (ticker) ticker = ticker.replace('/', '-')
         console.log(stock.thirteenF.dateOfFiling, 'IN THROTTLE')
         addTickerAndPrice(stock, ticker, lastOne, timer)
       }
