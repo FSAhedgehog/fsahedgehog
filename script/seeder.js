@@ -7,6 +7,7 @@ const {
   findQuarter,
   calcMimicReturn,
   getBeta,
+  fundRisk,
 } = require('./seederUtility')
 
 const {EDGAR_KEY} = require('../secrets')
@@ -14,10 +15,10 @@ const {EDGAR_KEY} = require('../secrets')
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
   'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
-  // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  'BERKSHIRE HATHAWAY INC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
+  'GREENLIGHT CAPITAL INC',
+  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
 
 // CHANGE SIZE HERE
@@ -160,6 +161,13 @@ async function setPortfolioValueAndPercentageOfFund() {
     setStockPercentageOfFund(thirteenF)
   })
 }
+async function setFundRisk() {
+  const thirteenFs = await ThirteenF.findAll()
+  thirteenFs.forEach(async (thirteenF) => {
+    thirteenF.thirteenFBeta = await fundRisk(thirteenF.id)
+    await thirteenF.save()
+  })
+}
 
 async function getOldestYearAndQuarter() {
   try {
@@ -180,6 +188,7 @@ async function endThrottle(timer) {
     clearInterval(timer)
     const [year, quarter] = await getOldestYearAndQuarter()
     await setPortfolioValueAndPercentageOfFund()
+    await setFundRisk()
     await setMimicReturn(year, quarter)
     // await calculateSPValue()
     // await db.close()
@@ -196,7 +205,8 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       stock.price = price[0] ? price[0].close : null
 
       const beta = await getBeta(ticker)
-      stock.beta = beta
+      //console.log("THIS IS BETA", beta)
+      stock.beta = beta.summaryDetail.beta
 
       if (!price[0]) {
         console.log('STOCK TO BE DESTROYED———————', stock.ticker)

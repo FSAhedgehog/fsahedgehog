@@ -28,6 +28,9 @@ const ThirteenF = db.define('thirteenF', {
   spValue: {
     type: Sequelize.FLOAT,
   },
+  thirteenFBeta: {
+    type: Sequelize.FLOAT,
+  },
 })
 
 module.exports = ThirteenF

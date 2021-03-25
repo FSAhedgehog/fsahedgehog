@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/singleHedgeFund'
-
 import {VictoryChart, VictoryLine, VictoryAxis} from 'victory'
 
 const sampleData = [
@@ -36,10 +35,13 @@ const sampleUserData = [
 ]
 
 export class LineChart extends React.Component {
-  componentDidMount() {
-    console.log('PROPS', this.props)
-    // this.props.getMySingleHedgeFund(1)
-  }
+  // constructor() {
+  //   super()
+  //   this.hedgeFundData = this.hedgeFundData.bind(this)
+  // }
+  // hedgeFundData() {
+  //   console.log('LINE PROPS', this.props)
+  // }
   render() {
     return (
       <VictoryChart
@@ -69,17 +71,16 @@ export class LineChart extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log('STATE', state)
-  return {
-    singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
-  }
-}
+// const mapStateToProps = (state) => {
+//   return {
+//     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
+//   }
+// }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getMySingleHedgeFund: (id) => dispatch(getSingleHedgeFund(id)),
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getMySingleHedgeFund: (id) => dispatch(getSingleHedgeFund(id)),
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LineChart)
+// export default connect(mapStateToProps, mapDispatchToProps)(LineChart)
