@@ -51,7 +51,6 @@ function addDayToDate(date) {
 //'2021-01-08T21:52:22-05:00'
 
 function getPrice(ticker, date) {
-  ticker = ticker.replace('/', '-')
   return yahooFinance.historical(
     {
       symbol: ticker,
