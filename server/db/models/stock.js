@@ -31,6 +31,10 @@ const Stock = db.define('stock', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  beta: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
 })
 
 module.exports = Stock

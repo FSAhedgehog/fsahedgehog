@@ -6,7 +6,9 @@ const {
   getPrice,
   findQuarter,
   calcMimicReturn,
+    getBeta
 } = require('./seederUtility')
+
 const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
@@ -19,7 +21,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '100'
+const SIZE = '20'
 
 function buildQuery(hedgeFunds, size) {
   hedgeFunds = hedgeFunds
@@ -47,13 +49,13 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    const {data} = await axios.post(
-      `https://api.sec-api.io?token=${apiKey}`,
-      query
-    )
+    // const {data} = await axios.post(
+    //   `https://api.sec-api.io?token=${apiKey}`,
+    //   query
+    // )
     // Uncomment this for testing purpose
     // console.log(data)
-    // const data = require('./exampleFiveReturn')
+    const data = require('./exampleFiveReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
@@ -147,11 +149,21 @@ async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   }
 }
 
+async function setPortfolioValueAndPercentageOfFund() {
+  const thirteenFs = await ThirteenF.findAll()
+  thirteenFs.forEach(async (thirteenF) => {
+    thirteenF.portfolioValue = await getFundValue(thirteenF.id)
+    await thirteenF.save()
+    setStockPercentageOfFund(thirteenF)
+  })
+}
+
 async function endThrottle(timer) {
   try {
     console.log('exiting setInterval')
     clearInterval(timer)
-    await setMimicReturn()
+    await setPortfolioValueAndPercentageOfFund()
+    // await setMimicReturn()
     // await db.close()
   } catch (err) {
     console.error(err)
@@ -164,13 +176,21 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       stock.ticker = ticker
       const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
       stock.price = price[0] ? price[0].close : null
+
+      const beta =  await getBeta(ticker)
+      stock.beta = beta
+
+      if (!price[0]) await stock.destroy()
+
       await stock.save()
     } else {
-      stock.ticker = 'COULD NOT FIND'
-      await stock.save()
+      // added to get rid of stocks we can't find the ticker of
+      await stock.destroy()
+      // stock.ticker = 'COULD NOT FIND'
+      // await stock.save()
     }
     if (lastOne) {
-      endThrottle(timer)
+      await endThrottle(timer)
     }
   } catch (err) {
     console.error(err)
@@ -189,13 +209,11 @@ async function seedData(apiKey, hedgeFundNames, size) {
   async function throttleApiCall() {
     try {
       if (index === allStocks.length - 1) lastOne = true
-      if (index >= allStocks.length) return
-      const stock = allStocks[index]
+      if (index <= allStocks.length) {
+        const stock = allStocks[index]
 
-      console.log('STOCK ID——————————', stock.id)
-
-      index++
-
+        console.log('STOCK ID——————————', stock.id)
+        index++
       const ticker = await getTicker(stock.cusip)
       console.log(stock.thirteenF.dateOfFiling, 'IN THROTTLE')
       addTickerAndPrice(stock, ticker, lastOne, timer)
@@ -250,12 +268,13 @@ async function setMimicReturn() {
       },
     ],
   })
+
   await hedgeFunds.forEach((hedgeFund) => {
     const hedgeyReturnObj = calcMimicReturn(hedgeFund.id)
-    hedgeFund.thirteenFs.forEach((thirteenF) => {
+    hedgeFund.thirteenFs.forEach(async (thirteenF) => {
       thirteenF.quarterlyValue =
         hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
-      thirteenF.save()
+      await thirteenF.save()
     })
   })
 }
@@ -268,3 +287,5 @@ function calcHedgeFundReturn(years) {
 }
 
 seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)
+
+module.exports = setMimicReturn
