@@ -49,13 +49,13 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    const {data} = await axios.post(
-      `https://api.sec-api.io?token=${apiKey}`,
-      query
-    )
+    // const {data} = await axios.post(
+    //   `https://api.sec-api.io?token=${apiKey}`,
+    //   query
+    // )
     // Uncomment this for testing purpose
     // console.log(data)
-    // const data = require('./exampleFiveReturn')
+    const data = require('./exampleFiveReturn')
     return data
   } catch (err) {
     console.log('error in getInitialData func—————', err)
