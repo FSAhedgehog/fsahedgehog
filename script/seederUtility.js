@@ -48,13 +48,14 @@ function addDayToDate(date) {
   return nextDate
 }
 
+//'2021-01-08T21:52:22-05:00'
+
 function getPrice(ticker, date) {
   ticker = ticker.replace('/', '-')
-  console.log(ticker, 'TICKER', date, 'DATE')
   return yahooFinance.historical(
     {
       symbol: ticker,
-      from: date,
+      from: date.slice(0, 10),
       to: addDayToDate(date),
       period: 'd',
     },
@@ -83,9 +84,8 @@ async function calcMimicReturn(hedgeFundId, year, quarter) {
   // initial value used as a base to calculate the return on
   let prevValue = 10000
   // 5 years ago minus a quarter
-  year = 2019
+  year = 2016
   quarter = 1
-  // console.log(hedgeFundId, year, quarter, 'GOT HERE')
   let quarterlyValues = {}
   // need to define to have in the if statements for the first time through the loop
   let prevPortfolio = null
@@ -112,11 +112,11 @@ async function calcMimicReturn(hedgeFundId, year, quarter) {
     if (!portfolio) portfolio = createPortfolio(thirteenF, prevValue)
     if (!prevPortfolio) prevPortfolio = portfolio
     // find the new value of the prevPortfolio, should be the same first time
-    let newValue = findInvestmentPortfolioNewValue(prevPortfolio, date)
+    let newValue = await findInvestmentPortfolioNewValue(prevPortfolio, date)
     // create portfolio of the thirteenF with the new value or starting value
     portfolio = createPortfolio(thirteenF, newValue)
     // grab the value of the previous portfolio to the new value of the previous portfolio
-    prevValue = await prevPortfolio.value
+    prevValue = prevPortfolio.value
     // finding the quarterlyReturn incase we would like to use later for graphing
     let quarterlyValue = newValue
     quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
@@ -126,11 +126,7 @@ async function calcMimicReturn(hedgeFundId, year, quarter) {
     ;({year, quarter} = getNextYearAndQuarter(year, quarter))
     // find the next 13F
   } while (thirteenF)
-  console.log(prevPortfolio, 'PREV PORTFOLIO')
-  // let totalReturn = (prevPortfolio.value / 10000) * 100
-  // will be in percent
-  // need to give quarterly return for the charts
-  // console.log(totalReturn, 'TOTAL RETURN')
+  console.log(quarterlyValues, 'QUARTERLY VALUES')
   return quarterlyValues
 }
 
@@ -159,12 +155,28 @@ async function findInvestmentPortfolioNewValue(portfolio, date) {
       // grab the current price of the stock
       let currPrice = await getPrice(key, date)
       // find the percentage of the new price compared to old. ex: old: $1.10 new: $1.24 -> 112.7%
-      let pricePercentage = currPrice / portfolio[key].prevPrice
+      let pricePercentage = currPrice[0].close / portfolio[key].prevPrice
       // add to the value the pricePercentage * portfolios prev value * that stocks % of portfolio
-      newValue +=
-        pricePercentage * portfolio.value * portfolio[key].percentageOfPortfolio
+      console.log(
+        key,
+        'STOCK TICKER',
+        date,
+        ' DATE ',
+        currPrice[0].close,
+        'PRICE',
+        pricePercentage,
+        'PRICE PERCENTAGE',
+        portfolio.value,
+        'PORTFOLIO VALUE',
+        portfolio[key].percentage,
+        'PORTFOLIO PERCENTAGE'
+      )
+      newValue += pricePercentage * portfolio.value * portfolio[key].percentage
     }
   }
+  console.log(
+    '----------------------------------------NEW QUARTER---------------------------------------------------'
+  )
   return newValue
 }
 
