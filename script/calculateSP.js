@@ -24,8 +24,8 @@ async function calculateSPValue() {
     for (let i = 1; i < thirteenFs.length; i++) {
       const current13F = thirteenFs[i]
       console.log('13F ID—————', current13F.id)
-      const currentPrice = await getPrice('^GSPC', current13F.dateOfFiling)
-      console.log('CURRENT PRICE————————', currentPrice)
+      let currentPrice = await getPrice('^GSPC', current13F.dateOfFiling)
+      currentPrice = currentPrice[0].close
       const currentValue = Math.round(startingShares * currentPrice)
       current13F.spValue = currentValue
       await current13F.save()

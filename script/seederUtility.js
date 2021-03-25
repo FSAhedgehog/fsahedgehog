@@ -297,7 +297,8 @@ function topTenOwnedReturn() {
 
 // eslint-disable-line no-irregular-whitespace
 // async function getBeta(ticker) {
-const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
+// eslint-disable-next-line no-irregular-whitespace
+// const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36`
 //   const encodedURI = encodeURI(URI)
 //   const data =await axios.get(encodedURI)
 //   return data.data
