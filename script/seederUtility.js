@@ -3,6 +3,7 @@ const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 const {OPEN_FIJI_KEY} = require('../secrets')
 
+
 function findQuarter(month) {
   month = Number(month)
   if (month === 3) {
@@ -68,7 +69,7 @@ function getPrice(ticker, date) {
     }
   )
 }
-
+console.log(getPrice)
 // need grab the 20th last 13F- could be dynamic so we can use this when 13F's update
 // query the stocks for that 13F - need to have date price on stocks that were completely sold aka date on stock table?
 // create a portfolio with a 10000 and put cash as a percentage of each stock in an obj
@@ -289,11 +290,40 @@ function topTenOwnedReturn() {
 }
 
 // eslint-disable-line no-irregular-whitespace
-async function getBeta(ticker) {
-  const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
-  const encodedURI = encodeURI(URI)
-  const {data} = await axios.get(encodedURI)
-  return data.data
+// async function getBeta(ticker) {
+//   const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
+//   const encodedURI = encodeURI(URI)
+//   const data =await axios.get(encodedURI)
+//   return data.data
+// }
+
+function getBeta(ticker) {
+  return yahooFinance.quote({
+    symbol: ticker,
+    modules: ['summaryDetail']
+  }, function (err, quotes) {
+    if (err) {
+      console.log(err)
+    } else {
+      let beta = quotes.summaryDetail.beta
+      // console.log("THIS IS BETA", beta)
+      return beta
+
+    }
+  });
+}
+async function fundRisk(thirteenFId) {
+  const data = await Stock.findAll({
+    where: {thirteenFId: thirteenFId},
+  })
+  let thirteenFBeta = data
+    .map((stock) => {
+      return stock.percentageOfPortfolio * stock.beta
+    })
+    .reduce((total, curVal) => {
+      return total + curVal
+    })
+  return thirteenFBeta
 }
 
 // function createTopTenPortfolio
@@ -304,4 +334,6 @@ module.exports = {
   findQuarter,
   getBeta,
   calcMimicReturn,
+  fundRisk,
 }
+

@@ -7,6 +7,7 @@ const {
   findQuarter,
   calcMimicReturn,
   getBeta,
+  fundRisk,
 } = require('./seederUtility')
 
 const {EDGAR_KEY} = require('../secrets')
@@ -157,12 +158,20 @@ async function setPortfolioValueAndPercentageOfFund() {
     setStockPercentageOfFund(thirteenF)
   })
 }
+async function setFundRisk() {
+  const thirteenFs = await ThirteenF.findAll()
+  thirteenFs.forEach(async (thirteenF) => {
+    thirteenF.thirteenFBeta = await fundRisk(thirteenF.id)
+    await thirteenF.save()
+  })
+}
 
 async function endThrottle(timer) {
   try {
     console.log('exiting setInterval')
     clearInterval(timer)
     await setPortfolioValueAndPercentageOfFund()
+    await setFundRisk()
     // await setMimicReturn()
     // await db.close()
   } catch (err) {
@@ -178,7 +187,8 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       stock.price = price[0] ? price[0].close : null
 
       const beta = await getBeta(ticker)
-      stock.beta = beta
+      //console.log("THIS IS BETA", beta)
+      stock.beta = beta.summaryDetail.beta
 
       if (!price[0]) await stock.destroy()
 
