@@ -4,7 +4,7 @@ import React from 'react'
 const WhatToBuy = () => {
   return (
 //insert for and calculate button
-        <div className="content">
+    <div className="flex-cont">
       <div className="row">
         <div className="col-md-6">
           <div>
