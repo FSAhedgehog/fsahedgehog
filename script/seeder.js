@@ -187,7 +187,8 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       stock.price = price[0] ? price[0].close : null
 
       const beta = await getBeta(ticker)
-      stock.beta = beta
+      //console.log("THIS IS BETA", beta)
+      stock.beta = beta.summaryDetail.beta
 
       if (!price[0]) await stock.destroy()
 
