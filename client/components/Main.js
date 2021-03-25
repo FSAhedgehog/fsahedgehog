@@ -11,8 +11,8 @@ export const Main = (props) => {
       <div className="flex-cont space-btw">
         <AllHedgeFunds />
         <img className="right" src="images/hog.png" alt="hedgehog icon"></img>
-        <LineChart />
       </div>
+      <LineChart />
     </div>
   )
 }

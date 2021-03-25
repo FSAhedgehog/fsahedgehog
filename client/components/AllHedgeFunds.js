@@ -8,7 +8,7 @@ class AllHedgeFunds extends React.Component {
   }
 
   render() {
-    let hedgeFunds = this.props.hedgeFunds || []
+    const hedgeFunds = this.props.hedgeFunds || []
 
     return (
       <div className="left">
@@ -28,7 +28,7 @@ class AllHedgeFunds extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    hedgeFunds: state.hedgeFunds.allHedgeFunds,
+    hedgeFunds: state.hedgeFunds.hedgeFunds,
   }
 }
 
