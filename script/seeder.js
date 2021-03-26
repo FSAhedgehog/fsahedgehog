@@ -59,7 +59,7 @@ async function getInitialData(apiKey, query) {
     //   query
     // )
     // Uncomment this for testing purpose
-    const data = require('./ex1shortComp2Quarters')
+    const data = require('./ex1comp5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -246,9 +246,8 @@ async function setBeta() {
     // THIS IS WHERE LOGAN LEFT OFF
     // const responseObj =
   }
-
-  const beta = await getBeta(ticker)
-  stock.beta = beta.summaryDetail.beta
+  // const beta = await getBeta(ticker)
+  // stock.beta = beta.summaryDetail.beta
 }
 
 async function setPrices() {
