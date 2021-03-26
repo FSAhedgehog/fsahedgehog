@@ -69,7 +69,7 @@ function getPrice(ticker, date) {
     }
   )
 }
-console.log(getPrice)
+
 // need grab the 20th last 13F- could be dynamic so we can use this when 13F's update
 // query the stocks for that 13F - need to have date price on stocks that were completely sold aka date on stock table?
 // create a portfolio with a 10000 and put cash as a percentage of each stock in an obj
@@ -124,7 +124,7 @@ async function calcMimicReturn(hedgeFundId, year, quarter, startingValue) {
     ;({year, quarter} = getNextYearAndQuarter(year, quarter))
     // find the next 13F
   } while (thirteenF)
-  console.log(quarterlyValues, 'QUARTERLY VALUES')
+  // console.log(quarterlyValues, 'QUARTERLY VALUES')
   return quarterlyValues
 }
 
@@ -133,12 +133,15 @@ function createPortfolio(thirteenF, value) {
   // not sure what this instance looks like
   // portfolio is used in the next 13F so using past tense "prev"
   // iterate through each stock and populate a portfolio obj
-  thirteenF.stocks.forEach((stock) => {
+
+  for (let i = 0; i < thirteenF.stocks.length; i++) {
+    const stock = thirteenF.stocks[i]
     portfolio[stock.ticker] = {
       percentage: stock.percentageOfPortfolio,
       prevPrice: stock.price,
     }
-  })
+  }
+
   // set the value of the portfolio as the value thrown in
   portfolio.value = value
   return portfolio
@@ -149,8 +152,8 @@ async function findInvestmentPortfolioNewValue(portfolio, date) {
   // iterate through each stock
   for (let key in portfolio) {
     if (key !== 'value') {
-      console.log('KEY', key)
-      console.log('DATE', date)
+      // console.log('KEY', key)
+      // console.log('DATE', date)
       // do I need to await a npm package call?
       // grab the current price of the stock
       let currPrice = await getPrice(key, date)
@@ -160,30 +163,30 @@ async function findInvestmentPortfolioNewValue(portfolio, date) {
         ? (finalPrice = currPrice[0].close)
         : (finalPrice = portfolio[key].prevPrice)
 
-      console.log('CURRPRICE', currPrice)
+      // console.log('CURRPRICE', currPrice)
       // find the percentage of the new price compared to old. ex: old: $1.10 new: $1.24 -> 112.7%
       let pricePercentage = finalPrice / portfolio[key].prevPrice
       // add to the value the pricePercentage * portfolios prev value * that stocks % of portfolio
-      console.log(
-        key,
-        'STOCK TICKER',
-        date,
-        ' DATE ',
-        currPrice[0].close,
-        'PRICE',
-        pricePercentage,
-        'PRICE PERCENTAGE',
-        portfolio.value,
-        'PORTFOLIO VALUE',
-        portfolio[key].percentage,
-        'PORTFOLIO PERCENTAGE'
-      )
+      // console.log(
+      //   key,
+      //   'STOCK TICKER',
+      //   date,
+      //   ' DATE ',
+      //   finalPrice,
+      //   'PRICE',
+      //   pricePercentage,
+      //   'PRICE PERCENTAGE',
+      //   portfolio.value,
+      //   'PORTFOLIO VALUE',
+      //   portfolio[key].percentage,
+      //   'PORTFOLIO PERCENTAGE'
+      // )
       newValue += pricePercentage * portfolio.value * portfolio[key].percentage
     }
   }
-  console.log(
-    '----------------------------------------NEW QUARTER---------------------------------------------------'
-  )
+  // // console.log(
+  //   '----------------------------------------NEW QUARTER---------------------------------------------------'
+  // )
   return newValue
 }
 
@@ -297,7 +300,8 @@ function topTenOwnedReturn() {
 
 // eslint-disable-line no-irregular-whitespace
 // async function getBeta(ticker) {
-//   const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36` // eslint-disable-line no-irregular-whitespace
+// eslint-disable-next-line no-irregular-whitespace
+// const URI = `https://api.newtonanalytics.com/stock-beta/?ticker=${ticker}&index=^GSPC&interval=1mo​&observations=36`
 //   const encodedURI = encodeURI(URI)
 //   const data =await axios.get(encodedURI)
 //   return data.data
