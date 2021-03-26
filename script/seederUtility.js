@@ -133,12 +133,15 @@ function createPortfolio(thirteenF, value) {
   // not sure what this instance looks like
   // portfolio is used in the next 13F so using past tense "prev"
   // iterate through each stock and populate a portfolio obj
-  thirteenF.stocks.forEach((stock) => {
+
+  for (let i = 0; i < thirteenF.stocks.length; i++) {
+    const stock = thirteenF.stocks[i]
     portfolio[stock.ticker] = {
       percentage: stock.percentageOfPortfolio,
       prevPrice: stock.price,
     }
-  })
+  }
+
   // set the value of the portfolio as the value thrown in
   portfolio.value = value
   return portfolio

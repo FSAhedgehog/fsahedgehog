@@ -100,7 +100,9 @@ async function create13F(createdHedgeFund, filing) {
 function filterStocks(holdings) {
   const sumStocks = {}
   const filteredStocks = holdings.filter((holding) => !holding.putCall)
-  filteredStocks.forEach((holding) => {
+
+  for (let i = 0; i < filteredStocks.length; i++) {
+    const holding = filteredStocks[i]
     if (!sumStocks[holding.cusip]) {
       sumStocks[holding.cusip] = {
         totalValue: holding.value,
@@ -110,7 +112,7 @@ function filterStocks(holdings) {
       sumStocks[holding.cusip].totalValue += holding.value
       sumStocks[holding.cusip].qtyOfSharesHeld += holding.shrsOrPrnAmt.sshPrnamt
     }
-  })
+  }
 
   return sumStocks
 }
@@ -156,19 +158,24 @@ async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
 async function setPortfolioValueAndPercentageOfFund() {
   console.log('IN SET PORTFOLIOVALUE———————')
   const thirteenFs = await ThirteenF.findAll()
-  thirteenFs.forEach(async (thirteenF) => {
+
+  for (let i = 0; i < thirteenFs.length; i++) {
+    const thirteenF = thirteenFs[i]
     thirteenF.portfolioValue = await getFundValue(thirteenF.id)
     await thirteenF.save()
     await setStockPercentageOfFund(thirteenF)
-  })
+  }
 }
+
 async function setFundRisk() {
   console.log('IN SETFUNDRISK———————')
   const thirteenFs = await ThirteenF.findAll()
-  thirteenFs.forEach(async (thirteenF) => {
+
+  for (let i = 0; i < thirteenFs.length; i++) {
+    const thirteenF = thirteenFs[i]
     thirteenF.thirteenFBeta = await fundRisk(thirteenF.id)
     await thirteenF.save()
-  })
+  }
 }
 
 async function getOldestYearAndQuarter() {
@@ -213,7 +220,7 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
 
       if (!price[0]) {
         // console.log('STOCK TO BE DESTROYED———————', stock.ticker)
-        console.log('PRICE RETURNED FROM YAHOO———————', price)
+        // console.log('PRICE RETURNED FROM YAHOO———————', price)
         await stock.destroy()
       }
 
@@ -270,11 +277,13 @@ async function setStockPercentageOfFund(created13F) {
       thirteenFId: created13F.id,
     },
   })
-  stocksForTheThirteenF.forEach(async (holding) => {
+
+  for (let i = 0; i < stocksForTheThirteenF.length; i++) {
+    const holding = stocksForTheThirteenF[i]
     holding.percentageOfPortfolio =
       holding.totalValue / created13F.portfolioValue
     await holding.save()
-  })
+  }
 }
 
 async function setMimicReturn(year, quarter) {
@@ -290,20 +299,23 @@ async function setMimicReturn(year, quarter) {
       ],
     })
 
-    await hedgeFunds.forEach(async (hedgeFund) => {
+    for (let i = 0; i < hedgeFunds.length; i++) {
+      const hedgeFund = hedgeFunds[i]
       const hedgeyReturnObj = await calcMimicReturn(
         hedgeFund.id,
         year,
         quarter,
         STARTING_VALUE
       )
-      hedgeFund.thirteenFs.forEach(async (thirteenF) => {
+
+      for (let j = 0; j < hedgeFund.thirteenFs.length; j++) {
+        const thirteenF = hedgeFund.thirteenFs[i]
         thirteenF.quarterlyValue = Math.round(
           hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
         )
         await thirteenF.save()
-      })
-    })
+      }
+    }
   } catch (err) {
     console.error(err)
   }
@@ -317,7 +329,8 @@ async function calculateSPValue() {
       order: [[ThirteenF, 'dateOfFiling', 'ASC']],
     })
 
-    hedgeFunds.forEach(async (hedgeFund) => {
+    for (let i = 0; i < hedgeFunds.length; i++) {
+      const hedgeFund = hedgeFunds[i]
       const thirteenFs = hedgeFund.thirteenFs
       const first13F = thirteenFs[0]
       first13F.spValue = Math.round(STARTING_VALUE)
@@ -327,15 +340,15 @@ async function calculateSPValue() {
 
       const startingShares = STARTING_VALUE / initialPrice
 
-      for (let i = 1; i < thirteenFs.length; i++) {
-        const current13F = thirteenFs[i]
+      for (let j = 1; j < thirteenFs.length; j++) {
+        const current13F = thirteenFs[j]
         let currentPrice = await getPrice('^GSPC', current13F.dateOfFiling)
         currentPrice = currentPrice[0].close
         const currentValue = Math.round(startingShares * currentPrice)
         current13F.spValue = currentValue
         await current13F.save()
       }
-    })
+    }
   } catch (err) {
     console.error(err)
   }
