@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
 import Main from './components/Main'
 import {me} from './store'
-import LineChart from './components/LineChart'
-import {PieChart} from './components/PieChart'
+// import LineChart from './components/LineChart'
+// import {PieChart} from './components/PieChart'
 
 /**
  * COMPONENT
@@ -25,8 +25,8 @@ class Routes extends Component {
         <Route exact path="/" component={Main} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route exact path="/linechart" component={LineChart} />
-        <Route exact path="/piechart" component={PieChart} />
+        {/* <Route exact path="/linechart" component={LineChart} />
+        <Route exact path="/piechart" component={PieChart} /> */}
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
