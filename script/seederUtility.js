@@ -46,23 +46,31 @@ function addDayToDate(date) {
   return nextDate
 }
 
-function getPrice(ticker, date) {
-  return yahooFinance.historical(
-    {
-      symbol: ticker,
+async function getPrice(tickers, date) {
+  try {
+    console.log('TICKERS ARRAY——————', tickers)
+
+    const response = await yahooFinance.historical({
+      symbols: tickers,
       from: date.slice(0, 10),
       to: addDayToDate(date),
       period: 'd',
-    },
-    function (err, quotes) {
-      if (err) {
-        console.log('CANNOT GET THE PRICE OF THE TICKER ', ticker)
-      } else {
-        const price = quotes[0] ? quotes[0].close : null
-        return price
+    })
+
+    console.log('RESPONSE———————', response)
+
+    for (let key in response) {
+      if (response.hasOwnProperty(key)) {
+        response[key].length
+          ? (response[key] = response[key][0].close)
+          : (response[key] = null)
       }
     }
-  )
+
+    return response
+  } catch (err) {
+    console.error('CANNOT GET PRICE OF TICKER', err)
+  }
 }
 
 async function calcMimicReturn(hedgeFundId, year, quarter, startingValue) {

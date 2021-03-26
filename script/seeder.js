@@ -54,12 +54,12 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    const {data} = await axios.post(
-      `https://api.sec-api.io?token=${apiKey}`,
-      query
-    )
+    // const {data} = await axios.post(
+    //   `https://api.sec-api.io?token=${apiKey}`,
+    //   query
+    // )
     // Uncomment this for testing purpose
-    // const data = require('./ex1comp5years')
+    const data = require('./ex1shortComp2Quarters')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -190,20 +190,25 @@ async function getOldestYearAndQuarter() {
   }
 }
 
-async function endThrottle(timer) {
+function endThrottle(timer) {
   try {
     console.log('exiting setInterval')
     clearInterval(timer)
-    const [year, quarter] = await getOldestYearAndQuarter()
-    await setPortfolioValueAndPercentageOfFund()
-    await setQuarterlyValues(year, quarter)
-    await calculateSPValue()
-    await setHedgeFundReturns(year, quarter)
-    await setFundRisk()
     // await db.close()
   } catch (err) {
     console.error(err)
   }
+}
+
+async function lastFunctions() {
+  console.log('IN LAST FUNCTIONS')
+  await setPrices()
+  // const [year, quarter] = await getOldestYearAndQuarter()
+  // await setPortfolioValueAndPercentageOfFund()
+  // await setQuarterlyValues(year, quarter)
+  // await calculateSPValue()
+  // await setHedgeFundReturns(year, quarter)
+  // await setFundRisk()
 }
 
 function addDayToDate(date) {
@@ -212,40 +217,61 @@ function addDayToDate(date) {
   return nextDate
 }
 
-async function addTickerAndPrice(stock, ticker, lastOne, timer) {
-  try {
-    if (ticker) {
-      stock.ticker = ticker
-      const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
-      stock.price = price[0] ? price[0].close : null
-      const beta = await getBeta(ticker)
-      stock.beta = beta.summaryDetail.beta
-      if (!price[0]) {
-        console.log('PRICE NOT FOUND OF ', stock.ticker, ' GOING TO DESTROY')
+async function setBeta(thirteenF) {
+  const beta = await getBeta(ticker)
+  stock.beta = beta.summaryDetail.beta
+}
+
+async function setPrices() {
+  console.log('IN SET PRICES')
+  const thirteenFs = await ThirteenF.findAll({include: [Stock]})
+
+  for (let i = 0; i < thirteenFs.length; i++) {
+    const thirteenF = thirteenFs[i]
+    const date = thirteenF.dateOfFiling
+
+    const stockTickers = thirteenF.stocks.map((stock) => stock.ticker)
+
+    const pricesObj = await getPrice(stockTickers, date)
+    console.log('PRICES OBJ UP—————', pricesObj)
+
+    for (let j = 0; j < thirteenF.stocks.length; j++) {
+      const stock = thirteenF.stocks[j]
+
+      if (pricesObj[stock.ticker]) {
+        stock.price = pricesObj[stock.ticker]
+        await stock.save()
+      } else {
         await stock.destroy()
       }
-      console.log(
-        'INSERTING ',
-        stock.ticker,
-        ' WITH A PRICE OF ',
-        stock.price,
-        'ON ',
-        stock.thirteenF.dateOfFiling
-      )
-      await stock.save()
-    } else {
-      console.log(
-        'TICKER NOT FOUND WITH A CUSIP OF ',
-        stock.dataValues.cusip,
-        ' GOING TO DESTROY'
-      )
-      await stock.destroy()
     }
-    if (lastOne) {
-      await endThrottle(timer)
-    }
-  } catch (err) {
-    console.error(err)
+  }
+
+  // const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
+  // stock.price = price[0] ? price[0].close : null
+  // if (!price[0]) {
+  //   console.log('PRICE NOT FOUND OF ', stock.ticker, ' GOING TO DESTROY')
+  //   await stock.destroy()
+  // }
+  // await stock.save()
+}
+
+async function setTicker(stock, ticker, lastOne) {
+  if (ticker) {
+    ticker = ticker.replace('/', '-')
+    stock.ticker = ticker
+    await stock.save()
+  } else {
+    console.log(
+      'TICKER NOT FOUND WITH A CUSIP OF ',
+      stock.dataValues.cusip,
+      ' GOING TO DESTROY'
+    )
+    await stock.destroy()
+  }
+
+  if (lastOne) {
+    lastFunctions()
   }
 }
 
@@ -264,9 +290,11 @@ async function seedData(apiKey, hedgeFundNames, size) {
       if (index < allStocks.length) {
         const stock = allStocks[index]
         index++
-        let ticker = await getTicker(stock.cusip)
-        if (ticker) ticker = ticker.replace('/', '-')
-        addTickerAndPrice(stock, ticker, lastOne, timer)
+
+        const ticker = await getTicker(stock.cusip)
+        await setTicker(stock, ticker, lastOne)
+
+        if (lastOne) endThrottle(timer)
       }
     } catch (err) {
       console.error(err)
@@ -296,6 +324,7 @@ async function setStockPercentageOfFund(created13F) {
     await holding.save()
   }
 }
+
 async function setQuarterlyValues(year, quarter) {
   try {
     const hedgeFunds = await HedgeFund.findAll({
@@ -426,4 +455,9 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund) {
 
 seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)
 
-module.exports = setHedgeFundReturns
+module.exports = {
+  setHedgeFundReturns,
+  setQuarterlyValues,
+  calculateSPValue,
+  setFundRisk,
+}
