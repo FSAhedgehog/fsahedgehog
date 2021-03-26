@@ -19,6 +19,7 @@ export class Main extends React.Component {
     // }
     // console.log('LOADING', this.props.loading)
     if (!this.props.loading) {
+      // console.log('PROPS', this.props.singleHedgeFund.thirteenFs)
       return (
         <div className="flex-cont column">
           <div>
@@ -35,8 +36,8 @@ export class Main extends React.Component {
             ></img>
           </div>
           <div className="flex-cont align-center">
-            <LineChart />
-            <WhatToBuy />
+            <LineChart thirteenFs={this.props.singleHedgeFund.thirteenFs} />
+            {/* <WhatToBuy /> */}
             <PieChart
               stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
             />
