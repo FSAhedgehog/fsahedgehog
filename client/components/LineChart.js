@@ -1,5 +1,6 @@
 import React from 'react'
 import {VictoryChart, VictoryLine, VictoryAxis} from 'victory'
+import renderUtilityQuarterlyValues from './utilities'
 
 // const sampleData = [
 //   {x: '2016Q1', y: 111},
@@ -37,22 +38,22 @@ export class LineChart extends React.Component {
     super()
     this.renderQuarterlyValues = this.renderQuarterlyValues.bind(this)
   }
-  renderQuarterlyValues() {
-    console.log('LOGGING')
+  renderQuarterlyValues(type) {
     const {thirteenFs} = this.props
     thirteenFs.reverse()
     const returnArray = []
     for (let i = 0; i < thirteenFs.length; i++) {
       let newObject = {
         x: String(thirteenFs[i].dateOfFiling).slice(0, 10),
-        y: (thirteenFs[i].quarterlyValue / 1000) * 10,
+        y: (thirteenFs[i][type] / 1000) * 10,
       }
       returnArray.push(newObject)
     }
     return returnArray
   }
   render() {
-    const quarterlyValue = this.renderQuarterlyValues()
+    const quarterlyValue = this.renderQuarterlyValues('quarterlyValue')
+    const spValue = this.renderQuarterlyValues('spValue')
     return (
       <VictoryChart
         domainPadding={20}
@@ -75,10 +76,7 @@ export class LineChart extends React.Component {
           data={quarterlyValue}
           style={{data: {stroke: '#8affc1'}}}
         />
-        {/* <VictoryLine
-          data={sampleUserData}
-          style={{data: {stroke: '#DABFFF'}}}
-        /> */}
+        <VictoryLine data={spValue} style={{data: {stroke: '#DABFFF'}}} />
       </VictoryChart>
     )
   }
