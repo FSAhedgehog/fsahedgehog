@@ -15,9 +15,9 @@ const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
-  'DAILY JOURNAL CORP',
+  // 'DAILY JOURNAL CORP',
   // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'GREENLIGHT CAPITAL INC',
   // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
@@ -192,7 +192,7 @@ async function endThrottle(timer) {
     clearInterval(timer)
     const [year, quarter] = await getOldestYearAndQuarter()
     await setPortfolioValueAndPercentageOfFund()
-    await setFundRisk()
+    // await setFundRisk()
     await setQuarterlyValues(year, quarter)
     await calculateSPValue()
     await setHedgeFundReturns(year, quarter)
@@ -214,18 +214,27 @@ async function addTickerAndPrice(stock, ticker, lastOne, timer) {
       stock.ticker = ticker
       const price = await getPrice(ticker, stock.thirteenF.dateOfFiling)
       stock.price = price[0] ? price[0].close : null
-
       const beta = await getBeta(ticker)
       stock.beta = beta.summaryDetail.beta
-
       if (!price[0]) {
-        console.log('PRICE NOT FOUND=DESTROY———————', stock.ticker)
+        console.log('PRICE NOT FOUND OF ', stock.ticker, ' GOING TO DESTROY')
         await stock.destroy()
       }
-      console.log('INSERTING ', stock.ticker, ' WITH A PRICE OF ', stock.price)
+      console.log(
+        'INSERTING ',
+        stock.ticker,
+        ' WITH A PRICE OF ',
+        stock.price,
+        'ON ',
+        stock.thirteenF.dateOfFiling
+      )
       await stock.save()
     } else {
-      console.log('TICKER NOT FOUND———————', stock.dataValues.cusip)
+      console.log(
+        'TICKER NOT FOUND WITH A CUSIP OF ',
+        stock.dataValues.cusip,
+        ' GOING TO DESTROY'
+      )
       await stock.destroy()
     }
     if (lastOne) {
@@ -351,7 +360,7 @@ async function calculateSPValue() {
       first13F.spValue = Math.round(STARTING_VALUE)
       await first13F.save()
       let initialPrice = await getPrice('^GSPC', first13F.dateOfFiling)
-      initialPrice = initialPrice[0].close
+      if (initialPrice[0]) initialPrice = initialPrice[0].close
       const startingShares = STARTING_VALUE / initialPrice
       for (let i = 1; i < thirteenFs.length; i++) {
         const current13F = thirteenFs[i]
