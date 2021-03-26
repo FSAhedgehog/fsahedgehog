@@ -134,14 +134,14 @@ function createPortfolio(thirteenF, value) {
 
 async function findInvestmentPortfolioNewValue(portfolio, date) {
   let newValue = 0
+  const tickersArr = Object.keys(portfolio).filter((key) => key !== 'value')
+
+  const responseObj = await getPrice(tickersArr, date)
+
   for (let key in portfolio) {
     if (key !== 'value') {
-      let currPrice = await getPrice(key, date)
-      let finalPrice
-      currPrice.length
-        ? (finalPrice = currPrice[0].close)
-        : (finalPrice = portfolio[key].prevPrice)
-      let pricePercentage = finalPrice / portfolio[key].prevPrice
+      const currPrice = responseObj[key] || portfolio[key].prevPrice
+      const pricePercentage = currPrice / portfolio[key].prevPrice
       newValue += pricePercentage * portfolio.value * portfolio[key].percentage
     }
   }
@@ -167,21 +167,26 @@ function getDateOfReporting(year, quarter) {
   return date
 }
 
-function getBeta(ticker) {
-  return yahooFinance.quote(
-    {
-      symbol: ticker,
+async function getBeta(tickers) {
+  try {
+    const response = await yahooFinance.quote({
+      symbols: tickers,
       modules: ['summaryDetail'],
-    },
-    function (err, quotes) {
-      if (err) {
-        console.log(err)
-      } else {
-        let beta = quotes.summaryDetail.beta
-        return beta
+    })
+
+    console.log('RESPONSE IN GETBETA————————', response)
+    for (let key in response) {
+      if (response.hasOwnProperty(key)) {
+        response[key].summaryDetail.beta
+          ? (response[key] = response[key].summaryDetail.beta)
+          : (response[key] = null)
       }
     }
-  )
+
+    return response
+  } catch (err) {
+    console.error(err)
+  }
 }
 async function fundRisk(thirteenFId) {
   try {
