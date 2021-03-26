@@ -49,16 +49,13 @@ function addDayToDate(date) {
 async function getPrice(tickers, date) {
   try {
     console.log('TICKERS ARRAY——————', tickers)
-
     const response = await yahooFinance.historical({
       symbols: tickers,
       from: date.slice(0, 10),
       to: addDayToDate(date),
       period: 'd',
     })
-
     console.log('RESPONSE———————', response)
-
     for (let key in response) {
       if (response.hasOwnProperty(key)) {
         response[key].length
@@ -66,7 +63,6 @@ async function getPrice(tickers, date) {
           : (response[key] = null)
       }
     }
-
     return response
   } catch (err) {
     console.error('CANNOT GET PRICE OF TICKER', err)
