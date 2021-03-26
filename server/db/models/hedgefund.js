@@ -7,15 +7,15 @@ const HedgeFund = db.define('hedgeFund', {
     allowNull: false,
   },
   yearOneReturn: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     allowNull: true,
   },
   yearThreeReturn: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     allowNull: true,
   },
   yearFiveReturn: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     allowNull: true,
   },
 })

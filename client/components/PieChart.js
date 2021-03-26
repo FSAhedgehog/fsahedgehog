@@ -1,5 +1,7 @@
 import React from 'react'
 import {VictoryPie, VictoryTheme, VictoryContainer} from 'victory'
+import {connect} from 'react-redux'
+import {getSingleHedgeFund} from '../store/singleHedgefund'
 
 const sampleData = [
   {x: '1', y: 5},
@@ -26,6 +28,9 @@ const sampleData = [
 
 export class PieChart extends React.Component {
   render() {
+    if (this.props.singleHedgeFund) {
+      console.log('PIE PROPS', this.props)
+    }
     return (
       <VictoryPie
         containerComponent={<VictoryContainer responsive={false} />}
@@ -39,3 +44,17 @@ export class PieChart extends React.Component {
     )
   }
 }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
+//   }
+// }
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getMySingleHedgeFund: (id) => dispatch(getSingleHedgeFund(id)),
+//   }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(PieChart)
