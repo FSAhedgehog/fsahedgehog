@@ -218,7 +218,7 @@ function addDayToDate(date) {
   return nextDate
 }
 
-async function setBeta(thirteenF) {
+async function setBeta() {
   const hedgeFunds = await HedgeFund.findAll({
     include: {
       model: ThirteenF,
@@ -231,7 +231,18 @@ async function setBeta(thirteenF) {
     const latest13F = hedgeFunds[i].thirteenFs[0]
 
     const stockTickers = latest13F.stocks.map((stock) => stock.ticker)
+    const betasObj = await getBeta(stockTickers)
 
+    for (let j = 0; j < latest13F.stocks.length; j++) {
+      const stock = latest13F.stocks[j]
+
+      if (betasObj[stock.ticker]) {
+        stock.beta = betasObj[stock.ticker]
+        await stock.save()
+      } else {
+        // await stock.destroy()
+      }
+    }
     // THIS IS WHERE LOGAN LEFT OFF
     // const responseObj =
   }
@@ -305,7 +316,6 @@ async function seedData(apiKey, hedgeFundNames, size) {
         await setTicker(stock, ticker, lastOne)
 
         if (lastOne) endThrottle(timer)
-
       }
     } catch (err) {
       console.error(err)
