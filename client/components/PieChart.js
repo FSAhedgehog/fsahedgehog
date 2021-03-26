@@ -1,7 +1,5 @@
 import React from 'react'
 import {VictoryPie, VictoryTheme, VictoryContainer} from 'victory'
-import {connect} from 'react-redux'
-import {getSingleHedgeFund} from '../store/singleHedgefund'
 
 const sampleData = [
   {x: '1', y: 5},
@@ -27,14 +25,31 @@ const sampleData = [
 ]
 
 export class PieChart extends React.Component {
-  render() {
-    if (this.props.singleHedgeFund) {
-      console.log('PIE PROPS', this.props)
+  constructor() {
+    super()
+    this.renderStocks = this.renderStocks.bind(this)
+  }
+  renderStocks() {
+    const {stocks} = this.props
+    const returnArray = []
+    for (let i = 0; i < stocks.length; i++) {
+      let newObject = {
+        x: stocks[i].ticker,
+        y: stocks[i].percentageOfPortfolio * 100,
+      }
+      if (newObject.y < 1.5) {
+        newObject.x = ''
+      }
+      returnArray.push(newObject)
     }
+    return returnArray
+  }
+  render() {
+    const pieStocks = this.renderStocks()
     return (
       <VictoryPie
         containerComponent={<VictoryContainer responsive={false} />}
-        data={sampleData}
+        data={pieStocks}
         labels={({datum}) => `${datum.x}`}
         padding={100}
         colorScale={['#8affc1', '#907AD6', '#DABFFF']}
@@ -44,17 +59,3 @@ export class PieChart extends React.Component {
     )
   }
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
-//   }
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     getMySingleHedgeFund: (id) => dispatch(getSingleHedgeFund(id)),
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(PieChart)

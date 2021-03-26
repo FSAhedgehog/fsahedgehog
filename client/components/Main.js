@@ -7,36 +7,52 @@ import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/singleHedgeFund'
 
 export class Main extends React.Component {
+  componentDidMount() {
+    this.props.getMySingleHedgeFund()
+  }
   render() {
-    if (this.props.singleHedgeFund.thirteenFs) {
-      console.log(
-        'FIND STOCKS',
-        this.props.singleHedgeFund.thirteenFs[0].stocks
+    // if (this.props.singleHedgeFund.thirteenFs) {
+    //   console.log(
+    //     'FIND STOCKS',
+    //     this.props.singleHedgeFund.thirteenFs[0].stocks
+    //   )
+    // }
+    // console.log('LOADING', this.props.loading)
+    if (!this.props.loading) {
+      return (
+        <div className="flex-cont column">
+          <div>
+            <h3 className="flex-cont bottom">
+              Welcome, future wealthy person!
+            </h3>
+          </div>
+          <div className="flex-cont space-btw">
+            <AllHedgeFunds />
+            <img
+              className="right"
+              src="images/hog.png"
+              alt="hedgehog icon"
+            ></img>
+          </div>
+          <div className="flex-cont align-center">
+            <LineChart />
+            <WhatToBuy />
+            <PieChart
+              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+            />
+          </div>
+        </div>
       )
+    } else {
+      return <div>Loading</div>
     }
-    return (
-      <div className="flex-cont column">
-        <div>
-          <h3 className="flex-cont bottom">Welcome, future wealthy person!</h3>
-        </div>
-        <div className="flex-cont space-btw">
-          <AllHedgeFunds />
-          <img className="right" src="images/hog.png" alt="hedgehog icon"></img>
-        </div>
-        <div className="flex-cont align-center">
-          <LineChart />
-          <WhatToBuy />
-          <PieChart />
-        </div>
-      </div>
-    )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
-    loading: state.loading,
+    loading: state.singleHedgeFund.loading,
   }
 }
 
