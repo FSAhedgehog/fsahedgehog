@@ -305,6 +305,7 @@ async function seedData(apiKey, hedgeFundNames, size) {
         await setTicker(stock, ticker, lastOne)
 
         if (lastOne) endThrottle(timer)
+
       }
     } catch (err) {
       console.error(err)
