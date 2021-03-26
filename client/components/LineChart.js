@@ -24,13 +24,13 @@ import {VictoryChart, VictoryLine, VictoryAxis} from 'victory'
 //   {x: '2020Q4', y: 389},
 // ]
 
-// const sampleUserData = [
-//   {x: '2016Q1', y: 100},
-//   {x: '2017Q1', y: 110},
-//   {x: '2018Q1', y: 90},
-//   {x: '2019Q1', y: 200},
-//   {x: '2020Q1', y: 230},
-// ]
+const sampleUserData = [
+  {x: '2016Q1', y: 100},
+  {x: '2017Q1', y: 110},
+  {x: '2018Q1', y: 90},
+  {x: '2019Q1', y: 200},
+  {x: '2020Q1', y: 230},
+]
 
 export class LineChart extends React.Component {
   constructor() {
@@ -38,13 +38,14 @@ export class LineChart extends React.Component {
     this.renderQuarterlyValues = this.renderQuarterlyValues.bind(this)
   }
   renderQuarterlyValues() {
+    console.log('LOGGING')
     const {thirteenFs} = this.props
     thirteenFs.reverse()
     const returnArray = []
     for (let i = 0; i < thirteenFs.length; i++) {
       let newObject = {
         x: String(thirteenFs[i].dateOfFiling).slice(0, 10),
-        y: thirteenFs[i].portfolioValue / 10000,
+        y: (thirteenFs[i].quarterlyValue / 1000) * 10,
       }
       returnArray.push(newObject)
     }
