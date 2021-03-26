@@ -15,11 +15,11 @@ const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
-  // 'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
+  'DAILY JOURNAL CORP',
+  'BERKSHIRE HATHAWAY INC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
-  // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  'GREENLIGHT CAPITAL INC',
+  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
 
 // CHANGE SIZE HERE
@@ -54,12 +54,12 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    // )
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
     // Uncomment this for testing purpose
-    const data = require('./ex1comp5years')
+    // const data = require('./ex5comps1year')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -203,13 +203,13 @@ function endThrottle(timer) {
 async function lastFunctions() {
   console.log('IN LAST FUNCTIONS')
   await setPrices()
-  await setBeta()
+  // await setBeta()
   const [year, quarter] = await getOldestYearAndQuarter()
   await setPortfolioValueAndPercentageOfFund()
   await setQuarterlyValues(year, quarter)
   await calculateSPValue()
   await setHedgeFundReturns(year, quarter, STARTING_VALUE)
-  await setFundRisk()
+  // await setFundRisk()
 }
 
 function addDayToDate(date) {
