@@ -2,9 +2,37 @@ import React from 'react'
 
 
 const WhatToBuy = () => {
+
+// componentDidMount(){
+
+
+// }
+
+// handleSubmit() = {
+//     return {
+//       handleSubmit(evt) {
+//         evt.preventDefault()
+//         const formValue = evt.target.Value
+//       }
+
+// }
+
   return (
 //insert for and calculate button
-        <div className="content">
+    <div>
+    <div>
+        <form name="value">
+        <div>
+          <label htmlFor="money">
+            <small>Money To Invest:</small>
+          </label>
+          <input name="money" type="text" />
+          {" "}
+          <button type="button">Calculate</button>
+        </div>
+        </form>
+      </div>
+    <div className="flex-cont">
       <div className="row">
         <div className="col-md-6">
           <div>
@@ -53,10 +81,27 @@ const WhatToBuy = () => {
         </div>
       </div>
     </div>
+    </div>
   )
 }
 
+// const mapStateToProps = (state) => {
+//   return {
+//     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
+//     loading: state.loading,
+//   }
+// }
 
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     getMySingleHedgeFund: (id) => dispatch(getSingleHedgeFund(id)),
+//   }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)
 export default WhatToBuy
+
+
+
 
 

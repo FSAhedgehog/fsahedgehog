@@ -105,7 +105,8 @@ async function calcMimicReturn(hedgeFundId, year, quarter, startingValue) {
 
 function createPortfolio(thirteenF, value) {
   let portfolio = {}
-  thirteenF.stocks.forEach((stock) => {
+  for (let i = 0; i < thirteenF.stocks.length; i++) {
+    const stock = thirteenF.stocks[i]
     portfolio[stock.ticker] = {
       percentage: stock.percentageOfPortfolio,
       prevPrice: stock.price,
@@ -118,7 +119,7 @@ function createPortfolio(thirteenF, value) {
       'ON ',
       thirteenF.dateOfFiling
     )
-  })
+  }
   portfolio.value = value
   return portfolio
 }

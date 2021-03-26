@@ -100,7 +100,9 @@ async function create13F(createdHedgeFund, filing) {
 function filterStocks(holdings) {
   const sumStocks = {}
   const filteredStocks = holdings.filter((holding) => !holding.putCall)
-  filteredStocks.forEach((holding) => {
+
+  for (let i = 0; i < filteredStocks.length; i++) {
+    const holding = filteredStocks[i]
     if (!sumStocks[holding.cusip]) {
       sumStocks[holding.cusip] = {
         totalValue: holding.value,
@@ -110,7 +112,7 @@ function filterStocks(holdings) {
       sumStocks[holding.cusip].totalValue += holding.value
       sumStocks[holding.cusip].qtyOfSharesHeld += holding.shrsOrPrnAmt.sshPrnamt
     }
-  })
+  }
 
   return sumStocks
 }
@@ -154,27 +156,29 @@ async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
 }
 
 async function setPortfolioValueAndPercentageOfFund() {
+  console.log('IN SET PORTFOLIOVALUE———————')
   const thirteenFs = await ThirteenF.findAll()
-  await Promise.all(
-    thirteenFs.map(async (thirteenF) => {
-      thirteenF.portfolioValue = await getFundValue(thirteenF.id)
-      await thirteenF.save()
-      setStockPercentageOfFund(thirteenF)
-    })
-  )
+  for (let i = 0; i < thirteenFs.length; i++) {
+    const thirteenF = thirteenFs[i]
+    thirteenF.portfolioValue = await getFundValue(thirteenF.id)
+    await thirteenF.save()
+    await setStockPercentageOfFund(thirteenF)
+  }
 }
+
 async function setFundRisk() {
+  console.log('IN SETFUNDRISK———————')
   const thirteenFs = await ThirteenF.findAll()
-  await Promise.all(
-    thirteenFs.map(async (thirteenF) => {
-      thirteenF.thirteenFBeta = await fundRisk(thirteenF.id)
-      await thirteenF.save()
-    })
-  )
+  for (let i = 0; i < thirteenFs.length; i++) {
+    const thirteenF = thirteenFs[i]
+    thirteenF.thirteenFBeta = await fundRisk(thirteenF.id)
+    await thirteenF.save()
+  }
 }
 
 async function getOldestYearAndQuarter() {
   try {
+    console.log('IN GET OLDEST YEAR______')
     const thirteenFs = await ThirteenF.findAll({
       order: [['dateOfFiling', 'ASC']],
     })
@@ -192,10 +196,10 @@ async function endThrottle(timer) {
     clearInterval(timer)
     const [year, quarter] = await getOldestYearAndQuarter()
     await setPortfolioValueAndPercentageOfFund()
-    // await setFundRisk()
     await setQuarterlyValues(year, quarter)
     await calculateSPValue()
     await setHedgeFundReturns(year, quarter)
+    await setFundRisk()
     // await db.close()
   } catch (err) {
     console.error(err)
@@ -285,15 +289,13 @@ async function setStockPercentageOfFund(created13F) {
       thirteenFId: created13F.id,
     },
   })
-  await Promise.all(
-    stocksForTheThirteenF.map(async (holding) => {
-      holding.percentageOfPortfolio =
-        holding.totalValue / created13F.portfolioValue
-      await holding.save()
-    })
-  )
+  for (let i = 0; i < stocksForTheThirteenF.length; i++) {
+    const holding = stocksForTheThirteenF[i]
+    holding.percentageOfPortfolio =
+      holding.totalValue / created13F.portfolioValue
+    await holding.save()
+  }
 }
-
 async function setQuarterlyValues(year, quarter) {
   try {
     const hedgeFunds = await HedgeFund.findAll({
@@ -304,25 +306,23 @@ async function setQuarterlyValues(year, quarter) {
         },
       ],
     })
+    for (let i = 0; i < hedgeFunds.length; i++) {
+      const hedgeFund = hedgeFunds[i]
+      const hedgeyReturnObj = await calcMimicReturn(
+        hedgeFund.id,
+        year,
+        quarter,
+        STARTING_VALUE
+      )
 
-    await Promise.all(
-      hedgeFunds.map(async (hedgeFund) => {
-        const hedgeyReturnObj = await calcMimicReturn(
-          hedgeFund.id,
-          year,
-          quarter,
-          STARTING_VALUE
+      for (let j = 0; j < hedgeFund.thirteenFs.length; j++) {
+        const thirteenF = hedgeFund.thirteenFs[j]
+        thirteenF.quarterlyValue = Math.round(
+          hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
         )
-        await Promise.all(
-          hedgeFund.thirteenFs.map(async (thirteenF) => {
-            thirteenF.quarterlyValue = Math.round(
-              hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
-            )
-            await thirteenF.save()
-          })
-        )
-      })
-    )
+        await thirteenF.save()
+      }
+    }
   } catch (err) {
     console.error(err)
   }
@@ -349,29 +349,34 @@ async function setHedgeFundReturns(year, quarter) {
 }
 
 async function calculateSPValue() {
-  const hedgeFunds = await HedgeFund.findAll({
-    include: ThirteenF,
-    order: [[ThirteenF, 'dateOfFiling', 'ASC']],
-  })
-  await Promise.all(
-    hedgeFunds.map(async (hedgeFund) => {
+  try {
+    console.log('IN CALCULATE SPVALUE')
+    const hedgeFunds = await HedgeFund.findAll({
+      include: ThirteenF,
+      order: [[ThirteenF, 'dateOfFiling', 'ASC']],
+    })
+
+    for (let i = 0; i < hedgeFunds.length; i++) {
+      const hedgeFund = hedgeFunds[i]
       const thirteenFs = hedgeFund.thirteenFs
       const first13F = thirteenFs[0]
       first13F.spValue = Math.round(STARTING_VALUE)
       await first13F.save()
       let initialPrice = await getPrice('^GSPC', first13F.dateOfFiling)
-      if (initialPrice[0]) initialPrice = initialPrice[0].close
+      initialPrice = initialPrice[0].close
       const startingShares = STARTING_VALUE / initialPrice
-      for (let i = 1; i < thirteenFs.length; i++) {
-        const current13F = thirteenFs[i]
+      for (let j = 1; j < thirteenFs.length; j++) {
+        const current13F = thirteenFs[j]
         let currentPrice = await getPrice('^GSPC', current13F.dateOfFiling)
         currentPrice = currentPrice[0].close
         const currentValue = Math.round(startingShares * currentPrice)
         current13F.spValue = currentValue
         await current13F.save()
       }
-    })
-  )
+    }
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 async function calcHedgeFundReturn(year, quarter, hedgeFund) {
