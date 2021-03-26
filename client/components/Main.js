@@ -37,7 +37,9 @@ export class Main extends React.Component {
           </div>
           <div className="flex-cont align-center">
             <LineChart thirteenFs={this.props.singleHedgeFund.thirteenFs} />
-            {/* <WhatToBuy /> */}
+            <WhatToBuy
+              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+            />
             <PieChart
               stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
             />
