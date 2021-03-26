@@ -309,7 +309,7 @@ async function setMimicReturn(year, quarter) {
       )
 
       for (let j = 0; j < hedgeFund.thirteenFs.length; j++) {
-        const thirteenF = hedgeFund.thirteenFs[i]
+        const thirteenF = hedgeFund.thirteenFs[j]
         thirteenF.quarterlyValue = Math.round(
           hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
         )
