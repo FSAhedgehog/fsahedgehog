@@ -266,7 +266,7 @@ async function seedData(apiKey, hedgeFundNames, size) {
         index++
         let ticker = await getTicker(stock.cusip)
         if (ticker) ticker = ticker.replace('/', '-')
-        addTickerAndPrice(stock, ticker, lastOne, timer)
+        await addTickerAndPrice(stock, ticker, lastOne, timer)
       }
     } catch (err) {
       console.error(err)

@@ -111,14 +111,24 @@ function createPortfolio(thirteenF, value) {
       percentage: stock.percentageOfPortfolio,
       prevPrice: stock.price,
     }
-    console.log(
-      'FINDING THE NEW PRICE OF ',
-      stock.ticker,
-      ' WHICH WAS ',
-      stock.price,
-      'ON ',
-      thirteenF.dateOfFiling
-    )
+    if (!stock.ticker) {
+      console.log(
+        thirteenF.dataValues,
+        'THIRTEENF IN CREATE PORTFOLIO',
+        thirteenF.stocks,
+        'THIRTEENF STOCKS',
+        stock.ticker,
+        'STOCK TICKER'
+      )
+    }
+    // console.log(
+    //   'FINDING THE NEW PRICE OF ',
+    //   stock.ticker,
+    //   ' WHICH WAS ',
+    //   stock.price,
+    //   'ON ',
+    //   thirteenF.dateOfFiling
+    // )
   }
   portfolio.value = value
   return portfolio
