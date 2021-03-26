@@ -315,7 +315,7 @@ function getBeta(ticker) {
     },
     function (err, quotes) {
       if (err) {
-        // console.log(err)
+        console.log(err)
       } else {
         let beta = quotes.summaryDetail.beta
         // console.log("THIS IS BETA", beta)
