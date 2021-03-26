@@ -1,12 +1,12 @@
 import axios from 'axios'
 
-const GETSINGLEHEDGEFUND = 'GETSINGLEHEDGEFUND'
+const GET_SINGLE_HEDGE_FUND = 'GET_SINGLE_HEDGE_FUND'
 
 const initialState = {loading: true, singleHedgeFund: {}}
 
 const setSingleHedgeFund = (singleHedgeFund) => {
   return {
-    type: GETSINGLEHEDGEFUND,
+    type: GET_SINGLE_HEDGE_FUND,
     singleHedgeFund,
   }
 }
@@ -24,7 +24,7 @@ export const getSingleHedgeFund = (hedgeFund = 1) => {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case GETSINGLEHEDGEFUND:
+    case GET_SINGLE_HEDGE_FUND:
       return {...state, loading: false, singleHedgeFund: action.singleHedgeFund}
     default:
       return state
