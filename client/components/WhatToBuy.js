@@ -1,17 +1,44 @@
 import React from 'react'
 
+const initialState = {
+  money: 0,
+}
 class WhatToBuy extends React.Component {
+  constructor() {
+    super()
+    this.state = initialState
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value})
+  }
+  handleSubmit(event) {
+    event.preventDefault()
+    this.setState(initialState)
+  }
+
   render() {
+    const {stocks} = this.props
     return (
       <div>
         <div>
-          <form name="value">
+          <form onSubmit={this.handleSubmit}>
             <div>
               <label htmlFor="money">
                 <small>Money To Invest:</small>
               </label>
-              <input name="money" type="text" />{' '}
-              <button type="button">Calculate</button>
+              <input
+                required
+                value={this.state.money}
+                onChange={this.handleChange}
+                type="text"
+                name="money"
+              />{' '}
+              <button type="submit" className="btn btn-outline-primary btn-sm">
+                Clear
+              </button>
             </div>
           </form>
         </div>
@@ -24,24 +51,43 @@ class WhatToBuy extends React.Component {
                 </div>
                 <div>
                   <div>
-                    <table className="table tablesorter">
+                    <table className="table tablesorter" border="1">
                       <thead className=" text-primary">
                         <tr>
-                          <th>Name</th>
                           <th>Ticker</th>
+                          <th>Price</th>
                           <th>Shares</th>
                           <th>Holdings %</th>
                           <th>Cost</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Apple</td>
-                          <td>stock.ticker</td>
-                          <td>100</td>
-                          <td>10</td>
-                          <td>$12,000</td>
-                        </tr>
+                        {stocks.map((stock) => {
+                          return (
+                            <React.Fragment key={stock.id}>
+                              <tr>
+                                <td>{stock.ticker}</td>
+                                <td>{stock.price}</td>
+                                <th>
+                                  {Math.floor(
+                                    (this.state.money *
+                                      stock.percentageOfPortfolio) /
+                                      stock.price
+                                  )}
+                                </th>
+                                <td>
+                                  {stock.percentageOfPortfolio.toFixed(2)}
+                                </td>
+                                <td>
+                                  {Math.floor(
+                                    this.state.money *
+                                      stock.percentageOfPortfolio
+                                  )}
+                                </td>
+                              </tr>
+                            </React.Fragment>
+                          )
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -54,19 +100,4 @@ class WhatToBuy extends React.Component {
     )
   }
 }
-
-// const mapStateToProps = (state) => {
-//   return {
-//     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
-//     loading: state.loading,
-//   }
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     getMySingleHedgeFund: (id) => dispatch(getSingleHedgeFund(id)),
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)
 export default WhatToBuy
