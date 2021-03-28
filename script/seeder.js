@@ -15,15 +15,15 @@ const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
-  // 'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
+  'DAILY JOURNAL CORP',
+  'BERKSHIRE HATHAWAY INC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
-  // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  'GREENLIGHT CAPITAL INC',
+  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '20'
+const SIZE = '100'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -54,12 +54,12 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    // )
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
     // Uncomment this for testing purpose
-    const data = require('./ex1comp5years')
+    // const data = require('./ex5comps1year')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -261,7 +261,7 @@ async function setPrices() {
     const stockTickers = thirteenF.stocks.map((stock) => stock.ticker)
 
     const pricesObj = await getPrice(stockTickers, date)
-    console.log('PRICES OBJ UP—————', pricesObj)
+    // console.log('PRICES OBJ UP—————', pricesObj)
 
     for (let j = 0; j < thirteenF.stocks.length; j++) {
       const stock = thirteenF.stocks[j]
@@ -399,7 +399,7 @@ async function setHedgeFundReturns(year, quarter, startingValue) {
 
 async function calculateSPValue() {
   try {
-    console.log('IN CALCULATE SPVALUE')
+    // console.log('IN CALCULATE SPVALUE')
     const hedgeFunds = await HedgeFund.findAll({
       include: ThirteenF,
       order: [[ThirteenF, 'dateOfFiling', 'ASC']],
@@ -431,6 +431,7 @@ async function calculateSPValue() {
 
 // COME BACK TO THIS
 async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
+  console.log('IN CALC HEDGE FUND RETURN', year, quarter)
   const current13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
@@ -440,7 +441,6 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   })
   if (!current13F) return
   const currentValue = current13F.quarterlyValue
-
   const oneYearAway13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,

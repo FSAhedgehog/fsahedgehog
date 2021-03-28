@@ -36,7 +36,10 @@ export class Main extends React.Component {
             ></img>
           </div>
           <div className="flex-cont align-center">
-            <LineChart thirteenFs={this.props.singleHedgeFund.thirteenFs} />
+            <LineChart
+              thirteenFs={this.props.singleHedgeFund.thirteenFs}
+              hedgeFund={this.props.singleHedgeFund}
+            />
             <WhatToBuy
               stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
             />
