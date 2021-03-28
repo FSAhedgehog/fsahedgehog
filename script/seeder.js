@@ -431,7 +431,7 @@ async function calculateSPValue() {
 
 // COME BACK TO THIS
 async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
-  console.log('IN CALC HEDGE FUND RETURN', year, quarter)
+  console.log('IN CALC HEDGE FUND RETURN')
   const current13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
@@ -470,16 +470,6 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const fiveYearReturn = currentValue / startingValue
   hedgeFund.yearFiveReturn = fiveYearReturn
   await hedgeFund.save()
-  console.log(
-    currentValue,
-    'CURRENT VALUE',
-    startingValue,
-    'STARTING VALUE',
-    thirdYearValue,
-    'THIRD YEAR VALUE',
-    oneYearValue,
-    'ONE YEAR VALUE'
-  )
 }
 
 seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)

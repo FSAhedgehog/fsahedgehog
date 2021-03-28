@@ -27,25 +27,35 @@ export class Main extends React.Component {
               Welcome, future wealthy person!
             </h3>
           </div>
-          <div className="flex-cont space-btw">
-            <AllHedgeFunds />
-            <img
-              className="right"
-              src="images/hog.png"
-              alt="hedgehog icon"
-            ></img>
-          </div>
-          <div className="flex-cont align-center">
-            <LineChart
-              thirteenFs={this.props.singleHedgeFund.thirteenFs}
-              hedgeFund={this.props.singleHedgeFund}
-            />
-            <WhatToBuy
-              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-            />
-            <PieChart
-              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-            />
+          <div className="main-container">
+            <div className="left-main-container">
+              <AllHedgeFunds />
+            </div>
+            <div className="flex-cont right-main-container">
+              <div className="main-right-top">
+                <img
+                  className="basket-hog"
+                  src="images/hog.png"
+                  alt="hedgehog icon"
+                ></img>
+                <PieChart
+                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+                />
+              </div>
+              <div className="main-right-bottom">
+                <div className="lineChart">
+                  <LineChart
+                    thirteenFs={this.props.singleHedgeFund.thirteenFs}
+                    hedgeFund={this.props.singleHedgeFund}
+                  />
+                </div>
+                <div className="what-to-buy">
+                  <WhatToBuy
+                    stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )

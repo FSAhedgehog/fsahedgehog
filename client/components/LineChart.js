@@ -55,14 +55,13 @@ export class LineChart extends React.Component {
     })
     const returnArray = []
     for (let i = 0; i < thirteenFs.length; i++) {
+      let yValue = Math.round((thirteenFs[i][type] / 1000) * 10 - 100)
       let newObject = {
         x: `${thirteenFs[i].year}Q${thirteenFs[i].quarter}`,
-        y: Math.round((thirteenFs[i][type] / 1000) * 10 - 100),
+        y: yValue,
       }
       if (i === thirteenFs.length - 1) {
-        newObject.label = `${Math.round(
-          (thirteenFs[thirteenFs.length - 1][type] / 1000) * 10 - 100
-        )}%`
+        newObject.label = `${yValue}%`
       }
       returnArray.push(newObject)
     }
@@ -81,8 +80,11 @@ export class LineChart extends React.Component {
         style={{
           parent: {
             border: '1px solid #ccc',
+            borderRadius: '15px',
           },
         }}
+        // height={900}
+        // width={1200}
         containerComponent={
           <VictoryVoronoiContainer
             labels={({datum}) => {
@@ -128,9 +130,9 @@ export class LineChart extends React.Component {
                 .split(' ')
                 .filter((word, i) => i < 3)
                 .join(' ')}`,
-              symbol: {fill: '#8affc1'},
+              symbol: {fill: '#59EA94'},
             },
-            {name: 'S&P500', symbol: {fill: '#DABFFF'}},
+            {name: 'S&P500', symbol: {fill: 'rgb(157, 97, 255)'}},
           ]}
         />
         <VictoryAxis
@@ -161,15 +163,19 @@ export class LineChart extends React.Component {
         <VictoryLine
           data={quarterlyValue}
           style={{
-            data: {stroke: '#8affc1'},
-            labels: {fill: '#8affc1', fontSize: '12px', fontWeight: '500'},
+            data: {stroke: '#59EA94'},
+            labels: {fill: '#59EA94', fontSize: '12px', fontWeight: '500'},
           }}
         />
         <VictoryLine
           data={spValue}
           style={{
-            data: {stroke: '#DABFFF'},
-            labels: {fill: '#DABFFF', fontSize: '12px', fontWeight: '500'},
+            data: {stroke: 'rgb(157, 97, 255)'},
+            labels: {
+              fill: 'rgb(157, 97, 255)',
+              fontSize: '12px',
+              fontWeight: '500',
+            },
           }}
         />
       </VictoryChart>
