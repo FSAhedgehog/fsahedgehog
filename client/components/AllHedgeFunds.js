@@ -2,6 +2,7 @@ import React from 'react'
 import {getHedgeFunds} from '../store/hedgeFunds'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/singleHedgeFund'
+import {camelCase} from './utilities'
 
 class AllHedgeFunds extends React.Component {
   constructor() {
@@ -40,7 +41,7 @@ class AllHedgeFunds extends React.Component {
                   onClick={() => this.clickHedgeFund(hedgeFund.id)}
                   type="button"
                 >
-                  {hedgeFund.name} {hedgeFund.year5}
+                  {camelCase(hedgeFund.name)} {hedgeFund.year5}
                 </button>
                 {this.moveHedgeHogToState(hedgeFund.id)}
               </div>

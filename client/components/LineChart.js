@@ -8,38 +8,38 @@ import {
   VictoryVoronoiContainer,
   VictoryLabel,
 } from 'victory'
-import renderUtilityQuarterlyValues from './utilities'
+import {renderUtilityQuarterlyValues, camelCase} from './utilities'
 
-// const sampleData = [
-//   {x: '2016Q1', y: 111},
-//   {x: '2016Q2', y: 120},
-//   {x: '2016Q3', y: 133},
-//   {x: '2016Q4', y: 144},
-//   {x: '2017Q1', y: 155},
-//   {x: '2017Q2', y: 166},
-//   {x: '2017Q3', y: 140},
-//   {x: '2017Q4', y: 135},
-//   {x: '2018Q1', y: 167},
-//   {x: '2018Q2', y: 189},
-//   {x: '2018Q3', y: 211},
-//   {x: '2018Q4', y: 234},
-//   {x: '2019Q1', y: 278},
-//   {x: '2019Q2', y: 298},
-//   {x: '2019Q3', y: 311},
-//   {x: '2019Q4', y: 255},
-//   {x: '2020Q1', y: 267},
-//   {x: '2020Q2', y: 289},
-//   {x: '2020Q3', y: 316},
-//   {x: '2020Q4', y: 389},
+// // const sampleData = [
+// //   {x: '2016Q1', y: 111},
+// //   {x: '2016Q2', y: 120},
+// //   {x: '2016Q3', y: 133},
+// //   {x: '2016Q4', y: 144},
+// //   {x: '2017Q1', y: 155},
+// //   {x: '2017Q2', y: 166},
+// //   {x: '2017Q3', y: 140},
+// //   {x: '2017Q4', y: 135},
+// //   {x: '2018Q1', y: 167},
+// //   {x: '2018Q2', y: 189},
+// //   {x: '2018Q3', y: 211},
+// //   {x: '2018Q4', y: 234},
+// //   {x: '2019Q1', y: 278},
+// //   {x: '2019Q2', y: 298},
+// //   {x: '2019Q3', y: 311},
+// //   {x: '2019Q4', y: 255},
+// //   {x: '2020Q1', y: 267},
+// //   {x: '2020Q2', y: 289},
+// //   {x: '2020Q3', y: 316},
+// //   {x: '2020Q4', y: 389},
+// // ]
+
+// const sampleUserData = [
+//   {x: '2016Q1', y: 100},
+//   {x: '2017Q1', y: 110},
+//   {x: '2018Q1', y: 90},
+//   {x: '2019Q1', y: 200},
+//   {x: '2020Q1', y: 230},
 // ]
-
-const sampleUserData = [
-  {x: '2016Q1', y: 100},
-  {x: '2017Q1', y: 110},
-  {x: '2018Q1', y: 90},
-  {x: '2019Q1', y: 200},
-  {x: '2020Q1', y: 230},
-]
 
 export class LineChart extends React.Component {
   constructor() {
@@ -74,22 +74,13 @@ export class LineChart extends React.Component {
     const {hedgeFund} = this.props
     return (
       <VictoryChart
-        // minDomain={{y: 0}}
         animate={{
-          duration: 3000,
-          onLoad: {duration: 200},
+          duration: 2000,
+          onLoad: {duration: 1000},
         }}
-        // title="HELLO"
-        // easing="bounceOut"
         style={{
           parent: {
             border: '1px solid #ccc',
-          },
-          // background: {
-          //   fill: 'gray',
-          // },
-          border: {
-            fill: '10px solid red',
           },
         }}
         containerComponent={
@@ -99,19 +90,18 @@ export class LineChart extends React.Component {
               if (datum.childName === 'chart-line-4') {
                 label += `S&P500: ${datum.y}%`
               } else {
-                label += `${hedgeFund.name.split(' ')[0]}: ${datum.y}%`
+                label += `${camelCase(hedgeFund.name).split(' ')[0]}: ${
+                  datum.y
+                }%`
               }
               return label
             }}
             labelComponent={
               <VictoryTooltip
-                // style={{fontSize: '10px'}}
                 cornerRadius={10}
-                // pointerLength={10}
                 flyoutStyle={{
                   fill: '#000000',
                   strokeWidth: 0.8,
-                  // stroke: '#CCCCCC',
                   opacity: 0.37,
                 }}
               />
@@ -119,12 +109,6 @@ export class LineChart extends React.Component {
           />
         }
       >
-        {/* <VictoryLabel
-          x={225}
-          y={25}
-          textAnchor="middle"
-          text="Songs listened to in 2020"
-        /> */}
         <VictoryLabel
           text="5 Year Historical Return"
           x={225}
@@ -140,7 +124,7 @@ export class LineChart extends React.Component {
           style={{name: {fontSize: 5}}}
           data={[
             {
-              name: `${hedgeFund.name
+              name: `${camelCase(hedgeFund.name)
                 .split(' ')
                 .filter((word, i) => i < 3)
                 .join(' ')}`,
@@ -154,7 +138,6 @@ export class LineChart extends React.Component {
           style={{
             tickLabels: {
               fontSize: 12,
-              // padding: '20px 5px',
             },
             grid: {stroke: '#818e99', strokeWidth: 0.3},
           }}
@@ -162,7 +145,7 @@ export class LineChart extends React.Component {
         />
         <VictoryAxis
           dependentAxis
-          label="Total % of Gain or Loss"
+          label="Total % of Gain or Loss On Assets"
           tickFormat={(t) => `${t}%`}
           style={{
             tickLabels: {padding: 5, fontSize: 10},
