@@ -25,11 +25,6 @@ export class Main extends React.Component {
             </div>
             <div className="flex-cont right-main-container">
               <div className="main-right-top">
-                <img
-                  className="basket-hog"
-                  src="images/hog.png"
-                  alt="hedgehog icon"
-                ></img>
                 <PieChart
                   stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
                 />
