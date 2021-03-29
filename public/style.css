@@ -26,20 +26,26 @@ form div {
   display: inline-block;
 }
 
-.flex-cont {
+.flex-row {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .space-btw {
   justify-content: space-between;
 }
 
+.space-around {
+  justify-content: space-around;
+}
+
 .align-center {
   align-items: center;
 }
 
-.column {
+.flex-column {
+  display: flex;
   flex-direction: column;
 }
 
@@ -59,30 +65,8 @@ form div {
   margin-bottom: 4rem;
 }
 
-.main-container {
-  display: flex;
-}
-.left-main-container {
-  margin-left: 1rem;
-  justify-content: flex-start;
-}
-
-.right-main-container {
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-}
-
-.main-right-top {
-  display: flex;
-}
-
-.main-left-bottom {
-  display: flex;
-}
-
-.main-right-bottom {
-  display: flex;
+.sml-bottom {
+  margin-bottom: 2rem;
 }
 
 /* ALL HEDGE FUNDS STYLING */
@@ -178,8 +162,33 @@ select {
 }
 
 /* WHAT TO BUY STYLING */
-.what-to-buy {
+/* .what-to-buy {
   width: 40%;
   height: 100%;
   padding-left: 100px;
+} */
+
+.text {
+  color: rgb(157, 97, 255);
+}
+
+.button1 {
+  background-color: rgb(157, 97, 255);
+  color: black;
+  border: 2px solid #59ea94;
+  border-radius: 15px;
+}
+
+.table {
+  border: 1px solid black;
+  border-radius: 15px;
+}
+input {
+  border: 2px solid #59ea94;
+  border-radius: 4px;
+}
+
+.header {
+  border: 2px solid rgb(157, 97, 255);
+  border-radius: 15px;
 }
