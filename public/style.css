@@ -64,32 +64,6 @@ form div {
   margin-bottom: 4rem;
 }
 
-.main-container {
-  display: flex;
-}
-.left-main-container {
-  margin-left: 1rem;
-  justify-content: flex-start;
-}
-
-.right-main-container {
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-}
-
-.main-right-top {
-  display: flex;
-}
-
-.main-left-bottom {
-  display: flex;
-}
-
-.main-right-bottom {
-  display: flex;
-}
-
 /* ALL HEDGE FUNDS STYLING */
 select {
   border-radius: 8px;
