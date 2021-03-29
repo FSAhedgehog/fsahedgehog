@@ -64,6 +64,10 @@ form div {
   margin-bottom: 4rem;
 }
 
+.sml-bottom {
+  margin-bottom: 2rem;
+}
+
 /* ALL HEDGE FUNDS STYLING */
 select {
   border-radius: 8px;
