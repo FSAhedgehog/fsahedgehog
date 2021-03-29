@@ -1,7 +1,7 @@
 const axios = require('axios')
 const db = require('../server/db')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-const yahooFinance = require('yahoo-finance')
+//const yahooFinance = require('yahoo-finance')
 const {
   getTicker,
   getPrice,
