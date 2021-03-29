@@ -47,26 +47,28 @@ class AllHedgeFunds extends React.Component {
       hedgeFunds = sortHedgeFunds(hedgeFunds, this.state.sort).reverse()
     }
     return (
-      <div>
-        <select
-          name="sort"
-          id="return"
-          onChange={this.updateSort}
-          className="sort"
-        >
-          <option id="none" value="none" defaultValue="none">
-            Sort by: None
-          </option>
-          <option id="1Year" value="1Year">
-            Sort by: 1 Year Return
-          </option>
-          <option id="3Year" value="3Year">
-            Sort by: 3 Year Return
-          </option>
-          <option id="5Year" value="5Year">
-            Sort by: 5 Year Return
-          </option>
-        </select>
+      <div className="flex-column">
+        <div className="sml-bottom">
+          <select
+            name="sort"
+            id="return"
+            onChange={this.updateSort}
+            className="sort"
+          >
+            <option id="none" value="none" defaultValue="none">
+              Sort by: None
+            </option>
+            <option id="1Year" value="1Year">
+              Sort by: 1 Year Return
+            </option>
+            <option id="3Year" value="3Year">
+              Sort by: 3 Year Return
+            </option>
+            <option id="5Year" value="5Year">
+              Sort by: 5 Year Return
+            </option>
+          </select>
+        </div>
         <div className="hedgeFundsContainer">
           {hedgeFunds.map((hedgeFund) => {
             return (

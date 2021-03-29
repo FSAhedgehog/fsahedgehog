@@ -13,41 +13,30 @@ export class Main extends React.Component {
   render() {
     if (!this.props.loading) {
       return (
-        <div className="flex-cont column">
-          <div>
+        <div className="flex-column">
+          <div className="flex-row">
             <h3 className="flex-cont bottom">
               Welcome, future wealthy person!
             </h3>
           </div>
-          <div className="main-container">
-            <div className="left-main-container">
+          <div className="flex-row space-around bottom">
+            <div>
               <AllHedgeFunds />
             </div>
-            <div className="flex-cont right-main-container">
-              <div className="main-right-top">
-                <img
-                  className="basket-hog"
-                  src="images/hog.png"
-                  alt="hedgehog icon"
-                ></img>
-                <PieChart
-                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-                />
-              </div>
-              <div className="main-right-bottom">
-                <div className="lineChart">
-                  <LineChart
-                    thirteenFs={this.props.singleHedgeFund.thirteenFs}
-                    hedgeFund={this.props.singleHedgeFund}
-                  />
-                </div>
-              </div>
-              <div className="portfolio">
-                <Portfolio
-                  thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
-                  hedgeFund={this.props.singleHedgeFund}
-                />
-              </div>
+            <div>
+              <LineChart
+                thirteenFs={this.props.singleHedgeFund.thirteenFs}
+                hedgeFund={this.props.singleHedgeFund}
+              />
+            </div>
+          </div>
+          <div className="flex-row space-around">
+            <div>
+              <PieChart
+                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+              />
+            </div>
+            <div>
               <div className="what-to-buy">
                 <WhatToBuy
                   stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
