@@ -1,4 +1,5 @@
 import React from 'react'
+//import { getPrice } from '../../script/seederUtility'
 
 const initialState = {
   money: 0,
@@ -21,13 +22,14 @@ class WhatToBuy extends React.Component {
 
   render() {
     const {stocks} = this.props
+    console.log('THIS IS STOCKS', stocks)
     return (
       <div>
         <div>
           <form onSubmit={this.handleSubmit}>
             <div>
               <label htmlFor="money">
-                <small>Money To Invest:</small>
+                <small>Here's What to Get with Your Money To Invest:</small>
               </label>
               <input
                 required
@@ -36,29 +38,26 @@ class WhatToBuy extends React.Component {
                 type="text"
                 name="money"
               />{' '}
-              <button type="submit" className="btn btn-outline-primary btn-sm">
+              <button type="submit" className="button1">
                 Clear
-              </button>
+              </button>{' '}
             </div>
           </form>
         </div>
-        <div className="flex-cont">
-          <div className="row">
-            <div className="col-md-6">
+        <div>
+          <div>
+            <div>
               <div>
-                <div className="text-center">
-                  <h4> What to buy....</h4>
-                </div>
+                <div></div>
                 <div>
-                  <div>
-                    <table className="table tablesorter" border="1">
-                      <thead className=" text-primary">
+                  <div className="table-responsive">
+                    <table className="what-to-buy-table table ">
+                      <thead className="text">
                         <tr>
+                          <th>Name</th>
                           <th>Ticker</th>
-                          <th>Price</th>
-                          <th>Shares</th>
-                          <th>Holdings %</th>
-                          <th>Cost</th>
+                          <th>Holdings</th>
+                          <th>Value</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -66,24 +65,18 @@ class WhatToBuy extends React.Component {
                           return (
                             <React.Fragment key={stock.id}>
                               <tr>
+                                <td>Name</td>
                                 <td>{stock.ticker}</td>
-                                <td>{stock.price}</td>
-                                <th>
-                                  {Math.floor(
-                                    (this.state.money *
-                                      stock.percentageOfPortfolio) /
-                                      stock.price
-                                  )}
-                                </th>
                                 <td>
-                                  {stock.percentageOfPortfolio.toFixed(2)}
+                                  {stock.percentageOfPortfolio.toFixed(4)}
                                 </td>
-                                <td>
+
+                                <th>
                                   {Math.floor(
                                     this.state.money *
                                       stock.percentageOfPortfolio
                                   )}
-                                </td>
+                                </th>
                               </tr>
                             </React.Fragment>
                           )
