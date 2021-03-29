@@ -183,3 +183,28 @@ select {
   height: 100%;
   padding-left: 100px;
 }
+
+.text {
+  color: rgb(157, 97, 255);
+}
+
+.button1 {
+  background-color: rgb(157, 97, 255);
+  color: black;
+  border: 2px solid #59ea94;
+  border-radius: 15px;
+}
+
+.table {
+  border: 1px solid black;
+  border-radius: 15px;
+}
+input {
+  border: 2px solid #59ea94;
+  border-radius: 4px;
+}
+
+.header {
+  border: 2px solid rgb(157, 97, 255);
+  border-radius: 15px;
+}
