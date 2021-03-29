@@ -29,6 +29,7 @@ form div {
 .flex-row {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .space-btw {
