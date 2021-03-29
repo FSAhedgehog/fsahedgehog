@@ -48,14 +48,14 @@ function addDayToDate(date) {
 
 async function getPrice(tickers, date) {
   try {
-    console.log('TICKERS ARRAY——————', tickers)
+    // console.log('TICKERS ARRAY——————', tickers)
     const response = await yahooFinance.historical({
       symbols: tickers,
       from: date.slice(0, 10),
       to: addDayToDate(date),
       period: 'd',
     })
-    console.log('RESPONSE———————', response)
+    // console.log('RESPONSE———————', response)
     for (let key in response) {
       if (response.hasOwnProperty(key)) {
         response[key].length
@@ -99,9 +99,6 @@ async function calcMimicReturn(hedgeFundId, year, quarter, startingValue) {
     quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
     prevPortfolio = portfolio
     ;({year, quarter} = getNextYearAndQuarter(year, quarter))
-    console.log(
-      '<------------------------------NEW QUARTER----------------------------------->'
-    )
   } while (thirteenF)
   console.log(quarterlyValues)
   return quarterlyValues
@@ -115,24 +112,6 @@ function createPortfolio(thirteenF, value) {
       percentage: stock.percentageOfPortfolio,
       prevPrice: stock.price,
     }
-    if (!stock.ticker) {
-      console.log(
-        thirteenF.dataValues,
-        'THIRTEENF IN CREATE PORTFOLIO',
-        thirteenF.stocks,
-        'THIRTEENF STOCKS',
-        stock.ticker,
-        'STOCK TICKER'
-      )
-    }
-    // console.log(
-    //   'FINDING THE NEW PRICE OF ',
-    //   stock.ticker,
-    //   ' WHICH WAS ',
-    //   stock.price,
-    //   'ON ',
-    //   thirteenF.dateOfFiling
-    // )
   }
   portfolio.value = value
   return portfolio
@@ -180,7 +159,7 @@ async function getBeta(tickers) {
       modules: ['summaryDetail'],
     })
 
-    console.log('RESPONSE IN GETBETA————————', response)
+    console.log('RESPONSE IN GETBETA————————')
     for (let key in response) {
       if (response.hasOwnProperty(key)) {
         response[key].summaryDetail.beta

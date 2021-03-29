@@ -58,3 +58,128 @@ form div {
 .bottom {
   margin-bottom: 4rem;
 }
+
+.main-container {
+  display: flex;
+}
+.left-main-container {
+  margin-left: 1rem;
+  justify-content: flex-start;
+}
+
+.right-main-container {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.main-right-top {
+  display: flex;
+}
+
+.main-left-bottom {
+  display: flex;
+}
+
+.main-right-bottom {
+  display: flex;
+}
+
+/* ALL HEDGE FUNDS STYLING */
+select {
+  border-radius: 8px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+}
+
+.hedgeFundsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 650px;
+  border-radius: 15px;
+}
+
+.singleHedgeFundContainer {
+  border: solid 1px black;
+  display: flex;
+  height: 39px;
+  border-radius: 15px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+}
+
+.singleHedgeFundContainer:hover {
+  background-color: #acacac;
+  cursor: pointer;
+  color: #59ea94;
+}
+
+.hedgeFundName {
+  width: 70%;
+  display: flex;
+}
+
+.hedgeFundName p {
+  font-size: 15px;
+  padding: 6px 5px 5px 5px;
+}
+
+.hedgeFundHog {
+  height: 32px;
+  width: 32px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.hedgeFundReturnsContainer {
+  display: flex;
+  width: 50%;
+  padding: 0px;
+}
+
+.hedgeFundReturnsContainer p {
+  padding-top: 8px;
+  font-size: 8px;
+}
+
+.hedgeFundReturnsContainer .assetsReturn {
+  padding-top: 8px;
+  font-size: 8px;
+}
+
+.singleReturnContainer {
+  display: flex;
+  padding: 6px 0px 0px 0px;
+  align-items: center;
+  width: 85px;
+}
+
+.yearReturnNumber p {
+  font-size: 12px;
+  padding-left: 5px;
+}
+
+.yearReturnLabel p {
+  font-size: 11px;
+  margin-right: 3px;
+  color: rgb(157, 97, 255);
+}
+
+/* VICTORY LINE CHART STYLING */
+.lineChart {
+  width: 450px;
+  height: 350px;
+  border-radius: 15px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+}
+
+/* HOG BASKET STYLING */
+.basket-hog {
+  width: 150px;
+  height: 150px;
+}
+
+/* WHAT TO BUY STYLING */
+.what-to-buy {
+  width: 40%;
+  height: 100%;
+  padding-left: 100px;
+}

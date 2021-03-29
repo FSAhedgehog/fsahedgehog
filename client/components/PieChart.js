@@ -52,7 +52,7 @@ export class PieChart extends React.Component {
         data={pieStocks}
         labels={({datum}) => `${datum.x}`}
         padding={100}
-        colorScale={['#8affc1', '#907AD6', '#DABFFF']}
+        colorScale={['#8affc1', '#907AD6', '#DABFFF', '#9D61FF']}
         theme={VictoryTheme.material}
         style={{labels: {padding: 30}}}
         animate={{easing: 'exp'}}

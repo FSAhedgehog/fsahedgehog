@@ -20,10 +20,15 @@ const HEDGEFUNDS = [
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
   'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  'International Value Advisers',
+  'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  'ARIEL INVESTMENTS, LLC',
+  'Tiger Global Management',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '20'
+const SIZE = '200'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -53,13 +58,13 @@ function buildQuery(hedgeFunds, size) {
 
 async function getInitialData(apiKey, query) {
   try {
-    //Comment this out for testing purposes
+    // Comment this out for testing purposes
     const {data} = await axios.post(
       `https://api.sec-api.io?token=${apiKey}`,
       query
     )
     // Uncomment this for testing purpose
-    //const data = require('./ex1comp5years')
+    // const data = require('./ex5comps1year')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -68,6 +73,7 @@ async function getInitialData(apiKey, query) {
 
 async function createHedgeFunds(filings) {
   try {
+    // for (let i = 0; i < filings.length === 8; i++) {
     for (let i = 0; i < filings.length; i++) {
       const filing = filings[i]
       const response = await HedgeFund.findOrCreate({
@@ -261,7 +267,7 @@ async function setPrices() {
     const stockTickers = thirteenF.stocks.map((stock) => stock.ticker)
 
     const pricesObj = await getPrice(stockTickers, date)
-    console.log('PRICES OBJ UP—————', pricesObj)
+    // console.log('PRICES OBJ UP—————', pricesObj)
 
     for (let j = 0; j < thirteenF.stocks.length; j++) {
       const stock = thirteenF.stocks[j]
@@ -399,7 +405,7 @@ async function setHedgeFundReturns(year, quarter, startingValue) {
 
 async function calculateSPValue() {
   try {
-    console.log('IN CALCULATE SPVALUE')
+    // console.log('IN CALCULATE SPVALUE')
     const hedgeFunds = await HedgeFund.findAll({
       include: ThirteenF,
       order: [[ThirteenF, 'dateOfFiling', 'ASC']],
@@ -431,6 +437,7 @@ async function calculateSPValue() {
 
 // COME BACK TO THIS
 async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
+  console.log('IN CALC HEDGE FUND RETURN')
   const current13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
@@ -440,7 +447,6 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   })
   if (!current13F) return
   const currentValue = current13F.quarterlyValue
-
   const oneYearAway13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
@@ -470,16 +476,6 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const fiveYearReturn = currentValue / startingValue
   hedgeFund.yearFiveReturn = fiveYearReturn
   await hedgeFund.save()
-  console.log(
-    currentValue,
-    'CURRENT VALUE',
-    startingValue,
-    'STARTING VALUE',
-    thirdYearValue,
-    'THIRD YEAR VALUE',
-    oneYearValue,
-    'ONE YEAR VALUE'
-  )
 }
 
 seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)
