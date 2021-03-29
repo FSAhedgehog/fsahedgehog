@@ -21,20 +21,22 @@ export class Main extends React.Component {
             <AllHedgeFunds />
           </div>
           <div className="flex-row">
-            <LineChart
-              thirteenFs={this.props.singleHedgeFund.thirteenFs}
-              hedgeFund={this.props.singleHedgeFund}
-            />
-          </div>
-          <div className="flex-row space">
-            <PieChart
-              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-            />
-          </div>
-          <div className="what-to-buy flex-row not-too-big">
-            <WhatToBuy
-              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-            />
+            <div className="flex-row">
+              <LineChart
+                thirteenFs={this.props.singleHedgeFund.thirteenFs}
+                hedgeFund={this.props.singleHedgeFund}
+              />
+            </div>
+            <div className="flex-row space">
+              <PieChart
+                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+              />
+            </div>
+            <div className="what-to-buy flex-row not-too-big">
+              <WhatToBuy
+                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+              />
+            </div>
           </div>
         </div>
       )

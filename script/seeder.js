@@ -64,7 +64,7 @@ async function getInitialData(apiKey, query) {
     //   query
     // )
     // Uncomment this for testing purpose
-    const data = require('./ex1comp5years')
+    const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
