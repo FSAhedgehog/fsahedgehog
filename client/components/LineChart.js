@@ -89,7 +89,7 @@ export class LineChart extends React.Component {
           <VictoryVoronoiContainer
             labels={({datum}) => {
               let label = ``
-              if (datum.childName === 'chart-line-4') {
+              if (datum.childName === 'chart-line-5') {
                 label += `S&P500: ${datum.y}%`
               } else {
                 label += `${camelCase(hedgeFund.name).split(' ')[0]}: ${

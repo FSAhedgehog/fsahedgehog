@@ -49,7 +49,7 @@ Stock.beforeCreate((stock) => {
 
 // before update
 Stock.beforeUpdate((stock) => {
-  if (stock.cusip.length < 9) {
+  if (stock.cusip.length === 8) {
     stock.cusip = '0' + stock.cusip
   }
 })

@@ -20,10 +20,15 @@ const HEDGEFUNDS = [
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
   'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  'International Value Advisers',
+  'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  'ARIEL INVESTMENTS, LLC',
+  'Tiger Global Management',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '100'
+const SIZE = '200'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -68,6 +73,7 @@ async function getInitialData(apiKey, query) {
 
 async function createHedgeFunds(filings) {
   try {
+    // for (let i = 0; i < filings.length === 8; i++) {
     for (let i = 0; i < filings.length; i++) {
       const filing = filings[i]
       const response = await HedgeFund.findOrCreate({

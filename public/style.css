@@ -63,7 +63,7 @@ form div {
   display: flex;
 }
 .left-main-container {
-  margin-left: 2rem;
+  margin-left: 1rem;
   justify-content: flex-start;
 }
 
@@ -94,7 +94,7 @@ select {
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
-  width: 850px;
+  width: 650px;
   border-radius: 15px;
 }
 
@@ -113,7 +113,7 @@ select {
 }
 
 .hedgeFundName {
-  width: 50%;
+  width: 70%;
   display: flex;
 }
 
@@ -136,20 +136,25 @@ select {
 }
 
 .hedgeFundReturnsContainer p {
-  padding: 5px;
-  font-size: 14px;
+  padding-top: 8px;
+  font-size: 8px;
 }
 
 .hedgeFundReturnsContainer .assetsReturn {
   padding-top: 8px;
-  font-size: 12px;
+  font-size: 8px;
 }
 
 .singleReturnContainer {
   display: flex;
-  padding: 12px 0px 0px 0px;
+  padding: 6px 0px 0px 0px;
   align-items: center;
-  width: 105px;
+  width: 85px;
+}
+
+.yearReturnNumber p {
+  font-size: 12px;
+  padding-left: 5px;
 }
 
 .yearReturnLabel p {
@@ -160,8 +165,8 @@ select {
 
 /* VICTORY LINE CHART STYLING */
 .lineChart {
-  width: 500px;
-  height: 380px;
+  width: 450px;
+  height: 350px;
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
 }
@@ -174,6 +179,7 @@ select {
 
 /* WHAT TO BUY STYLING */
 .what-to-buy {
-  width: 50%;
+  width: 40%;
   height: 100%;
+  padding-left: 100px;
 }
