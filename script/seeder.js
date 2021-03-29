@@ -15,20 +15,20 @@ const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
 const HEDGEFUNDS = [
-  'DAILY JOURNAL CORP',
+  // 'DAILY JOURNAL CORP',
   'BERKSHIRE HATHAWAY INC',
-  'BILL & MELINDA GATES FOUNDATION TRUST',
-  'GREENLIGHT CAPITAL INC',
-  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
-  'ATLANTIC INVESTMENT MANAGEMENT, INC.',
-  'International Value Advisers',
-  'FAIRHOLME CAPITAL MANAGEMENT LLC',
-  'ARIEL INVESTMENTS, LLC',
-  'Tiger Global Management',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'GREENLIGHT CAPITAL INC',
+  // 'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  // 'International Value Advisers',
+  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  // 'ARIEL INVESTMENTS, LLC',
+  // 'Tiger Global Management',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '200'
+const SIZE = '1'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -111,6 +111,7 @@ function filterStocks(holdings) {
     const holding = filteredStocks[i]
     if (!sumStocks[holding.cusip]) {
       sumStocks[holding.cusip] = {
+        name: holding.nameOfIssuer,
         totalValue: holding.value,
         qtyOfSharesHeld: holding.shrsOrPrnAmt.sshPrnamt,
       }
@@ -131,6 +132,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
     for (let key in sumStocks) {
       if (sumStocks.hasOwnProperty(key)) {
         const createdStockHolding = await Stock.create({
+          name: sumStocks[key].name,
           cusip: key,
           totalValue: sumStocks[key].totalValue,
           qtyOfSharesHeld: sumStocks[key].qtyOfSharesHeld,
