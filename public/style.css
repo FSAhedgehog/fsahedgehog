@@ -26,7 +26,7 @@ form div {
   display: inline-block;
 }
 
-.flex-cont {
+.flex-row {
   display: flex;
   justify-content: center;
 }
@@ -35,11 +35,16 @@ form div {
   justify-content: space-between;
 }
 
+.space-around {
+  justify-content: space-around;
+}
+
 .align-center {
   align-items: center;
 }
 
-.column {
+.flex-column {
+  display: flex;
   flex-direction: column;
 }
 

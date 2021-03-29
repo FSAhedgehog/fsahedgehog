@@ -1,5 +1,16 @@
 import React from 'react'
 
+/*
+
+<div className="portfolio">
+                  <Portfolio
+                    thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
+                    hedgeFund={this.props.singleHedgeFund}
+                  />
+                </div>
+
+*/
+
 export class Portfolio extends React.Component {
   // constructor() {
   //   super()
