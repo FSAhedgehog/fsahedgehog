@@ -30,7 +30,7 @@ export class Main extends React.Component {
               />
             </div>
           </div>
-          <div className="flex-row">
+          <div className="flex-row space-around">
             <div>
               <PieChart
                 stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
