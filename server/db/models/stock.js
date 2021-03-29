@@ -35,6 +35,9 @@ const Stock = db.define('stock', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  name: {
+    type: Sequelize.TEXT,
+  },
 })
 
 module.exports = Stock
