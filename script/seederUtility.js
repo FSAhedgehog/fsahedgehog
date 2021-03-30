@@ -69,12 +69,31 @@ async function getPrice(tickers, date) {
   }
 }
 
-async function calcMimicReturn(hedgeFundId, year, quarter, startingValue) {
+async function getOldestYearAndQuarter(hedgeFundId) {
+  try {
+    console.log('IN GET OLDEST YEAR______')
+    const thirteenFs = await ThirteenF.findAll({
+      where: {
+        hedgeFundId: hedgeFundId,
+      },
+      order: [['dateOfFiling', 'ASC']],
+    })
+    const oldest13F = thirteenFs[0]
+
+    return [oldest13F.year, oldest13F.quarter]
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+async function calcMimicReturn(hedgeFundId, startingValue) {
   let prevValue = startingValue
   let quarterlyValues = {}
   let prevPortfolio = null
   let portfolio = null
   let thirteenF = 'need to add to make the do while loop before defined in loop'
+  let [year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
+  console.log(year, quarter)
   do {
     thirteenF = await ThirteenF.findOne({
       where: {
@@ -198,4 +217,5 @@ module.exports = {
   getBeta,
   calcMimicReturn,
   fundRisk,
+  getOldestYearAndQuarter,
 }
