@@ -1,6 +1,6 @@
 const User = require('./user')
 const Stock = require('./stock')
-const HedgeFund = require('./hedgefund')
+const HedgeFund = require('./hedgeFund')
 const ThirteenF = require('./thirteenF')
 /**
  * If we had any associations to make, this would be a great place to put them!

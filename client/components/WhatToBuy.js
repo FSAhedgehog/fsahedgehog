@@ -26,7 +26,7 @@ class WhatToBuy extends React.Component {
       <div>
         <div>
           <form onSubmit={this.handleSubmit}>
-            <div>
+            <div className="form-border">
               <label htmlFor="money">
                 <small>Here's how you should invest your money:</small>
               </label>
