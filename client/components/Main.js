@@ -14,34 +14,28 @@ export class Main extends React.Component {
     if (!this.props.loading) {
       return (
         <div className="flex-column">
-          <div className="flex-row">
-            <h3 className="flex-cont bottom">
-              Welcome, future wealthy person!
-            </h3>
+          <div className="flex-row sml-bottom">
+            <h3 className="flex-row">Welcome, future wealthy person!</h3>
           </div>
-          <div className="flex-row space-around bottom">
-            <div>
-              <AllHedgeFunds />
-            </div>
-            <div>
+          <div className="flex-row space bottom">
+            <AllHedgeFunds />
+          </div>
+          <div className="flex-row space-around">
+            <div className="flex-row space">
               <LineChart
                 thirteenFs={this.props.singleHedgeFund.thirteenFs}
                 hedgeFund={this.props.singleHedgeFund}
               />
             </div>
-          </div>
-          <div className="flex-row space-around">
-            <div>
+            <div className="flex-row space">
               <PieChart
                 stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
               />
             </div>
-            <div>
-              <div className="what-to-buy">
-                <WhatToBuy
-                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-                />
-              </div>
+            <div className="what-to-buy flex-row not-too-big">
+              <WhatToBuy
+                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+              />
             </div>
           </div>
         </div>

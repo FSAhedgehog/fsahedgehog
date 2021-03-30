@@ -48,7 +48,7 @@ class AllHedgeFunds extends React.Component {
     }
     return (
       <div className="flex-column">
-        <div className="sml-bottom">
+        <div className="sml-bottom flex-row">
           <select
             name="sort"
             id="return"
