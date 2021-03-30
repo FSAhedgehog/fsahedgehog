@@ -1,7 +1,7 @@
 import React from 'react'
-import {getHedgeFunds} from '../store/hedgeFunds'
+import {getHedgeFunds} from '../store/funds'
 import {connect} from 'react-redux'
-import {getSingleHedgeFund} from '../store/singleHedgeFund'
+import {getSingleHedgeFund} from '../store/oneFund'
 import {camelCase} from './utilities'
 
 class AllHedgeFunds extends React.Component {
