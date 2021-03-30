@@ -4,7 +4,10 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const allHedgefunds = await HedgeFund.findAll()
+    const allHedgefunds = await HedgeFund.findAll({
+      include: ThirteenF,
+      order: [[ThirteenF, 'dateOfFiling', 'DESC']],
+    })
     res.json(allHedgefunds)
   } catch (err) {
     next(err)

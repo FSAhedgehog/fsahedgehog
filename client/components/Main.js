@@ -1,7 +1,7 @@
 import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
 import {LineChart} from './LineChart'
-import {PieChart, Portfolio} from '../components'
+import {BarChart, PieChart} from '../components'
 import WhatToBuy from './WhatToBuy'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/singleHedgeFund'
@@ -31,6 +31,9 @@ export class Main extends React.Component {
               <PieChart
                 stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
               />
+            </div>
+            <div className="flex-row">
+              <BarChart />
             </div>
             <div className="what-to-buy flex-row not-too-big">
               <WhatToBuy
