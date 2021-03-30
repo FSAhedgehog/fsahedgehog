@@ -4,7 +4,7 @@ import {LineChart} from './LineChart'
 import {PieChart, Portfolio} from '../components'
 import WhatToBuy from './WhatToBuy'
 import {connect} from 'react-redux'
-import {getSingleHedgeFund} from '../store/singleHedgeFund'
+import {getSingleHedgeFund} from '../store/oneFund'
 
 export class Main extends React.Component {
   componentDidMount() {
