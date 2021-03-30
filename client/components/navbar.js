@@ -8,7 +8,7 @@ export const Navbar = (props) => (
     </div>
     <nav>
       <div className="flex-row space">
-        <Link to="/">Home</Link>
+        <Link to="/disclaimer">Disclaimer</Link>
         {/* <Link to="/stocks">Stocks</Link>
         <Link to="/resources">Resources</Link> */}
       </div>
