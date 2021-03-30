@@ -33,7 +33,10 @@ export class Main extends React.Component {
               />
             </div>
             <div className="flex-row">
-              <BarChart />
+              <BarChart
+                hedgeFunds={this.props.hedgeFunds}
+                singleHedgeFund={this.props.singleHedgeFund}
+              />
             </div>
             <div className="what-to-buy flex-row not-too-big">
               <WhatToBuy
@@ -53,6 +56,7 @@ const mapStateToProps = (state) => {
   return {
     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
     loading: state.singleHedgeFund.loading,
+    hedgeFunds: state.hedgeFunds.hedgeFunds,
   }
 }
 
