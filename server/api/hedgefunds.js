@@ -4,8 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const allHedgefunds = await HedgeFund.findAll()
-    res.json(allHedgefunds)
+    const allHedgeFunds = await HedgeFund.findAll()
+    res.json(allHedgeFunds)
   } catch (err) {
     next(err)
   }
