@@ -1,7 +1,8 @@
 const axios = require('axios')
 const db = require('../server/db')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-//const yahooFinance = require('yahoo-finance')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const {
   getTicker,
   getPrice,
@@ -9,17 +10,22 @@ const {
   calcMimicReturn,
   getBeta,
   fundRisk,
+  getOldestYearAndQuarter,
 } = require('./seederUtility')
 
 const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
+// --------------------------------------------------------
+// NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
+// --------------------------------------------------------
 const HEDGEFUNDS = [
   'DAILY JOURNAL CORP',
-  'BERKSHIRE HATHAWAY INC',
-  'BILL & MELINDA GATES FOUNDATION TRUST',
-  'GREENLIGHT CAPITAL INC',
-  'PERSHING SQUARE CAPITAL MANAGEMENT, L.P.',
+  // 'BERKSHIRE HATHAWAY INC',
+  // 'Scion Asset Management, LLC',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'GREENLIGHT CAPITAL INC',
+  // 'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   // 'International Value Advisers',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
@@ -28,7 +34,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '100'
+const SIZE = '20'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -59,12 +65,12 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    // )
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
     // Uncomment this for testing purpose
-    const data = require('./ex3comps5years')
+    // const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -81,6 +87,7 @@ async function createHedgeFunds(filings) {
           name: filing.companyName,
         },
       })
+      console.log(filing.companyName)
       const createdHedgeFund = response[0]
 
       await create13F(createdHedgeFund, filing)
@@ -92,11 +99,16 @@ async function createHedgeFunds(filings) {
 
 async function create13F(createdHedgeFund, filing) {
   try {
-    const created13F = await ThirteenF.create({
-      dateOfFiling: filing.filedAt,
-      year: filing.periodOfReport.slice(0, 4),
-      quarter: findQuarter(filing.periodOfReport.slice(5, 7)),
+    const response = await ThirteenF.findOrCreate({
+      where: {
+        dateOfFiling: filing.filedAt,
+        year: filing.periodOfReport.slice(0, 4),
+        quarter: findQuarter(filing.periodOfReport.slice(5, 7)),
+      },
     })
+    const created = response[1]
+    if (!created) return
+    const created13F = response[0]
     await createStocks(createdHedgeFund, created13F, filing.holdings)
   } catch (err) {
     console.error(err)
@@ -184,20 +196,6 @@ async function setFundRisk() {
   }
 }
 
-async function getOldestYearAndQuarter() {
-  try {
-    console.log('IN GET OLDEST YEAR______')
-    const thirteenFs = await ThirteenF.findAll({
-      order: [['dateOfFiling', 'ASC']],
-    })
-    const oldest13F = thirteenFs[0]
-
-    return [oldest13F.year, oldest13F.quarter]
-  } catch (err) {
-    console.error(err)
-  }
-}
-
 function endThrottle(timer) {
   try {
     console.log('exiting setInterval')
@@ -208,33 +206,19 @@ function endThrottle(timer) {
   }
 }
 
-async function lastFunctions() {
-  console.log('IN LAST FUNCTIONS')
-  await setPrices()
-  await setBeta()
-  const [year, quarter] = await getOldestYearAndQuarter()
-  await setPortfolioValueAndPercentageOfFund()
-  await setQuarterlyValues(year, quarter)
-  await calculateSPValue()
-  await setHedgeFundReturns(year, quarter, STARTING_VALUE)
-  await setFundRisk()
-}
-
-function addDayToDate(date) {
-  let nextDate = new Date(date)
-  nextDate.setDate(nextDate.getDate() + 1)
-  return nextDate
-}
-
 async function setBeta() {
   const hedgeFunds = await HedgeFund.findAll({
+    where: {
+      name: {
+        [Op.in]: HEDGEFUNDS,
+      },
+    },
     include: {
       model: ThirteenF,
       include: [Stock],
     },
     order: [[ThirteenF, 'dateOfFiling', 'DESC']],
   })
-
   for (let i = 0; i < hedgeFunds.length; i++) {
     const latest13F = hedgeFunds[i].thirteenFs[0]
 
@@ -251,11 +235,7 @@ async function setBeta() {
         // await stock.destroy()
       }
     }
-    // THIS IS WHERE LOGAN LEFT OFF
-    // const responseObj =
   }
-  // const beta = await getBeta(ticker)
-  // stock.beta = beta.summaryDetail.beta
 }
 
 async function setPrices() {
@@ -303,33 +283,6 @@ async function setTicker(stock, ticker, lastOne) {
   }
 }
 
-async function seedData(apiKey, hedgeFundNames, size) {
-  await buildHedgeFunds(apiKey, hedgeFundNames, size)
-
-  const timer = setInterval(throttleApiCall, 300)
-
-  const allStocks = await Stock.findAll({include: [ThirteenF]})
-  let index = 0
-  let lastOne = false
-
-  async function throttleApiCall() {
-    try {
-      if (index === allStocks.length - 1) lastOne = true
-      if (index < allStocks.length) {
-        const stock = allStocks[index]
-        index++
-
-        const ticker = await getTicker(stock.cusip)
-        await setTicker(stock, ticker, lastOne)
-
-        if (lastOne) endThrottle(timer)
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }
-}
-
 async function getFundValue(thirteenFId) {
   const data = await Stock.findAll({
     where: {thirteenFId: thirteenFId},
@@ -353,9 +306,15 @@ async function setStockPercentageOfFund(created13F) {
   }
 }
 
-async function setQuarterlyValues(year, quarter) {
+async function setQuarterlyValues() {
   try {
+    console.log('IN SET QUARTERLY VALUES')
     const hedgeFunds = await HedgeFund.findAll({
+      where: {
+        name: {
+          [Op.in]: HEDGEFUNDS,
+        },
+      },
       include: [
         {
           model: ThirteenF,
@@ -367,8 +326,6 @@ async function setQuarterlyValues(year, quarter) {
       const hedgeFund = hedgeFunds[i]
       const hedgeyReturnObj = await calcMimicReturn(
         hedgeFund.id,
-        year,
-        quarter,
         STARTING_VALUE
       )
 
@@ -385,9 +342,15 @@ async function setQuarterlyValues(year, quarter) {
   }
 }
 
-async function setHedgeFundReturns(year, quarter, startingValue) {
+async function setHedgeFundReturns(startingValue) {
   try {
+    console.log('IN SET HEDGE FUND RETURNS')
     const hedgeFunds = await HedgeFund.findAll({
+      where: {
+        name: {
+          [Op.in]: HEDGEFUNDS,
+        },
+      },
       include: [
         {
           model: ThirteenF,
@@ -397,6 +360,8 @@ async function setHedgeFundReturns(year, quarter, startingValue) {
     })
     await Promise.all(
       hedgeFunds.map(async (hedgeFund) => {
+        const [year, quarter] = await getOldestYearAndQuarter(hedgeFund.id)
+        console.log(year, quarter, 'IN SET HEDGEFUND RETURNS')
         await calcHedgeFundReturn(year, quarter, hedgeFund, startingValue)
       })
     )
@@ -407,8 +372,13 @@ async function setHedgeFundReturns(year, quarter, startingValue) {
 
 async function calculateSPValue() {
   try {
-    // console.log('IN CALCULATE SPVALUE')
+    console.log('IN CALCULATE SPVALUE')
     const hedgeFunds = await HedgeFund.findAll({
+      where: {
+        name: {
+          [Op.in]: HEDGEFUNDS,
+        },
+      },
       include: ThirteenF,
       order: [[ThirteenF, 'dateOfFiling', 'ASC']],
     })
@@ -437,14 +407,53 @@ async function calculateSPValue() {
   }
 }
 
+async function getCurrentYearAndQuarter(hedgeFundId) {
+  try {
+    const thirteenFs = await ThirteenF.findAll({
+      where: {
+        hedgeFundId: hedgeFundId,
+      },
+      order: [['dateOfFiling', 'DESC']],
+    })
+    const newest13F = thirteenFs[0]
+    return [newest13F.year, newest13F.quarter]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function getYearAndQuarterOneYearAgo(year, quarter) {
+  switch (quarter) {
+    case 1:
+      return [year - 1, 2]
+    case 2:
+      return [year - 1, 3]
+    case 3:
+      return [year - 1, 4]
+    default:
+      return [year, 1]
+  }
+}
+
+function getYearAndQuarterThreeYearsAgo(year, quarter) {
+  if (quarter !== 4) return year - 1
+  else return year - 2
+}
+
 // COME BACK TO THIS
 async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   console.log('IN CALC HEDGE FUND RETURN')
+  const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFund.id)
+  const [oneYearAgo, threeQuartersAgo] = getYearAndQuarterOneYearAgo(
+    curYear,
+    curQuarter
+  )
+  const threeYearsAgo = getYearAndQuarterThreeYearsAgo(curYear, curQuarter)
   const current13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
-      year: year + 4,
-      quarter: quarter + 3,
+      year: curYear,
+      quarter: curQuarter,
     },
   })
   if (!current13F) return
@@ -452,8 +461,8 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const oneYearAway13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
-      year: year + 4,
-      quarter: quarter,
+      year: oneYearAgo,
+      quarter: threeQuartersAgo,
     },
   })
   if (!oneYearAway13F) return
@@ -465,8 +474,8 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const threeYearsAway13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
-      year: year + 2,
-      quarter: quarter,
+      year: threeYearsAgo,
+      quarter: threeQuartersAgo,
     },
   })
   if (!threeYearsAway13F) return
@@ -474,10 +483,51 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const threeYearReturn = currentValue / thirdYearValue
   hedgeFund.yearThreeReturn = threeYearReturn
   await hedgeFund.save()
-
   const fiveYearReturn = currentValue / startingValue
   hedgeFund.yearFiveReturn = fiveYearReturn
   await hedgeFund.save()
+}
+
+async function lastFunctions() {
+  console.log('IN LAST FUNCTIONS')
+  await setPrices()
+  await setBeta()
+  await setPortfolioValueAndPercentageOfFund()
+  await setQuarterlyValues()
+  await calculateSPValue()
+  await setHedgeFundReturns(STARTING_VALUE)
+  await setFundRisk()
+}
+
+async function seedData(apiKey, hedgeFundNames, size) {
+  await buildHedgeFunds(apiKey, hedgeFundNames, size)
+  const timer = setInterval(throttleApiCall, 300)
+
+  const allStocks = await Stock.findAll({
+    where: {
+      ticker: null,
+    },
+    include: [ThirteenF],
+  })
+  let index = 0
+  let lastOne = false
+
+  async function throttleApiCall() {
+    try {
+      if (index === allStocks.length - 1) lastOne = true
+      if (index < allStocks.length) {
+        const stock = allStocks[index]
+        index++
+
+        const ticker = await getTicker(stock.cusip)
+        await setTicker(stock, ticker, lastOne)
+
+        if (lastOne) endThrottle(timer)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 }
 
 seedData(EDGAR_KEY, HEDGEFUNDS, SIZE)
