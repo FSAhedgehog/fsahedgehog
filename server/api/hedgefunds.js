@@ -26,8 +26,9 @@ router.get('/:id', async (req, res, next) => {
           include: [Stock],
         },
       ],
+      order: [[ThirteenF, 'dateOfFiling', 'DESC']],
     })
-    singleHedgeFund.thirteenFs.sort((a, b) => b.dateOfFiling - a.dateOfFiling)
+
     res.json(singleHedgeFund)
   } catch (err) {
     next(err)
