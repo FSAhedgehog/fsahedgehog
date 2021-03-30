@@ -28,16 +28,20 @@ export class PieChart extends React.Component {
   render() {
     const pieStocks = this.renderStocks()
     return (
-      <VictoryPie
-        containerComponent={<VictoryContainer responsive={false} />}
-        data={pieStocks}
-        labels={({datum}) => `${datum.x}\n${datum.y.toFixed(2)}%`}
-        padding={100}
-        colorScale={['#8affc1', '#907AD6', '#DABFFF', '#9D61FF']}
-        theme={VictoryTheme.material}
-        style={{labels: {padding: 30}}}
-        animate={{easing: 'exp'}}
-      />
+      <div>
+        <h6 className="text-center">Percentage of Portfolio</h6>
+
+        <VictoryPie
+          containerComponent={<VictoryContainer responsive={false} />}
+          data={pieStocks}
+          labels={({datum}) => `${datum.x}\n${datum.y.toFixed(2)}%`}
+          padding={100}
+          colorScale={['#8affc1', '#907AD6', '#DABFFF', '#9D61FF']}
+          theme={VictoryTheme.material}
+          style={{labels: {padding: 30}}}
+          animate={{easing: 'exp'}}
+        />
+      </div>
     )
   }
 }
