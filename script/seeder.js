@@ -21,16 +21,16 @@ const {EDGAR_KEY} = require('../secrets')
 // --------------------------------------------------------
 const HEDGEFUNDS = [
   'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
-  // 'Scion Asset Management, LLC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
-  // 'Pershing Square Capital Management, L.P.',
-  // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
-  // 'International Value Advisers',
-  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
-  // 'ARIEL INVESTMENTS, LLC',
-  // 'Tiger Global Management',
+  'BERKSHIRE HATHAWAY INC',
+  'Scion Asset Management, LLC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
+  'GREENLIGHT CAPITAL INC',
+  'Pershing Square Capital Management, L.P.',
+  'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  'International Value Advisers',
+  'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  'ARIEL INVESTMENTS, LLC',
+  'Tiger Global Management',
 ]
 
 // CHANGE SIZE HERE
