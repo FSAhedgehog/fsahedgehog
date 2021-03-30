@@ -13,7 +13,11 @@ label {
 nav a {
   display: inline-block;
   margin: 1rem;
-  color: #8affc1;
+  color: #59ea94;
+}
+
+nav a:hover {
+  color: rgb(157, 97, 255);
 }
 
 img {
@@ -24,6 +28,11 @@ img {
 form div {
   margin: 1rem;
   display: inline-block;
+}
+
+.space {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .flex-row {
@@ -47,10 +56,19 @@ form div {
 .flex-column {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+.not-too-big {
+  flex-basis: 70%;
 }
 
 .link {
   color: #8affc1;
+}
+
+.top {
+  margin-top: 3rem;
 }
 
 .left {

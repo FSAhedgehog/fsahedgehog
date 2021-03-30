@@ -72,113 +72,115 @@ export class LineChart extends React.Component {
     const spValue = this.renderQuarterlyValues('spValue')
     const {hedgeFund} = this.props
     return (
-      <VictoryChart
-        animate={{
-          duration: 2000,
-          onLoad: {duration: 1000},
-        }}
-        style={{
-          parent: {
-            border: '1px solid #ccc',
-            borderRadius: '15px',
-          },
-        }}
-        // height={900}
-        // width={1200}
-        containerComponent={
-          <VictoryVoronoiContainer
-            labels={({datum}) => {
-              let label = ``
-              if (datum.childName === 'chart-line-5') {
-                label += `S&P500: ${datum.y}%`
-              } else {
-                label += `${camelCase(hedgeFund.name).split(' ')[0]}: ${
-                  datum.y
-                }%`
+      <div>
+        <VictoryChart
+          animate={{
+            duration: 2000,
+            onLoad: {duration: 1000},
+          }}
+          style={{
+            parent: {
+              border: '1px solid #ccc',
+              borderRadius: '15px',
+            },
+          }}
+          // height={900}
+          // width={1200}
+          containerComponent={
+            <VictoryVoronoiContainer
+              labels={({datum}) => {
+                let label = ``
+                if (datum.childName === 'chart-line-5') {
+                  label += `S&P500: ${datum.y}%`
+                } else {
+                  label += `${camelCase(hedgeFund.name).split(' ')[0]}: ${
+                    datum.y
+                  }%`
+                }
+                return label
+              }}
+              labelComponent={
+                <VictoryTooltip
+                  cornerRadius={10}
+                  flyoutStyle={{
+                    fill: '#000000',
+                    strokeWidth: 0.8,
+                    opacity: 0.37,
+                  }}
+                />
               }
-              return label
-            }}
-            labelComponent={
-              <VictoryTooltip
-                cornerRadius={10}
-                flyoutStyle={{
-                  fill: '#000000',
-                  strokeWidth: 0.8,
-                  opacity: 0.37,
-                }}
-              />
-            }
+            />
+          }
+        >
+          <VictoryLabel
+            text="5 Year Historical Return"
+            x={225}
+            y={24}
+            textAnchor="middle"
+            style={{fill: 'black', fontSize: 16}}
           />
-        }
-      >
-        <VictoryLabel
-          text="5 Year Historical Return"
-          x={225}
-          y={24}
-          textAnchor="middle"
-          style={{fill: 'black', fontSize: 16}}
-        />
-        <VictoryLegend
-          x={50}
-          y={60}
-          centerTitle
-          orientation="vertical"
-          style={{name: {fontSize: 5}}}
-          data={[
-            {
-              name: `${camelCase(hedgeFund.name)
-                .split(' ')
-                .filter((word, i) => i < 3)
-                .join(' ')}`,
-              symbol: {fill: '#59EA94'},
-            },
-            {name: 'S&P500', symbol: {fill: 'rgb(157, 97, 255)'}},
-          ]}
-        />
-        <VictoryAxis
-          fixLabelOverlap
-          style={{
-            tickLabels: {
-              fontSize: 12,
-            },
-            grid: {stroke: '#818e99', strokeWidth: 0.3},
-          }}
-          tickFormat={(t) => `${t.slice(0, 4)}        `}
-        />
-        <VictoryAxis
-          dependentAxis
-          label="Total % of Gain or Loss On Assets"
-          tickFormat={(t) => `${t}%`}
-          style={{
-            tickLabels: {padding: 5, fontSize: 10},
-            grid: {stroke: '#818e99', strokeWidth: 0.5},
-            axisLabel: {
-              padding: 53,
-              fontSize: 13,
-              fontStyle: 'italic',
-            },
-          }}
-          axisLabelComponent={<VictoryLabel dy={20} />}
-        />
-        <VictoryLine
-          data={quarterlyValue}
-          style={{
-            data: {stroke: '#59EA94'},
-            labels: {fill: '#59EA94', fontSize: '12px', fontWeight: '500'},
-          }}
-        />
-        <VictoryLine
-          data={spValue}
-          style={{
-            data: {stroke: 'rgb(157, 97, 255)'},
-            labels: {
-              fill: 'rgb(157, 97, 255)',
-              fontSize: '12px',
-              fontWeight: '500',
-            },
-          }}
-        />
-      </VictoryChart>
+          <VictoryLegend
+            x={50}
+            y={60}
+            centerTitle
+            orientation="vertical"
+            style={{name: {fontSize: 5}}}
+            data={[
+              {
+                name: `${camelCase(hedgeFund.name)
+                  .split(' ')
+                  .filter((word, i) => i < 3)
+                  .join(' ')}`,
+                symbol: {fill: '#59EA94'},
+              },
+              {name: 'S&P500', symbol: {fill: 'rgb(157, 97, 255)'}},
+            ]}
+          />
+          <VictoryAxis
+            fixLabelOverlap
+            style={{
+              tickLabels: {
+                fontSize: 12,
+              },
+              grid: {stroke: '#818e99', strokeWidth: 0.3},
+            }}
+            tickFormat={(t) => `${t.slice(0, 4)}        `}
+          />
+          <VictoryAxis
+            dependentAxis
+            label="Total % of Gain or Loss On Assets"
+            tickFormat={(t) => `${t}%`}
+            style={{
+              tickLabels: {padding: 5, fontSize: 10},
+              grid: {stroke: '#818e99', strokeWidth: 0.5},
+              axisLabel: {
+                padding: 53,
+                fontSize: 13,
+                fontStyle: 'italic',
+              },
+            }}
+            axisLabelComponent={<VictoryLabel dy={20} />}
+          />
+          <VictoryLine
+            data={quarterlyValue}
+            style={{
+              data: {stroke: '#59EA94'},
+              labels: {fill: '#59EA94', fontSize: '12px', fontWeight: '500'},
+            }}
+          />
+          <VictoryLine
+            data={spValue}
+            style={{
+              data: {stroke: 'rgb(157, 97, 255)'},
+              labels: {
+                fill: 'rgb(157, 97, 255)',
+                fontSize: '12px',
+                fontWeight: '500',
+              },
+            }}
+          />
+        </VictoryChart>
+      </div>
     )
   }
 }
