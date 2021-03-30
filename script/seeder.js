@@ -407,14 +407,53 @@ async function calculateSPValue() {
   }
 }
 
+async function getCurrentYearAndQuarter(hedgeFundId) {
+  try {
+    const thirteenFs = await ThirteenF.findAll({
+      where: {
+        hedgeFundId: hedgeFundId,
+      },
+      order: [['dateOfFiling', 'DESC']],
+    })
+    const newest13F = thirteenFs[0]
+    return [newest13F.year, newest13F.quarter]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function getYearAndQuarterOneYearAgo(year, quarter) {
+  switch (quarter) {
+    case 1:
+      return [year - 1, 2]
+    case 2:
+      return [year - 1, 3]
+    case 3:
+      return [year - 1, 4]
+    default:
+      return [year, 1]
+  }
+}
+
+function getYearAndQuarterThreeYearsAgo(year, quarter) {
+  if (quarter !== 4) return year - 1
+  else return year - 2
+}
+
 // COME BACK TO THIS
 async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   console.log('IN CALC HEDGE FUND RETURN')
+  const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFund.id)
+  const [oneYearAgo, threeQuartersAgo] = getYearAndQuarterOneYearAgo(
+    curYear,
+    curQuarter
+  )
+  const threeYearsAgo = getYearAndQuarterThreeYearsAgo(curYear, curQuarter)
   const current13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
-      year: year + 4,
-      quarter: quarter + 3,
+      year: curYear,
+      quarter: curQuarter,
     },
   })
   if (!current13F) return
@@ -422,8 +461,8 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const oneYearAway13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
-      year: year + 4,
-      quarter: quarter,
+      year: oneYearAgo,
+      quarter: threeQuartersAgo,
     },
   })
   if (!oneYearAway13F) return
@@ -435,8 +474,8 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const threeYearsAway13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
-      year: year + 2,
-      quarter: quarter,
+      year: threeYearsAgo,
+      quarter: threeQuartersAgo,
     },
   })
   if (!threeYearsAway13F) return
@@ -444,7 +483,6 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   const threeYearReturn = currentValue / thirdYearValue
   hedgeFund.yearThreeReturn = threeYearReturn
   await hedgeFund.save()
-
   const fiveYearReturn = currentValue / startingValue
   hedgeFund.yearFiveReturn = fiveYearReturn
   await hedgeFund.save()
@@ -454,7 +492,6 @@ async function lastFunctions() {
   console.log('IN LAST FUNCTIONS')
   await setPrices()
   await setBeta()
-  // const [year, quarter] = await getOldestYearAndQuarter()
   await setPortfolioValueAndPercentageOfFund()
   await setQuarterlyValues()
   await calculateSPValue()
