@@ -16,7 +16,7 @@ export class PieChart extends React.Component {
         y: stocks[i].percentageOfPortfolio * 100,
       }
 
-      if (newObject.y < 5) {
+      if (newObject.y < 4) {
         returnArray[0].y += newObject.y
       } else {
         returnArray.push(newObject)
@@ -34,8 +34,8 @@ export class PieChart extends React.Component {
         <VictoryPie
           containerComponent={<VictoryContainer responsive={false} />}
           data={pieStocks}
-          labels={({datum}) => `${datum.x}\n${datum.y.toFixed(2)}%`}
-          padding={100}
+          labels={({datum}) => `${datum.x}\n ${datum.y.toFixed(2)}%`}
+          padding={75}
           colorScale={['#8affc1', '#907AD6', '#DABFFF', '#9D61FF']}
           theme={VictoryTheme.material}
           style={{labels: {padding: 30}}}
