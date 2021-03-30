@@ -5,7 +5,7 @@ export class Disclaimer extends React.Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="left right">
           HedgeHog is not a registered investment, legal, or tax advisor or a
           broker/dealer. All investment/ financial opinions expressed by
           HedgeHog are from the personal research and experience of the owners
