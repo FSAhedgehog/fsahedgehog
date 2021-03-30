@@ -210,3 +210,10 @@ input {
   border: 2px solid rgb(157, 97, 255);
   border-radius: 15px;
 }
+
+.form-border {
+  border: 2px solid rgb(157, 97, 255);
+  border-radius: 15px;
+  padding: 8px;
+  margin: 20% 20% 5% 20%;
+}
