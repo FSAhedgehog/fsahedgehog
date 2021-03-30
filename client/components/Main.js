@@ -1,7 +1,7 @@
 import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
 import {LineChart} from './LineChart'
-import {PieChart, Portfolio} from '../components'
+import {BarChart, PieChart} from '../components'
 import WhatToBuy from './WhatToBuy'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
@@ -38,15 +38,21 @@ export class Main extends React.Component {
                 stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
               />
             </div>
-            <div className="flex-row sml-bottom">
-              <h2 className="flex-row text">
-                Step three: Enter the amount you would like to invest!
-              </h2>
-            </div>
-            <div className="what-to-buy flex-row not-too-big">
-              <WhatToBuy
-                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+            <div className="flex-row">
+              <BarChart
+                hedgeFunds={this.props.hedgeFunds}
+                singleHedgeFund={this.props.singleHedgeFund}
               />
+              <div className="flex-row sml-bottom">
+                <h2 className="flex-row text">
+                  Step three: Enter the amount you would like to invest!
+                </h2>
+              </div>
+              <div className="what-to-buy flex-row not-too-big">
+                <WhatToBuy
+                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -61,6 +67,7 @@ const mapStateToProps = (state) => {
   return {
     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
     loading: state.singleHedgeFund.loading,
+    hedgeFunds: state.hedgeFunds.hedgeFunds,
   }
 }
 

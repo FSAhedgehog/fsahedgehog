@@ -4,8 +4,11 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const allHedgeFunds = await HedgeFund.findAll()
-    res.json(allHedgeFunds)
+    const allHedgefunds = await HedgeFund.findAll({
+      include: ThirteenF,
+      order: [[ThirteenF, 'dateOfFiling', 'DESC']],
+    })
+    res.json(allHedgefunds)
   } catch (err) {
     next(err)
   }
@@ -23,8 +26,11 @@ router.get('/:id', async (req, res, next) => {
           include: [Stock],
         },
       ],
+      order: [[ThirteenF, 'dateOfFiling', 'DESC']],
     })
-    singleHedgeFund.thirteenFs.sort((a, b) => b.dateOfFiling - a.dateOfFiling)
+
+    console.log('SINGLE HEDGE API———', singleHedgeFund.thirteenFs)
+
     res.json(singleHedgeFund)
   } catch (err) {
     next(err)
