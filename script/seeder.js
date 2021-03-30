@@ -1,7 +1,8 @@
 const axios = require('axios')
 const db = require('../server/db')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-//const yahooFinance = require('yahoo-finance')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const {
   getTicker,
   getPrice,
@@ -28,7 +29,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '20'
+const SIZE = '4'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -59,12 +60,12 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    // )
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
     // Uncomment this for testing purpose
-    const data = require('./ex3comps5years')
+    // const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -92,6 +93,7 @@ async function createHedgeFunds(filings) {
 
 async function create13F(createdHedgeFund, filing) {
   try {
+    // potentially make find or create later to make sure duplicate 13F's aren't made
     const created13F = await ThirteenF.create({
       dateOfFiling: filing.filedAt,
       year: filing.periodOfReport.slice(0, 4),
@@ -154,7 +156,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
@@ -184,10 +186,13 @@ async function setFundRisk() {
   }
 }
 
-async function getOldestYearAndQuarter() {
+async function getOldestYearAndQuarter(hedgeFundId) {
   try {
     console.log('IN GET OLDEST YEAR______')
     const thirteenFs = await ThirteenF.findAll({
+      where: {
+        hedgeFundId: hedgeFundId,
+      },
       order: [['dateOfFiling', 'ASC']],
     })
     const oldest13F = thirteenFs[0]
@@ -220,14 +225,13 @@ async function lastFunctions() {
   await setFundRisk()
 }
 
-function addDayToDate(date) {
-  let nextDate = new Date(date)
-  nextDate.setDate(nextDate.getDate() + 1)
-  return nextDate
-}
-
 async function setBeta() {
   const hedgeFunds = await HedgeFund.findAll({
+    where: {
+      name: {
+        [Op.in]: HEDGEFUNDS,
+      },
+    },
     include: {
       model: ThirteenF,
       include: [Stock],
@@ -251,11 +255,7 @@ async function setBeta() {
         // await stock.destroy()
       }
     }
-    // THIS IS WHERE LOGAN LEFT OFF
-    // const responseObj =
   }
-  // const beta = await getBeta(ticker)
-  // stock.beta = beta.summaryDetail.beta
 }
 
 async function setPrices() {
@@ -356,6 +356,11 @@ async function setStockPercentageOfFund(created13F) {
 async function setQuarterlyValues(year, quarter) {
   try {
     const hedgeFunds = await HedgeFund.findAll({
+      where: {
+        name: {
+          [Op.in]: HEDGEFUNDS,
+        },
+      },
       include: [
         {
           model: ThirteenF,
@@ -388,6 +393,11 @@ async function setQuarterlyValues(year, quarter) {
 async function setHedgeFundReturns(year, quarter, startingValue) {
   try {
     const hedgeFunds = await HedgeFund.findAll({
+      where: {
+        name: {
+          [Op.in]: HEDGEFUNDS,
+        },
+      },
       include: [
         {
           model: ThirteenF,
@@ -409,6 +419,11 @@ async function calculateSPValue() {
   try {
     // console.log('IN CALCULATE SPVALUE')
     const hedgeFunds = await HedgeFund.findAll({
+      where: {
+        name: {
+          [Op.in]: HEDGEFUNDS,
+        },
+      },
       include: ThirteenF,
       order: [[ThirteenF, 'dateOfFiling', 'ASC']],
     })
