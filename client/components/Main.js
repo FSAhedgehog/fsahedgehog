@@ -20,8 +20,8 @@ export class Main extends React.Component {
           <div className="flex-row space bottom">
             <AllHedgeFunds />
           </div>
-          <div className="flex-row">
-            <div className="flex-row">
+          <div className="flex-row space-around">
+            <div className="flex-row space">
               <LineChart
                 thirteenFs={this.props.singleHedgeFund.thirteenFs}
                 hedgeFund={this.props.singleHedgeFund}

@@ -72,7 +72,7 @@ export class LineChart extends React.Component {
     const spValue = this.renderQuarterlyValues('spValue')
     const {hedgeFund} = this.props
     return (
-      <div className="not-too-big">
+      <div>
         <VictoryChart
           animate={{
             duration: 2000,
