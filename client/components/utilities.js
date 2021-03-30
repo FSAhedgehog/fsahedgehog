@@ -24,8 +24,24 @@ export function camelCase(str) {
 }
 
 export function findAverageBeta(thirteenFs) {
-  return (
-    thirteenFs.reduce((accum, element) => accum + element.thirteenFBeta, 0) /
-    thirteenFs.length
-  )
+  if (thirteenFs.length) {
+    const result =
+      thirteenFs.reduce((accum, element) => {
+        return accum + element.thirteenFBeta
+      }, 0) / thirteenFs.length
+
+    return result
+  } else {
+    return 1.0
+  }
+}
+
+export function determineColor(number) {
+  if (number > 1.1) {
+    return '#DABFFF'
+  } else if (number < 0.9) {
+    return '#8affc1'
+  } else {
+    return 'rgb(157, 97, 255)'
+  }
 }
