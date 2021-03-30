@@ -3,8 +3,8 @@ import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
-import singleHedgeFund from './singleHedgeFund'
-import hedgeFunds from './hedgeFunds'
+import singleHedgeFund from './oneFund'
+import hedgeFunds from './funds'
 
 const reducer = combineReducers({user, singleHedgeFund, hedgeFunds})
 const middleware = composeWithDevTools(

@@ -1,3 +1,4 @@
+// Are we still using this???
 export function renderUitilyQuarterlyValues() {
   const {thirteenFs} = this.props
   thirteenFs.reverse()
@@ -20,4 +21,27 @@ export function camelCase(str) {
       return word[0].toUpperCase() + word.slice(1)
     })
     .join(' ')
+}
+
+export function findAverageBeta(thirteenFs) {
+  if (thirteenFs.length) {
+    const result =
+      thirteenFs.reduce((accum, element) => {
+        return accum + element.thirteenFBeta
+      }, 0) / thirteenFs.length
+
+    return result
+  } else {
+    return 1.0
+  }
+}
+
+export function determineColor(number) {
+  if (number > 1.1) {
+    return '#DABFFF'
+  } else if (number < 0.9) {
+    return '#8affc1'
+  } else {
+    return 'rgb(157, 97, 255)'
+  }
 }
