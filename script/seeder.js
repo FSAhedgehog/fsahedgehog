@@ -4,13 +4,14 @@ const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const {
-  getTicker,
+  getTickers,
   getPrice,
   findQuarter,
   calcMimicReturn,
   getBeta,
   fundRisk,
   getOldestYearAndQuarter,
+  breakIntoChunks,
 } = require('./seederUtility')
 require('dotenv').config()
 
@@ -22,9 +23,9 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  // 'DAILY JOURNAL CORP',
+  'DAILY JOURNAL CORP',
   'BERKSHIRE HATHAWAY INC',
-  // 'Scion Asset Management, LLC',
+  'Scion Asset Management, LLC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
@@ -32,11 +33,11 @@ const HEDGEFUNDS = [
   // 'International Value Advisers',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
-  'Tiger Global Management',
+//   'Tiger Global Management',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '100'
+const SIZE = '120'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -66,13 +67,13 @@ function buildQuery(hedgeFunds, size) {
 
 async function getInitialData(apiKey, query) {
   try {
-    // Comment this out for testing purposes
+//     Comment this out for testing purposes
     const {data} = await axios.post(
       `https://api.sec-api.io?token=${apiKey}`,
       query
     )
-    // Uncomment this for testing purpose
-    // const data = require('./ex3comps5years')
+//     Uncomment this for testing purpose
+//     const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -209,6 +210,7 @@ function endThrottle(timer) {
 }
 
 async function setBeta() {
+  console.log('IN BETA————')
   const hedgeFunds = await HedgeFund.findAll({
     where: {
       name: {
@@ -263,25 +265,6 @@ async function setPrices() {
         await stock.destroy()
       }
     }
-  }
-}
-
-async function setTicker(stock, ticker, lastOne) {
-  if (ticker) {
-    ticker = ticker.replace('/', '-')
-    stock.ticker = ticker
-    await stock.save()
-  } else {
-    console.log(
-      'TICKER NOT FOUND WITH A CUSIP OF ',
-      stock.dataValues.cusip,
-      ' GOING TO DESTROY'
-    )
-    await stock.destroy()
-  }
-
-  if (lastOne) {
-    lastFunctions()
   }
 }
 
@@ -492,8 +475,49 @@ async function calcHedgeFundReturn(hedgeFund, startingValue) {
   await hedgeFund.save()
 }
 
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
+async function findTickers(timer, stocks, lastOne) {
+  const allCusips = stocks.map((stock) => stock.cusip)
+
+  const allTickers = await getTickers(allCusips)
+
+  const cusipObject = {}
+
+  allCusips.forEach((cusip, index) => {
+    if (allTickers[index].data)
+      cusipObject[allCusips[index]] = allTickers[index].data[0].ticker
+  })
+
+  for (let i = 0; i < stocks.length; i++) {
+    const currStock = stocks[i]
+
+    if (cusipObject[currStock.cusip]) {
+      currStock.ticker = cusipObject[currStock.cusip]
+      console.log('TICKER FOUND!', cusipObject[currStock.cusip])
+      await currStock.save()
+    }
+  }
+
+  if (lastOne) await lastFunctions()
+}
+
+async function deleteNullTickers() {
+  while (true) {
+    const nullTicker = await Stock.findOne({
+      where: {
+        ticker: null,
+      },
+    })
+
+    if (!nullTicker) break
+
+    await nullTicker.destroy()
+  }
+}
+
 async function lastFunctions() {
   console.log('IN LAST FUNCTIONS')
+  await deleteNullTickers()
   await setPrices()
   await setBeta()
   await setPortfolioValueAndPercentageOfFund()
@@ -505,28 +529,29 @@ async function lastFunctions() {
 
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
-  const timer = setInterval(throttleApiCall, 300)
 
   const allStocks = await Stock.findAll({
     where: {
       ticker: null,
     },
-    include: [ThirteenF],
   })
+
+  const chunkedStocks = breakIntoChunks(allStocks)
+
+  const timer = setInterval(throttleApiCall, 280)
+
   let index = 0
   let lastOne = false
 
   async function throttleApiCall() {
     try {
-      if (index === allStocks.length - 1) lastOne = true
-      if (index < allStocks.length) {
-        const stock = allStocks[index]
+      if (index === chunkedStocks.length - 1) lastOne = true
+      if (index < chunkedStocks.length) {
+        const stocks = chunkedStocks[index]
         index++
-
-        const ticker = await getTicker(stock.cusip)
-        await setTicker(stock, ticker, lastOne)
-
         if (lastOne) endThrottle(timer)
+
+        await findTickers(timer, stocks, lastOne)
       }
     } catch (err) {
       console.error(err)
