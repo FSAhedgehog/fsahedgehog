@@ -73,7 +73,13 @@ class AllHedgeFunds extends React.Component {
     const renderPageNumbers = pageNumbers.map((number) => {
       return (
         <div key={number} className="numbers">
-          <div id={number} className="number" onClick={this.handleClick}>
+          <div
+            id={number}
+            className={
+              'number' + (this.state.currentPage === number ? ' active' : '')
+            }
+            onClick={this.handleClick}
+          >
             {' ' + number + ' '}
           </div>
         </div>
@@ -160,11 +166,7 @@ class AllHedgeFunds extends React.Component {
           })}
         </div>
         <div className="pages-container">
-          {/* <div id="page-numbers">Pages</div> */}
-          <div className="pages-tab">
-            <div id="page-numbers">{renderPageNumbers} </div>
-            {/* <p>{renderPageNumbers}</p> */}
-          </div>
+          <div id="page-numbers">{renderPageNumbers} </div>
         </div>
       </div>
     )

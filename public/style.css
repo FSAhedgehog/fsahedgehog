@@ -90,6 +90,7 @@ form div {
 /* ALL HEDGE FUNDS STYLING */
 select {
   border-radius: 8px;
+  border: none;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
 }
 
@@ -229,13 +230,28 @@ input {
   justify-content: center;
 }
 
-.pages-tab {
+#page-numbers {
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   display: flex;
   justify-content: center;
 }
 
-#page-numbers {
-  padding: 5px;
+.numbers {
+  display: flex;
+  justify-content: center;
 }
+
+.active {
+  color: #59ea94;
+}
+
+.number {
+  padding: 5px;
+  margin: 3px;
+  cursor: pointer;
+}
+
+/* #page-numbers {
+  padding: 5px;
+} */
