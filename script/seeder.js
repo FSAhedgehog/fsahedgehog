@@ -12,16 +12,18 @@ const {
   fundRisk,
   getOldestYearAndQuarter,
 } = require('./seederUtility')
+require('dotenv').config()
 
-const {EDGAR_KEY} = require('../secrets')
+// const {EDGAR_KEY} = require('../secrets')
+const EDGAR_KEY = process.env.EDGAR_KEY
 
 // CHANGE HEDGEFUNDS HERE
 // --------------------------------------------------------
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
+  // 'DAILY JOURNAL CORP',
+  'BERKSHIRE HATHAWAY INC',
   // 'Scion Asset Management, LLC',
   // 'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'GREENLIGHT CAPITAL INC',
@@ -360,9 +362,9 @@ async function setHedgeFundReturns(startingValue) {
     })
     await Promise.all(
       hedgeFunds.map(async (hedgeFund) => {
-        const [year, quarter] = await getOldestYearAndQuarter(hedgeFund.id)
-        console.log(year, quarter, 'IN SET HEDGEFUND RETURNS')
-        await calcHedgeFundReturn(year, quarter, hedgeFund, startingValue)
+        // const [year, quarter] = await getOldestYearAndQuarter(hedgeFund.id)
+        // console.log(year, quarter, 'IN SET HEDGEFUND RETURNS')
+        await calcHedgeFundReturn(hedgeFund, startingValue)
       })
     )
   } catch (error) {
@@ -435,20 +437,22 @@ function getYearAndQuarterOneYearAgo(year, quarter) {
   }
 }
 
-function getYearAndQuarterThreeYearsAgo(year, quarter) {
+function getYearThreeYearsAgo(year, quarter) {
   if (quarter !== 4) return year - 1
   else return year - 2
 }
 
+// function getYearFiveYearsAgo
+
 // COME BACK TO THIS
-async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
+async function calcHedgeFundReturn(hedgeFund, startingValue) {
   console.log('IN CALC HEDGE FUND RETURN')
   const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFund.id)
   const [oneYearAgo, threeQuartersAgo] = getYearAndQuarterOneYearAgo(
     curYear,
     curQuarter
   )
-  const threeYearsAgo = getYearAndQuarterThreeYearsAgo(curYear, curQuarter)
+  const threeYearsAgo = getYearThreeYearsAgo(curYear, curQuarter)
   const current13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
