@@ -18,13 +18,32 @@ export class Main extends React.Component {
             <h3 className="flex-row">Welcome, future wealthy person!</h3>
           </div>
           <div className="flex-row sml-bottom">
-            <h2 className="flex-row text">Step one: Choose a HedgeFund!</h2>
+            <div className="flex-column">
+              <h2 className="flex-row text">Step one: Choose a Hedge Fund</h2>
+              <p className="flex-row left right top explainer">
+                Each quarter we get a glimpse into super-investors portfolios
+                when they release their holdings via a
+                <a href="https://en.wikipedia.org/wiki/Form_13F">13F</a>. Here
+                we’ve analyzed that data, to provide you with estimated returns
+                using each portfolio’s strategy. Click on a hedge fund to go
+                deeper.
+              </p>
+            </div>
           </div>
           <div className="flex-row space bottom">
             <AllHedgeFunds />
           </div>
           <div className="flex-row sml-bottom">
-            <h2 className="flex-row text">Step two: View HedgeFund Data!</h2>
+            <div className="flex-column">
+              <h2 className="flex-row text">Step two: View Return and Risk</h2>
+              <p className="flex-row left right top explainer">
+                Here you can see how mimicing this strategy would have compared
+                to the stock market in general (we use the S&P500). Also, check
+                out the average volatility of their current portfolio measured
+                using the{' '}
+                <a href="https://en.wikipedia.org/wiki/Beta_(finance)">beta</a>:
+              </p>
+            </div>
           </div>
           <div className="flex-row space-around">
             <div className="flex-row space">
@@ -45,7 +64,7 @@ export class Main extends React.Component {
               />
               <div className="flex-row sml-bottom">
                 <h2 className="flex-row text">
-                  Step three: Enter the amount you would like to invest!
+                  Step three: Consider Current Strategy
                 </h2>
               </div>
               <div className="what-to-buy flex-row not-too-big">

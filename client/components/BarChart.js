@@ -65,7 +65,14 @@ export const BarChart = (props) => {
           parent: {fontFamily: font},
         }}
       >
-        <VictoryAxis dependentAxis style={{tickLabels: {fontFamily: font}}} />
+        <VictoryAxis
+          dependentAxis
+          label="Market Beta"
+          style={{
+            tickLabels: {fontFamily: font},
+            axisLabel: {fontStyle: 'italic', padding: 34, fontFamily: font},
+          }}
+        />
         <VictoryAxis
           crossAxis
           style={{tickLabels: {fontSize: 12, fontFamily: font}}}

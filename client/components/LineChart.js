@@ -132,7 +132,7 @@ export class LineChart extends React.Component {
           />
           <VictoryAxis
             dependentAxis
-            label="Total % of Gain or Loss On Assets"
+            label="Total Gain or Loss On Assets"
             tickFormat={(t) => `${t}%`}
             style={{
               tickLabels: {padding: 5, fontSize: 10, fontFamily: font},

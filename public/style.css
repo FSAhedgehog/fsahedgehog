@@ -91,6 +91,11 @@ form div {
   margin-bottom: 2rem;
 }
 
+.explainer {
+  text-align: center;
+  font-style: italic;
+}
+
 /* ALL HEDGE FUNDS STYLING */
 select {
   border-radius: 8px;
@@ -113,7 +118,7 @@ select {
 }
 
 .singleHedgeFundContainer:hover {
-  background-color: #acacac;
+  background-color: black;
   cursor: pointer;
   color: #59ea94;
 }
