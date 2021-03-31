@@ -23,21 +23,22 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  'DAILY JOURNAL CORP',
-  'BERKSHIRE HATHAWAY INC',
+  // 'DAILY JOURNAL CORP',
+  // 'BERKSHIRE HATHAWAY INC',
   // 'Scion Asset Management, LLC',
-  'BILL & MELINDA GATES FOUNDATION TRUST',
-  'GREENLIGHT CAPITAL INC',
-  'Pershing Square Capital Management, L.P.',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'GREENLIGHT CAPITAL INC',
+  // 'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   // 'International Value Advisers',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
-  'TIGER GLOBAL MANAGEMENT LLC',
+  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  // 'TIGER GLOBAL MANAGEMENT LLC',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '120'
+const SIZE = '20'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -169,7 +170,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
