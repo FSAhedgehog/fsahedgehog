@@ -23,7 +23,7 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  'DAILY JOURNAL CORP',
+  // 'DAILY JOURNAL CORP',
   'BERKSHIRE HATHAWAY INC',
   'Scion Asset Management, LLC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
@@ -33,7 +33,7 @@ const HEDGEFUNDS = [
   // 'International Value Advisers',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
-//   'Tiger Global Management',
+  'Tiger Global Management',
 ]
 
 // CHANGE SIZE HERE
@@ -67,13 +67,13 @@ function buildQuery(hedgeFunds, size) {
 
 async function getInitialData(apiKey, query) {
   try {
-//     Comment this out for testing purposes
+    //     Comment this out for testing purposes
     const {data} = await axios.post(
       `https://api.sec-api.io?token=${apiKey}`,
       query
     )
-//     Uncomment this for testing purpose
-//     const data = require('./ex3comps5years')
+    //     Uncomment this for testing purpose
+    //     const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -169,7 +169,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: false})
+    await db.sync({force: true})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
