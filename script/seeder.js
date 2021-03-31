@@ -13,29 +13,31 @@ const {
   getOldestYearAndQuarter,
   breakIntoChunks,
 } = require('./seederUtility')
+require('dotenv').config()
 
-const {EDGAR_KEY} = require('../secrets')
+// const {EDGAR_KEY} = require('../secrets')
+const EDGAR_KEY = process.env.EDGAR_KEY
 
 // CHANGE HEDGEFUNDS HERE
 // --------------------------------------------------------
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  // 'DAILY JOURNAL CORP',
+  'DAILY JOURNAL CORP',
   'BERKSHIRE HATHAWAY INC',
-  // 'Scion Asset Management, LLC',
+  'Scion Asset Management, LLC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
-  // 'Pershing Square Capital Management, L.P.',
+  'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   // 'International Value Advisers',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
-  // 'Tiger Global Management',
+//   'Tiger Global Management',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '20'
+const SIZE = '120'
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
@@ -65,13 +67,13 @@ function buildQuery(hedgeFunds, size) {
 
 async function getInitialData(apiKey, query) {
   try {
-    // Comment this out for testing purposes
-    // const {data} = await axios.post(
-    //   `https://api.sec-api.io?token=${apiKey}`,
-    //   query
-    // )
-    // Uncomment this for testing purpose
-    const data = require('./ex3comps5years')
+//     Comment this out for testing purposes
+    const {data} = await axios.post(
+      `https://api.sec-api.io?token=${apiKey}`,
+      query
+    )
+//     Uncomment this for testing purpose
+//     const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -167,7 +169,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
@@ -343,9 +345,9 @@ async function setHedgeFundReturns(startingValue) {
     })
     await Promise.all(
       hedgeFunds.map(async (hedgeFund) => {
-        const [year, quarter] = await getOldestYearAndQuarter(hedgeFund.id)
-        console.log(year, quarter, 'IN SET HEDGEFUND RETURNS')
-        await calcHedgeFundReturn(year, quarter, hedgeFund, startingValue)
+        // const [year, quarter] = await getOldestYearAndQuarter(hedgeFund.id)
+        // console.log(year, quarter, 'IN SET HEDGEFUND RETURNS')
+        await calcHedgeFundReturn(hedgeFund, startingValue)
       })
     )
   } catch (error) {
@@ -418,20 +420,22 @@ function getYearAndQuarterOneYearAgo(year, quarter) {
   }
 }
 
-function getYearAndQuarterThreeYearsAgo(year, quarter) {
+function getYearThreeYearsAgo(year, quarter) {
   if (quarter !== 4) return year - 1
   else return year - 2
 }
 
+// function getYearFiveYearsAgo
+
 // COME BACK TO THIS
-async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
+async function calcHedgeFundReturn(hedgeFund, startingValue) {
   console.log('IN CALC HEDGE FUND RETURN')
   const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFund.id)
   const [oneYearAgo, threeQuartersAgo] = getYearAndQuarterOneYearAgo(
     curYear,
     curQuarter
   )
-  const threeYearsAgo = getYearAndQuarterThreeYearsAgo(curYear, curQuarter)
+  const threeYearsAgo = getYearThreeYearsAgo(curYear, curQuarter)
   const current13F = await ThirteenF.findOne({
     where: {
       hedgeFundId: hedgeFund.id,
