@@ -23,9 +23,9 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  // 'DAILY JOURNAL CORP',
+  'DAILY JOURNAL CORP',
   'BERKSHIRE HATHAWAY INC',
-  'Scion Asset Management, LLC',
+  // 'Scion Asset Management, LLC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
