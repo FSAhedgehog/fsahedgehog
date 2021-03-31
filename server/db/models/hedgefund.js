@@ -18,6 +18,10 @@ const HedgeFund = db.define('hedgeFund', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  yearTenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
 })
 
 module.exports = HedgeFund

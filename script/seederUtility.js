@@ -1,8 +1,9 @@
 const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
-const {OPEN_FIJI_KEY} = require('../secrets')
-
+require('dotenv').config()
+// const {OPEN_FIJI_KEY} = require('../secrets')
+const OPEN_FIJI_KEY = process.env.OPEN_FIJI_KEY
 function findQuarter(month) {
   month = Number(month)
   if (month === 3) {
