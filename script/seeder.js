@@ -33,7 +33,7 @@ const HEDGEFUNDS = [
   // 'International Value Advisers',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
-  'Tiger Global Management',
+  'TIGER GLOBAL MANAGEMENT LLC',
 ]
 
 // CHANGE SIZE HERE
