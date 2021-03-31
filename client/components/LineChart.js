@@ -55,6 +55,7 @@ export class LineChart extends React.Component {
           style={{
             parent: {
               border: '1px solid #ccc',
+              boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
               borderRadius: '15px',
             },
           }}

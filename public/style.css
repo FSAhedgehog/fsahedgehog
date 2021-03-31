@@ -90,6 +90,7 @@ form div {
 /* ALL HEDGE FUNDS STYLING */
 select {
   border-radius: 8px;
+  border: none;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
 }
 
@@ -101,11 +102,12 @@ select {
 }
 
 .singleHedgeFundContainer {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   display: flex;
   height: 39px;
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  margin-bottom: 4px;
 }
 
 .singleHedgeFundContainer:hover {
@@ -117,6 +119,7 @@ select {
 .hedgeFundName {
   width: 70%;
   display: flex;
+  padding-left: 5px;
 }
 
 .hedgeFundName p {
@@ -170,7 +173,6 @@ select {
   width: 450px;
   height: 350px;
   border-radius: 15px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
 }
 
 /* HOG BASKET STYLING */
@@ -221,3 +223,35 @@ input {
   padding: 8px;
   margin: 20% 20% 5% 20%;
 }
+
+/* Pages Styling */
+.pages-container {
+  display: flex;
+  justify-content: center;
+}
+
+#page-numbers {
+  border-radius: 15px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+}
+
+.numbers {
+  display: flex;
+  justify-content: center;
+}
+
+.active {
+  color: #59ea94;
+}
+
+.number {
+  padding: 5px;
+  margin: 3px;
+  cursor: pointer;
+}
+
+/* #page-numbers {
+  padding: 5px;
+} */
