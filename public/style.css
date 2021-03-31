@@ -10,6 +10,10 @@ label {
   display: block;
 }
 
+h6 {
+  font-size: 1.3rem;
+}
+
 nav a {
   display: inline-block;
   margin: 1rem;

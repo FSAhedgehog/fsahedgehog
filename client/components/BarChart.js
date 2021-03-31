@@ -1,5 +1,5 @@
 import React from 'react'
-import {VictoryBar, VictoryChart, VictoryLegend} from 'victory'
+import {VictoryBar, VictoryChart, VictoryLegend, VictoryAxis} from 'victory'
 import {findAverageBeta, camelCase, determineColor} from './utilities'
 
 export const BarChart = (props) => {
@@ -48,6 +48,8 @@ export const BarChart = (props) => {
     {name: 'Less Volatile', symbol: {fill: '#8affc1'}},
   ]
 
+  const font = "'Poppins', sans-serif"
+
   return (
     <div>
       <VictoryChart
@@ -57,21 +59,39 @@ export const BarChart = (props) => {
         }}
         domainPadding={50}
         domain={{y: [0.7, 2.3]}}
+        style={{
+          data: {fontFamily: font},
+          labels: {fontFamily: font},
+          parent: {fontFamily: font},
+        }}
       >
+        <VictoryAxis dependentAxis style={{tickLabels: {fontFamily: font}}} />
+        <VictoryAxis
+          crossAxis
+          style={{tickLabels: {fontSize: 12, fontFamily: font}}}
+        />
         <VictoryLegend
-          title="Hedge Fund Beta Risk"
+          title="Hedge Fund Volatility"
           orientation="horizontal"
           data={legendData}
           centerTitle
+          gutter={20}
           x={80}
           y={50}
-          style={{title: {fontSize: 20}}}
+          style={{
+            title: {fontSize: 20, fontFamily: font},
+            labels: {fontSize: 11, fontFamily: font},
+          }}
         />
         <VictoryBar
           data={data}
           style={{
             data: {
               fill: ({datum}) => datum.fill,
+              fontFamily: font,
+            },
+            labels: {
+              fontFamily: font,
             },
           }}
           labels={({datum}) => datum.value.toFixed(2)}
