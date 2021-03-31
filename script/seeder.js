@@ -29,16 +29,19 @@ const HEDGEFUNDS = [
   'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
   'ATLANTIC INVESTMENT MANAGEMENT, INC.',
-  // 'International Value Advisers',
-  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
-  // 'ARIEL INVESTMENTS, LLC',
-  //   'Tiger Global Management',
+  'International Value Advisers',
+  'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  'ARIEL INVESTMENTS, LLC',
+  'Appaloosa LP',
+  'TIGER GLOBAL MANAGEMENT LLC',
+  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  'WEDGEWOOD PARTNERS INC',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '120'
+const SIZE = '13'
 
-// CHANGE STARTING VALUE HERE
+// CHANGE STARTING VALUE HEREE
 const STARTING_VALUE = 10000
 
 function buildQuery(hedgeFunds, size) {

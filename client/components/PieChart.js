@@ -42,8 +42,13 @@ export class PieChart extends React.Component {
           style={{
             title: {fontSize: 20},
             labels: {fontFamily: font, padding: 30},
+            parent: {
+              border: '1px solid #ccc',
+              borderRadius: '15px',
+            },
           }}
           animate={{easing: 'exp'}}
+          // labelComponent={<CustomLabel />}
         />
       </div>
     )

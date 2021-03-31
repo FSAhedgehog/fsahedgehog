@@ -1,5 +1,5 @@
 import React from 'react'
-import {VictoryBar, VictoryChart, VictoryLegend, VictoryAxis} from 'victory'
+import {VictoryBar, VictoryChart, VictoryLegend, VictoryAxis, VictoryLabel} from 'victory'
 import {findAverageBeta, camelCase, determineColor} from './utilities'
 
 export const BarChart = (props) => {
@@ -62,7 +62,8 @@ export const BarChart = (props) => {
         style={{
           data: {fontFamily: font},
           labels: {fontFamily: font},
-          parent: {fontFamily: font},
+          parent: {fontFamily: font, border: '1px solid #ccc',
+            borderRadius: '15px',},
         }}
       >
         <VictoryAxis
