@@ -4,16 +4,15 @@ const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const {
-  getTicker,
+  getTickers,
   getPrice,
   findQuarter,
   calcMimicReturn,
   getBeta,
   fundRisk,
   getOldestYearAndQuarter,
+  breakIntoChunks,
 } = require('./seederUtility')
-
-const {getTickers, breakIntoChunks} = require('./experiment')
 
 const {EDGAR_KEY} = require('../secrets')
 
@@ -22,11 +21,11 @@ const {EDGAR_KEY} = require('../secrets')
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
+  // 'DAILY JOURNAL CORP',
+  'BERKSHIRE HATHAWAY INC',
   // 'Scion Asset Management, LLC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
+  'GREENLIGHT CAPITAL INC',
   // 'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   // 'International Value Advisers',
@@ -209,6 +208,7 @@ function endThrottle(timer) {
 }
 
 async function setBeta() {
+  console.log('IN BETA————')
   const hedgeFunds = await HedgeFund.findAll({
     where: {
       name: {
@@ -263,25 +263,6 @@ async function setPrices() {
         await stock.destroy()
       }
     }
-  }
-}
-
-async function setTicker(stock, ticker, lastOne) {
-  if (ticker) {
-    ticker = ticker.replace('/', '-')
-    stock.ticker = ticker
-    await stock.save()
-  } else {
-    console.log(
-      'TICKER NOT FOUND WITH A CUSIP OF ',
-      stock.dataValues.cusip,
-      ' GOING TO DESTROY'
-    )
-    await stock.destroy()
-  }
-
-  if (lastOne) {
-    lastFunctions()
   }
 }
 
@@ -492,16 +473,7 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
 
 /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
 async function findTickers(timer, stocks, lastOne) {
-  if (!stocks) {
-    clearInterval(timer)
-    return
-  }
-
-  const allCusips = []
-
-  stocks.forEach((stock) => {
-    if (!allCusips.includes(stock.cusip)) allCusips.push(stock.cusip)
-  })
+  const allCusips = stocks.map((stock) => stock.cusip)
 
   const allTickers = await getTickers(allCusips)
 
@@ -573,10 +545,9 @@ async function seedData(apiKey, hedgeFundNames, size) {
       if (index < chunkedStocks.length) {
         const stocks = chunkedStocks[index]
         index++
+        if (lastOne) endThrottle(timer)
 
         await findTickers(timer, stocks, lastOne)
-
-        if (lastOne) endThrottle(timer)
       }
     } catch (err) {
       console.error(err)

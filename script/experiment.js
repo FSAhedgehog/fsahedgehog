@@ -14,8 +14,6 @@ async function getTickers(cusipArray) {
     }
   })
 
-  console.log('CUSIP ARR——————', cusipArray)
-
   const axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
@@ -29,8 +27,6 @@ async function getTickers(cusipArray) {
       cusipArray,
       axiosConfig
     )
-
-    console.log('DATA FROM IN GET TICKER——————', data)
 
     return data
   } catch (error) {

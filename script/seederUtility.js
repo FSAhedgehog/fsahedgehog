@@ -20,28 +20,35 @@ function isCharacterALetter(char) {
   return /[A-Z]/.test(char)
 }
 
-async function getTicker(cusip) {
-  const idType = isCharacterALetter(cusip[0]) ? 'ID_CINS' : 'ID_CUSIP'
-  let postData = [{idType, idValue: cusip, exchCode: 'US'}]
-  let axiosConfig = {
+async function getTickers(cusipArray) {
+  cusipArray = cusipArray.map((cusip) => {
+    return {
+      idValue: cusip,
+      idType: isCharacterALetter(cusip[0]) ? 'ID_CINS' : 'ID_CUSIP',
+      exchCode: 'US',
+    }
+  })
+
+  const axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
       'X-OPENFIGI-APIKEY': OPEN_FIJI_KEY,
     },
   }
+
   try {
     const {data} = await axios.post(
       'https://api.openfigi.com/v2/mapping\\',
-      postData,
+      cusipArray,
       axiosConfig
     )
 
-    console.log('DATA FROM IN GET TICKER——————', data)
-    return data[0].data[0].ticker
+    return data
   } catch (error) {
-    console.log('oopsie!')
+    console.error(error)
   }
 }
+
 function addDayToDate(date) {
   let nextDate = new Date(date)
   nextDate.setDate(nextDate.getDate() + 1)
@@ -212,12 +219,28 @@ async function fundRisk(thirteenFId) {
   }
 }
 
+function breakIntoChunks(array) {
+  const outerArray = []
+
+  while (array.length) {
+    const innerArray = []
+    let counter = 0
+    while (counter < 100 && array.length) {
+      innerArray.push(array.pop())
+      counter++
+    }
+    outerArray.push(innerArray)
+  }
+  return outerArray
+}
+
 module.exports = {
-  getTicker,
+  getTickers,
   getPrice,
   findQuarter,
   getBeta,
   calcMimicReturn,
   fundRisk,
   getOldestYearAndQuarter,
+  breakIntoChunks,
 }
