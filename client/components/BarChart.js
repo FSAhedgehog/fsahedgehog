@@ -49,35 +49,37 @@ export const BarChart = (props) => {
   ]
 
   return (
-    <VictoryChart
-      animate={{
-        duration: 2000,
-        onLoad: {duration: 1000},
-      }}
-      domainPadding={50}
-      domain={{y: [0.7, 2.3]}}
-    >
-      <VictoryLegend
-        title="Hedge Fund Beta Risk"
-        orientation="horizontal"
-        data={legendData}
-        centerTitle
-        x={80}
-        y={50}
-        style={{title: {fontSize: 20}}}
-      />
-      <VictoryBar
-        data={data}
-        style={{
-          data: {
-            fill: ({datum}) => datum.fill,
-          },
+    <div>
+      <VictoryChart
+        animate={{
+          duration: 2000,
+          onLoad: {duration: 1000},
         }}
-        labels={({datum}) => datum.value.toFixed(2)}
-        x="type"
-        y="value"
-      />
-    </VictoryChart>
+        domainPadding={50}
+        domain={{y: [0.7, 2.3]}}
+      >
+        <VictoryLegend
+          title="Hedge Fund Beta Risk"
+          orientation="horizontal"
+          data={legendData}
+          centerTitle
+          x={80}
+          y={50}
+          style={{title: {fontSize: 20}}}
+        />
+        <VictoryBar
+          data={data}
+          style={{
+            data: {
+              fill: ({datum}) => datum.fill,
+            },
+          }}
+          labels={({datum}) => datum.value.toFixed(2)}
+          x="type"
+          y="value"
+        />
+      </VictoryChart>
+    </div>
   )
 }
 
