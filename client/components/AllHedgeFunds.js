@@ -9,10 +9,13 @@ class AllHedgeFunds extends React.Component {
     super()
     this.state = {
       sort: 'none',
+      currentPage: 1,
+      hedgeFundsPerPage: 5,
     }
     this.clickHedgeFund = this.clickHedgeFund.bind(this)
     this.moveHedgeHogToState = this.moveHedgeHogToState.bind(this)
     this.updateSort = this.updateSort.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
   componentDidMount() {
     this.props.getHedgeFunds()
@@ -20,10 +23,18 @@ class AllHedgeFunds extends React.Component {
       this.props.getMySingleHedgeFund(1)
     }
   }
+
+  handleClick(event) {
+    this.setState({
+      currentPage: Number(event.target.id),
+    })
+  }
+
   clickHedgeFund(hedgeFundId) {
     this.moveHedgeHogToState()
     return this.props.getMySingleHedgeFund(hedgeFundId)
   }
+
   moveHedgeHogToState(hedgeFundId) {
     if (this.props.singleHedgeFund.id === hedgeFundId) {
       return (
@@ -37,12 +48,38 @@ class AllHedgeFunds extends React.Component {
   }
 
   updateSort(event) {
-    console.log(event)
     this.setState({sort: event.target.value})
   }
 
   render() {
     let hedgeFunds = this.props.hedgeFunds || []
+    let {currentPage, hedgeFundsPerPage} = this.state
+    let indexOfLastHedge = currentPage * hedgeFundsPerPage
+    let indexOfFirstHedge = indexOfLastHedge - hedgeFundsPerPage
+    let currentHedgeFunds = hedgeFunds.slice(
+      indexOfFirstHedge,
+      indexOfLastHedge
+    )
+
+    const pageNumbers = []
+    for (
+      let i = 1;
+      i <= Math.ceil(hedgeFunds.length / hedgeFundsPerPage);
+      i++
+    ) {
+      pageNumbers.push(i)
+    }
+
+    const renderPageNumbers = pageNumbers.map((number) => {
+      return (
+        <div key={number} className="numbers">
+          <div id={number} className="number" onClick={this.handleClick}>
+            {' ' + number + ' '}
+          </div>
+        </div>
+      )
+    })
+
     if (this.state.sort !== 'none') {
       hedgeFunds = sortHedgeFunds(hedgeFunds, this.state.sort).reverse()
     }
@@ -56,7 +93,7 @@ class AllHedgeFunds extends React.Component {
             className="sort"
           >
             <option id="none" value="none" defaultValue="none">
-              Sort by: None
+              Sort by: Return %
             </option>
             <option id="1Year" value="1Year">
               Sort by: 1 Year Return
@@ -70,7 +107,7 @@ class AllHedgeFunds extends React.Component {
           </select>
         </div>
         <div className="hedgeFundsContainer">
-          {hedgeFunds.map((hedgeFund) => {
+          {currentHedgeFunds.map((hedgeFund) => {
             return (
               <div
                 key={hedgeFund.id}
@@ -121,6 +158,13 @@ class AllHedgeFunds extends React.Component {
               </div>
             )
           })}
+        </div>
+        <div className="pages-container">
+          {/* <div id="page-numbers">Pages</div> */}
+          <div className="pages-tab">
+            <div id="page-numbers">{renderPageNumbers} </div>
+            {/* <p>{renderPageNumbers}</p> */}
+          </div>
         </div>
       </div>
     )
