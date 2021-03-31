@@ -1,5 +1,5 @@
 import React from 'react'
-import {VictoryBar, VictoryChart, VictoryLegend} from 'victory'
+import {VictoryBar, VictoryChart, VictoryLegend, VictoryLabel} from 'victory'
 import {findAverageBeta, camelCase, determineColor} from './utilities'
 
 export const BarChart = (props) => {
@@ -57,9 +57,21 @@ export const BarChart = (props) => {
         }}
         domainPadding={50}
         domain={{y: [0.7, 2.3]}}
+        style={{
+          parent: {
+            border: '1px solid #ccc',
+            borderRadius: '15px',
+          },
+        }}
       >
+        <VictoryLabel
+          text="Hedge Fund Volatility"
+          x={225}
+          y={24}
+          textAnchor="middle"
+          style={{fill: 'black', fontSize: 16}}
+        />
         <VictoryLegend
-          title="Hedge Fund Beta Risk"
           orientation="horizontal"
           data={legendData}
           centerTitle

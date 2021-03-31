@@ -46,6 +46,7 @@ export class LineChart extends React.Component {
 
     return (
       <div>
+        {/* <h6 className="text-center">5 Year Historical Return</h6> */}
         <VictoryChart
           animate={{
             duration: 2000,
