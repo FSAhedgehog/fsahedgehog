@@ -21,21 +21,21 @@ class WhatToBuy extends React.Component {
 
   render() {
     const {stocks} = this.props
-    console.log('THIS IS STOCKS', stocks)
     return (
       <div>
         <div>
           <form onSubmit={this.handleSubmit}>
             <div className="form-border">
               <label htmlFor="money">
-                <small>Here's how you should invest your money:</small>
+                <small>Here's the breakdown if you want to invest your money the same way:</small>
               </label>
               <input
                 required
                 value={this.state.money}
                 onChange={this.handleChange}
-                type="text"
+                type="number"
                 name="money"
+                placeholder="$"
               />{' '}
               <button type="submit" className="button1">
                 Clear
@@ -63,10 +63,10 @@ class WhatToBuy extends React.Component {
                           <tr>
                             <td>{stock.name}</td>
                             <td>{stock.ticker}</td>
-                            <td>{stock.percentageOfPortfolio.toFixed(4)}</td>
+                            <td>{(stock.percentageOfPortfolio * 100).toFixed(2) + '%'}</td>
 
                             <th>
-                              {Math.floor(
+                              {'$'+Math.floor(
                                 this.state.money * stock.percentageOfPortfolio
                               )}
                             </th>

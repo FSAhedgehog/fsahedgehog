@@ -74,7 +74,7 @@ export const BarChart = (props) => {
               fill: ({datum}) => datum.fill,
             },
           }}
-          labels={({datum}) => datum.value.toFixed(2)}
+         // labels={({datum}) => datum.value.toFixed(2)}
           x="type"
           y="value"
         />

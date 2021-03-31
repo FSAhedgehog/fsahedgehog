@@ -34,27 +34,28 @@ export class Main extends React.Component {
               />
             </div>
             <div className="flex-row space">
+            <BarChart
+              hedgeFunds={this.props.hedgeFunds}
+              singleHedgeFund={this.props.singleHedgeFund}
+            />
+            </div>
+          </div>
+          <div className="flex-row sml-bottom">
+            <h3 className="flex-row text">Step three: Enter the amount you would like to invest!</h3>
+          </div>
+          <div className="flex-row space-around">
+            <div className="flex-row space">
               <PieChart
                 stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
               />
             </div>
-            <div className="flex-row">
-              <BarChart
-                hedgeFunds={this.props.hedgeFunds}
-                singleHedgeFund={this.props.singleHedgeFund}
-              />
-              <div className="flex-row sml-bottom">
-                <h2 className="flex-row text">
-                  Step three: Enter the amount you would like to invest!
-                </h2>
-              </div>
-              <div className="what-to-buy flex-row not-too-big">
-                <WhatToBuy
-                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-                />
-              </div>
-            </div>
+
+            <div className="what-to-buy flex-row">
+            <WhatToBuy
+              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+            />
           </div>
+        </div>
         </div>
       )
     } else {
