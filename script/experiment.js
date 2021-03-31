@@ -41,24 +41,15 @@ async function getTickers(cusipArray) {
 function breakIntoChunks(array) {
   const outerArray = []
 
-  if (array.length < 101) {
+  while (array.length) {
     const innerArray = []
-    while (array.length) {
+    let counter = 0
+    while (counter < 100 && array.length) {
       innerArray.push(array.pop())
+      counter++
     }
     outerArray.push(innerArray)
-  } else {
-    while (array.length) {
-      const innerArray = []
-      let counter = 0
-      while (counter < 100 && array.length) {
-        innerArray.push(array.pop())
-        counter++
-      }
-      outerArray.push(innerArray)
-    }
   }
-
   return outerArray
 }
 

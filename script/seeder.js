@@ -490,62 +490,8 @@ async function calcHedgeFundReturn(year, quarter, hedgeFund, startingValue) {
   await hedgeFund.save()
 }
 
-async function lastFunctions() {
-  console.log('IN LAST FUNCTIONS')
-  await setPrices()
-  await setBeta()
-  await setPortfolioValueAndPercentageOfFund()
-  await setQuarterlyValues()
-  await calculateSPValue()
-  await setHedgeFundReturns(STARTING_VALUE)
-  await setFundRisk()
-}
-
-async function seedData(apiKey, hedgeFundNames, size) {
-  await buildHedgeFunds(apiKey, hedgeFundNames, size)
-
-  const allStocks = await Stock.findAll({
-    where: {
-      ticker: null,
-    },
-  })
-
-  const chunkedStocks = breakIntoChunks(allStocks)
-
-  // const timer = setInterval(findTickers, 280)
-
-  const timer = setInterval(throttleApiCall, 280)
-
-  // const allStocks = await Stock.findAll({
-  //   where: {
-  //     ticker: null,
-  //   },
-  //   include: [ThirteenF],
-  // })
-
-  let index = 0
-  let lastOne = false
-
-  async function throttleApiCall() {
-    try {
-      if (index === chunkedStocks.length - 1) lastOne = true
-      if (index < chunkedStocks.length) {
-        const stocks = chunkedStocks[index]
-        index++
-
-        await findTickers(timer, stocks)
-        // await setTicker(stock, ticker, lastOne)
-
-        // if (lastOne) endThrottle(timer)
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }
-}
-
 /*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
-async function findTickers(timer, stocks) {
+async function findTickers(timer, stocks, lastOne) {
   if (!stocks) {
     clearInterval(timer)
     return
@@ -573,6 +519,67 @@ async function findTickers(timer, stocks) {
       currStock.ticker = cusipObject[currStock.cusip]
       console.log('TICKER FOUND!', cusipObject[currStock.cusip])
       await currStock.save()
+    }
+  }
+
+  if (lastOne) await lastFunctions()
+}
+
+async function deleteNullTickers() {
+  while (true) {
+    const nullTicker = await Stock.findOne({
+      where: {
+        ticker: null,
+      },
+    })
+
+    if (!nullTicker) break
+
+    await nullTicker.destroy()
+  }
+}
+
+async function lastFunctions() {
+  console.log('IN LAST FUNCTIONS')
+  await deleteNullTickers()
+  await setPrices()
+  await setBeta()
+  await setPortfolioValueAndPercentageOfFund()
+  await setQuarterlyValues()
+  await calculateSPValue()
+  await setHedgeFundReturns(STARTING_VALUE)
+  await setFundRisk()
+}
+
+async function seedData(apiKey, hedgeFundNames, size) {
+  await buildHedgeFunds(apiKey, hedgeFundNames, size)
+
+  const allStocks = await Stock.findAll({
+    where: {
+      ticker: null,
+    },
+  })
+
+  const chunkedStocks = breakIntoChunks(allStocks)
+
+  const timer = setInterval(throttleApiCall, 280)
+
+  let index = 0
+  let lastOne = false
+
+  async function throttleApiCall() {
+    try {
+      if (index === chunkedStocks.length - 1) lastOne = true
+      if (index < chunkedStocks.length) {
+        const stocks = chunkedStocks[index]
+        index++
+
+        await findTickers(timer, stocks, lastOne)
+
+        if (lastOne) endThrottle(timer)
+      }
+    } catch (err) {
+      console.error(err)
     }
   }
 }
