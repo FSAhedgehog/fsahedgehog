@@ -42,7 +42,7 @@ const HEDGEFUNDS = [
 // CHANGE SIZE HERE
 const SIZE = '40'
 
-// CHANGE STARTING VALUE HERE
+// CHANGE STARTING VALUE HEREE
 const STARTING_VALUE = 10000
 
 function buildQuery(hedgeFunds, size) {
