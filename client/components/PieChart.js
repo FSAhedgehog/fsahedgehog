@@ -46,6 +46,7 @@ export class PieChart extends React.Component {
             },
           }}
           animate={{easing: 'exp'}}
+          // labelComponent={<CustomLabel />}
         />
       </div>
     )

@@ -46,7 +46,7 @@ export class LineChart extends React.Component {
 
     return (
       <div>
-        <h6 className="text-center">5 Year Historical Return</h6>
+        {/* <h6 className="text-center">5 Year Historical Return</h6> */}
         <VictoryChart
           animate={{
             duration: 2000,
@@ -84,6 +84,13 @@ export class LineChart extends React.Component {
             />
           }
         >
+          <VictoryLabel
+            text="5 Year Historical Return"
+            x={225}
+            y={24}
+            textAnchor="middle"
+            style={{fill: 'black', fontSize: 16}}
+          />
           <VictoryLegend
             x={50}
             y={60}
