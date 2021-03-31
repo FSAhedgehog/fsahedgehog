@@ -35,6 +35,8 @@ async function getTicker(cusip) {
       postData,
       axiosConfig
     )
+
+    console.log('DATA FROM IN GET TICKER——————', data)
     return data[0].data[0].ticker
   } catch (error) {
     console.log('oopsie!')

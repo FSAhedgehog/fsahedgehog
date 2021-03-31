@@ -13,6 +13,8 @@ const {
   getOldestYearAndQuarter,
 } = require('./seederUtility')
 
+const {getTickers, breakIntoChunks} = require('./experiment')
+
 const {EDGAR_KEY} = require('../secrets')
 
 // CHANGE HEDGEFUNDS HERE
@@ -65,12 +67,12 @@ function buildQuery(hedgeFunds, size) {
 async function getInitialData(apiKey, query) {
   try {
     // Comment this out for testing purposes
-    const {data} = await axios.post(
-      `https://api.sec-api.io?token=${apiKey}`,
-      query
-    )
+    // const {data} = await axios.post(
+    //   `https://api.sec-api.io?token=${apiKey}`,
+    //   query
+    // )
     // Uncomment this for testing purpose
-    // const data = require('./ex3comps5years')
+    const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
@@ -501,31 +503,76 @@ async function lastFunctions() {
 
 async function seedData(apiKey, hedgeFundNames, size) {
   await buildHedgeFunds(apiKey, hedgeFundNames, size)
-  const timer = setInterval(throttleApiCall, 300)
 
   const allStocks = await Stock.findAll({
     where: {
       ticker: null,
     },
-    include: [ThirteenF],
   })
+
+  const chunkedStocks = breakIntoChunks(allStocks)
+
+  // const timer = setInterval(findTickers, 280)
+
+  const timer = setInterval(throttleApiCall, 280)
+
+  // const allStocks = await Stock.findAll({
+  //   where: {
+  //     ticker: null,
+  //   },
+  //   include: [ThirteenF],
+  // })
+
   let index = 0
   let lastOne = false
 
   async function throttleApiCall() {
     try {
-      if (index === allStocks.length - 1) lastOne = true
-      if (index < allStocks.length) {
-        const stock = allStocks[index]
+      if (index === chunkedStocks.length - 1) lastOne = true
+      if (index < chunkedStocks.length) {
+        const stocks = chunkedStocks[index]
         index++
 
-        const ticker = await getTicker(stock.cusip)
-        await setTicker(stock, ticker, lastOne)
+        await findTickers(timer, stocks)
+        // await setTicker(stock, ticker, lastOne)
 
-        if (lastOne) endThrottle(timer)
+        // if (lastOne) endThrottle(timer)
       }
     } catch (err) {
       console.error(err)
+    }
+  }
+}
+
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
+async function findTickers(timer, stocks) {
+  if (!stocks) {
+    clearInterval(timer)
+    return
+  }
+
+  const allCusips = []
+
+  stocks.forEach((stock) => {
+    if (!allCusips.includes(stock.cusip)) allCusips.push(stock.cusip)
+  })
+
+  const allTickers = await getTickers(allCusips)
+
+  const cusipObject = {}
+
+  allCusips.forEach((cusip, index) => {
+    if (allTickers[index].data)
+      cusipObject[allCusips[index]] = allTickers[index].data[0].ticker
+  })
+
+  for (let i = 0; i < stocks.length; i++) {
+    const currStock = stocks[i]
+
+    if (cusipObject[currStock.cusip]) {
+      currStock.ticker = cusipObject[currStock.cusip]
+      console.log('TICKER FOUND!', cusipObject[currStock.cusip])
+      await currStock.save()
     }
   }
 }
