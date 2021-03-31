@@ -36,7 +36,6 @@ const HEDGEFUNDS = [
   'TIGER GLOBAL MANAGEMENT LLC',
   'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
   'WEDGEWOOD PARTNERS INC',
-  // 'Scion Asset Management, LLC',
 ]
 
 // CHANGE SIZE HERE
@@ -85,7 +84,6 @@ async function getInitialData(apiKey, query) {
 
 async function createHedgeFunds(filings) {
   try {
-    // for (let i = 0; i < filings.length === 8; i++) {
     for (let i = 0; i < filings.length; i++) {
       const filing = filings[i]
       const response = await HedgeFund.findOrCreate({
@@ -370,6 +368,11 @@ async function calculateSPValue() {
       include: ThirteenF,
       order: [[ThirteenF, 'dateOfFiling', 'ASC']],
     })
+
+    console.log(
+      'SPVALUE HEDGEFUNDS——————',
+      hedgeFunds.map((hedgeFund) => hedgeFund.name)
+    )
 
     for (let i = 0; i < hedgeFunds.length; i++) {
       const hedgeFund = hedgeFunds[i]

@@ -40,7 +40,7 @@ class AllHedgeFunds extends React.Component {
       return (
         <img
           className="hedgeFundHog"
-          src="images/hog.png"
+          src="images/hogGreen.png"
           alt="hedgehog icon"
         ></img>
       )

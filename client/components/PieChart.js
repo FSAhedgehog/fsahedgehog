@@ -1,5 +1,5 @@
 import React from 'react'
-import {VictoryPie, VictoryTheme, VictoryContainer} from 'victory'
+import {VictoryPie, VictoryTheme, VictoryContainer, VictoryLabel} from 'victory'
 
 export class PieChart extends React.Component {
   constructor() {
@@ -27,6 +27,7 @@ export class PieChart extends React.Component {
   }
   render() {
     const pieStocks = this.renderStocks()
+    const font = "'Poppins', sans-serif"
     return (
       <div>
         <h6 className="text-center">Percentage of Portfolio</h6>
@@ -39,7 +40,8 @@ export class PieChart extends React.Component {
           colorScale={['#8affc1', '#907AD6', '#DABFFF', '#9D61FF']}
           theme={VictoryTheme.material}
           style={{
-            labels: {padding: 30},
+            title: {fontSize: 20},
+            labels: {fontFamily: font, padding: 30},
             parent: {
               border: '1px solid #ccc',
               borderRadius: '15px',

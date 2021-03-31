@@ -43,6 +43,7 @@ export class LineChart extends React.Component {
     const quarterlyValue = this.renderQuarterlyValues('quarterlyValue')
     const spValue = this.renderQuarterlyValues('spValue')
     const {hedgeFund} = this.props
+    const font = "'Poppins', sans-serif"
 
     return (
       <div>
@@ -80,24 +81,35 @@ export class LineChart extends React.Component {
                     strokeWidth: 0.8,
                     opacity: 0.37,
                   }}
+                  style={{fontFamily: font}}
                 />
               }
             />
           }
         >
           <VictoryLabel
-            text="5 Year Historical Return"
+            text="Five Year Historical Return"
             x={225}
             y={24}
             textAnchor="middle"
-            style={{fill: 'black', fontSize: 16}}
+            style={{
+              fill: 'black',
+              fontFamily: font,
+              fontSize: 20,
+            }}
           />
           <VictoryLegend
             x={50}
-            y={60}
+            y={70}
             centerTitle
             orientation="vertical"
-            style={{name: {fontSize: 5}}}
+            style={{
+              data: {fontFamily: font},
+              labels: {
+                fontFamily: font,
+                fontSize: 13,
+              },
+            }}
             data={[
               {
                 name: `${camelCase(hedgeFund.name)
@@ -114,6 +126,7 @@ export class LineChart extends React.Component {
             style={{
               tickLabels: {
                 fontSize: 12,
+                fontFamily: font,
               },
               grid: {stroke: '#818e99', strokeWidth: 0.3},
             }}
@@ -121,14 +134,15 @@ export class LineChart extends React.Component {
           />
           <VictoryAxis
             dependentAxis
-            label="Total % of Gain or Loss On Assets"
+            label="Total Gain or Loss On Assets"
             tickFormat={(t) => `${t}%`}
             style={{
-              tickLabels: {padding: 5, fontSize: 10},
+              tickLabels: {padding: 5, fontSize: 10, fontFamily: font},
               grid: {stroke: '#818e99', strokeWidth: 0.5},
               axisLabel: {
                 padding: 53,
                 fontSize: 13,
+                fontFamily: font,
                 fontStyle: 'italic',
               },
             }}
@@ -149,6 +163,7 @@ export class LineChart extends React.Component {
                 fill: 'rgb(157, 97, 255)',
                 fontSize: '12px',
                 fontWeight: '500',
+                fontFamily: font,
               },
             }}
           />
