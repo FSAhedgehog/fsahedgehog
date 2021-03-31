@@ -25,7 +25,6 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 const HEDGEFUNDS = [
   'DAILY JOURNAL CORP',
   'BERKSHIRE HATHAWAY INC',
-  // 'Scion Asset Management, LLC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
@@ -37,8 +36,7 @@ const HEDGEFUNDS = [
   'WEDGEWOOD PARTNERS INC',
   'Appaloosa LP',
   'TIGER GLOBAL MANAGEMENT LLC',
-]
-
+  ]
 // CHANGE SIZE HERE
 const SIZE = '200'
 
