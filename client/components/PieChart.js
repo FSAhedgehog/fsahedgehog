@@ -38,7 +38,13 @@ export class PieChart extends React.Component {
           padding={75}
           colorScale={['#8affc1', '#907AD6', '#DABFFF', '#9D61FF']}
           theme={VictoryTheme.material}
-          style={{labels: {padding: 30}}}
+          style={{
+            labels: {padding: 30},
+            parent: {
+              border: '1px solid #ccc',
+              borderRadius: '15px',
+            },
+          }}
           animate={{easing: 'exp'}}
         />
       </div>

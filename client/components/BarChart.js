@@ -50,6 +50,7 @@ export const BarChart = (props) => {
 
   return (
     <div>
+      <h6 className="text-center">Hedge Fund Beta Risk</h6>
       <VictoryChart
         animate={{
           duration: 2000,
@@ -57,9 +58,14 @@ export const BarChart = (props) => {
         }}
         domainPadding={50}
         domain={{y: [0.7, 2.3]}}
+        style={{
+          parent: {
+            border: '1px solid #ccc',
+            borderRadius: '15px',
+          },
+        }}
       >
         <VictoryLegend
-          title="Hedge Fund Beta Risk"
           orientation="horizontal"
           data={legendData}
           centerTitle
