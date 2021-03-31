@@ -32,13 +32,15 @@ const HEDGEFUNDS = [
   // 'International Value Advisers',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
- //'Tiger Global Management',
-]
-
+  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  'WEDGEWOOD PARTNERS INC',
+  'Appaloosa LP',
+  'TIGER GLOBAL MANAGEMENT LLC',
+  ]
 // CHANGE SIZE HERE
-const SIZE = '120'
+const SIZE = '200'
 
-// CHANGE STARTING VALUE HERE
+// CHANGE STARTING VALUE HEREE
 const STARTING_VALUE = 10000
 
 function buildQuery(hedgeFunds, size) {
@@ -66,13 +68,13 @@ function buildQuery(hedgeFunds, size) {
 
 async function getInitialData(apiKey, query) {
   try {
-//     Comment this out for testing purposes
+    //     Comment this out for testing purposes
     const {data} = await axios.post(
       `https://api.sec-api.io?token=${apiKey}`,
       query
     )
-//     Uncomment this for testing purpose
-//     const data = require('./ex3comps5years')
+    //     Uncomment this for testing purpose
+    //     const data = require('./ex3comps5years')
     return data
   } catch (err) {
     console.error('error in getInitialData func—————', err)
