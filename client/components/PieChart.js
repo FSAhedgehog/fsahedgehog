@@ -22,7 +22,9 @@ export class PieChart extends React.Component {
         returnArray.push(newObject)
       }
     }
-
+    if (returnArray[0].y === 0) {
+      returnArray.splice(0, 1)
+    }
     return returnArray
   }
   render() {
