@@ -2,9 +2,9 @@ import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
 import {LineChart} from './LineChart'
 import {BarChart, PieChart} from '../components'
-import WhatToBuy from './WhatToBuy'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
+import ListWhatToBuy from './ListWhatToBuy'
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -13,9 +13,10 @@ export class Main extends React.Component {
   render() {
     if (!this.props.loading) {
       return (
-        <div className="flex-column">
-          <div className="flex-row sml-bottom">
-            <h3 className="flex-row">Welcome, future wealthy person!</h3>
+        <div>
+          <div className="flex-column">
+            <div className="flex-row sml-bottom">
+              <h3 className="flex-row center-h3">Welcome, future wealthy person!</h3>
           </div>
           <div className="flex-row sml-bottom">
             <div className="flex-column">
@@ -30,7 +31,7 @@ export class Main extends React.Component {
               </p>
             </div>
           </div>
-          <div className="flex-row space bottom">
+            <div className="flex-row sml-bottom">
             <AllHedgeFunds />
           </div>
           <div className="flex-row sml-bottom">
@@ -52,28 +53,27 @@ export class Main extends React.Component {
                 hedgeFund={this.props.singleHedgeFund}
               />
             </div>
-            <div className="flex-row space">
-              <PieChart
-                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-              />
-            </div>
             <div className="flex-row">
               <BarChart
                 hedgeFunds={this.props.hedgeFunds}
                 singleHedgeFund={this.props.singleHedgeFund}
               />
-              <div className="flex-row sml-bottom">
-                <h2 className="flex-row text">
-                  Step three: Consider Current Strategy
-                </h2>
-              </div>
-              <div className="what-to-buy flex-row not-too-big">
-                <WhatToBuy
-                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-                />
-              </div>
             </div>
           </div>
+          <div className="flex-row sml-bottom paddingThree">
+            <h2 className="flex-row text"> Step three: Consider Current Strategy</h2>
+          </div>
+          <div className="flex-row space-around">
+            <div className="flex-row space">
+              <PieChart
+                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+              />
+            </div>
+            <div className="flex-row space">
+              <ListWhatToBuy stocks={this.props.singleHedgeFund.thirteenFs[0].stocks} />
+            </div>
+          </div>
+        </div>
         </div>
       )
     } else {

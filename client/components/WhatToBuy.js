@@ -9,21 +9,23 @@ class WhatToBuy extends React.Component {
     this.state = initialState
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleChange(event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
   handleSubmit(event) {
     event.preventDefault()
     this.setState(initialState)
   }
 
+
   render() {
-    const {stocks} = this.props
+    const { stocks } = this.props
     console.log('THIS IS STOCKS', stocks)
     return (
-      <div>
+      <div >
         <div>
           <form onSubmit={this.handleSubmit}>
             <div className="form-border">
@@ -47,7 +49,7 @@ class WhatToBuy extends React.Component {
           <div>
             <div>
               <div className="table-responsive">
-                <table className="what-to-buy-table table ">
+                <table className="-table table ">
                   <thead className="text">
                     <tr>
                       <th>Name</th>
