@@ -55,7 +55,7 @@ form div {
 }
 
 .space-around {
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .align-center {
@@ -117,17 +117,19 @@ select:hover {
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
-  width: 650px;
+  width: 100%;
   border-radius: 15px;
 }
 
 .singleHedgeFundContainer {
   /* border: solid 1px black; */
+
   display: flex;
-  height: 39px;
+  height: 15%;
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   margin-bottom: 4px;
+  font-size: 6px;
 }
 
 .singleHedgeFundContainer:hover {
@@ -143,8 +145,10 @@ select:hover {
 }
 
 .hedgeFundName p {
-  font-size: 15px;
-  padding: 8px 5px 5px 5px;
+
+  font-size: 13px;
+  padding: 6px 5px 5px 5px;
+
 }
 
 .hedgeFundHog {
@@ -171,6 +175,7 @@ select:hover {
 }
 
 .singleReturnContainer {
+  flex-wrap: wrap;
   display: flex;
   padding: 6px 0px 0px 0px;
   align-items: center;
@@ -179,7 +184,7 @@ select:hover {
 
 .yearReturnNumber p {
   font-size: 12px;
-  padding-left: 5px;
+  padding-left: 3px;
 }
 
 .yearReturnLabel p {
@@ -201,12 +206,6 @@ select:hover {
   height: 150px;
 }
 
-/* WHAT TO BUY STYLING */
-/* .what-to-buy {
-  width: 40%;
-  height: 100%;
-  padding-left: 100px;
-} */
 
 .text {
   color: rgb(157, 97, 255);
@@ -237,12 +236,6 @@ input {
   text-align: center;
 }
 
-.form-border {
-  border: 2px solid rgb(157, 97, 255);
-  border-radius: 15px;
-  padding: 8px;
-  margin: 20% 20% 5% 20%;
-}
 
 /* Pages Styling */
 .pages-container {
@@ -276,6 +269,55 @@ input {
   cursor: pointer;
 }
 
+/* #page-numbers {
+  padding: 5px;
+} */
+
+/* what to buy table styling */
+.form {
+  border: 2px solid rgb(157, 97, 255);
+  border-radius: 15px;
+  padding: 8px;
+  text-align: center;
+}
+
+tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+table {
+  border-radius: 15px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  justify-content: space-between;
+  margin-bottom: 5px;
+  margin-left: 10px
+}
+
+td, th {
+    padding: 10px;
+}
+tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+.paddingThree{
+    padding-top: 25px
+}
+
+/*mobile 400px and less*/
+@media screen and (max-width: 480px){
+  .mobile {
+    width: 58%;
+    justify-content: center;
+  }
+  .text,.center-h3{
+    text-align: center;
+  };
+.singleHedgeFundContainer {
+  flex-wrap: wrap
+}
+
+
+
 /* PIE STYLING */
 .pie-title {
   padding-top: 14px;
@@ -285,3 +327,4 @@ input {
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
 }
+

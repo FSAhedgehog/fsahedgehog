@@ -41,6 +41,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
+
 const SIZE = String(HEDGEFUNDS.length * 20)
 
 // CHANGE STARTING VALUE HEREE
