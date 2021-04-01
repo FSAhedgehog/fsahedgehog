@@ -20,7 +20,7 @@ class AllHedgeFunds extends React.Component {
   componentDidMount() {
     this.props.getHedgeFunds()
     if (!this.props.singleHedgeFund.id) {
-      this.props.getMySingleHedgeFund(1)
+      this.props.getMySingleHedgeFund()
     }
   }
 
@@ -56,10 +56,6 @@ class AllHedgeFunds extends React.Component {
     let {currentPage, hedgeFundsPerPage} = this.state
     let indexOfLastHedge = currentPage * hedgeFundsPerPage
     let indexOfFirstHedge = indexOfLastHedge - hedgeFundsPerPage
-    let currentHedgeFunds = hedgeFunds.slice(
-      indexOfFirstHedge,
-      indexOfLastHedge
-    )
 
     const pageNumbers = []
     for (
@@ -89,6 +85,10 @@ class AllHedgeFunds extends React.Component {
     if (this.state.sort !== 'none') {
       hedgeFunds = sortHedgeFunds(hedgeFunds, this.state.sort).reverse()
     }
+    let currentHedgeFunds = hedgeFunds.slice(
+      indexOfFirstHedge,
+      indexOfLastHedge
+    )
     return (
       <div className="flex-column">
         <div className="sml-bottom flex-row">

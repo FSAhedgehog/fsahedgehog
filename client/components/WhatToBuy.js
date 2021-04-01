@@ -21,7 +21,7 @@ class WhatToBuy extends React.Component {
 
   render() {
     const {stocks} = this.props
-    console.log('THIS IS STOCKS', stocks)
+    // console.log('THIS IS STOCKS', stocks)
     return (
       <div>
         <div>
