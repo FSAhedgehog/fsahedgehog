@@ -23,23 +23,26 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
+  'TRIAN FUND MANAGEMENT, L.P.',
+  'ValueAct Holdings, L.P.',
   'DAILY JOURNAL CORP',
   'BERKSHIRE HATHAWAY INC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
   'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
   'ATLANTIC INVESTMENT MANAGEMENT, INC.',
-  'International Value Advisers',
-  'FAIRHOLME CAPITAL MANAGEMENT LLC',
-  'ARIEL INVESTMENTS, LLC',
-  'Appaloosa LP',
-  'TIGER GLOBAL MANAGEMENT LLC',
-  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
-  'WEDGEWOOD PARTNERS INC',
+  'International Value Advisers, LLC',
+  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  // 'ARIEL INVESTMENTS, LLC',
+  // 'Appaloosa LP',
+  // 'TIGER GLOBAL MANAGEMENT LLC',
+  // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  // 'WEDGEWOOD PARTNERS INC',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '50'
+
+const SIZE = String(HEDGEFUNDS.length * 20)
 
 // CHANGE STARTING VALUE HEREE
 const STARTING_VALUE = 10000
@@ -103,16 +106,12 @@ async function createHedgeFunds(filings) {
 
 async function create13F(createdHedgeFund, filing) {
   try {
-    const response = await ThirteenF.findOrCreate({
-      where: {
-        dateOfFiling: filing.filedAt,
-        year: filing.periodOfReport.slice(0, 4),
-        quarter: findQuarter(filing.periodOfReport.slice(5, 7)),
-      },
+    const created13F = await ThirteenF.create({
+      dateOfFiling: filing.filedAt,
+      year: filing.periodOfReport.slice(0, 4),
+      quarter: findQuarter(filing.periodOfReport.slice(5, 7)),
     })
-    const created = response[1]
-    if (!created) return
-    const created13F = response[0]
+
     await createStocks(createdHedgeFund, created13F, filing.holdings)
   } catch (err) {
     console.error(err)
@@ -170,7 +169,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
@@ -499,7 +498,6 @@ async function findTickers(timer, stocks, lastOne) {
 
     if (cusipObject[currStock.cusip]) {
       currStock.ticker = cusipObject[currStock.cusip]
-      console.log('TICKER FOUND!', cusipObject[currStock.cusip])
       await currStock.save()
     }
   }
