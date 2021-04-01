@@ -22,8 +22,8 @@ export class Main extends React.Component {
               <h2 className="flex-row text">Step one: Choose a Hedge Fund</h2>
               <p className="flex-row left right top explainer">
                 Each quarter we get a glimpse into super-investors portfolios
-                when they release their holdings via a
-                <a href="https://en.wikipedia.org/wiki/Form_13F">13F</a>. Here
+                when they release their holdings via a &nbsp;
+                <a href="https://en.wikipedia.org/wiki/Form_13F"> 13F</a>. Here
                 we’ve analyzed that data, to provide you with estimated returns
                 using each portfolio’s strategy. Click on a hedge fund to go
                 deeper.
