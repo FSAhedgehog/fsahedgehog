@@ -2,7 +2,7 @@ const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 require('dotenv').config()
-// const {OPEN_FIJI_KEY} = require('../secrets')
+
 const OPEN_FIJI_KEY = process.env.OPEN_FIJI_KEY
 function findQuarter(month) {
   month = Number(month)
@@ -58,14 +58,12 @@ function addDayToDate(date) {
 
 async function getPrice(tickers, date) {
   try {
-    // console.log('TICKERS ARRAY——————', tickers)
     const response = await yahooFinance.historical({
       symbols: tickers,
       from: date.slice(0, 10),
       to: addDayToDate(date),
       period: 'd',
     })
-    // console.log('RESPONSE———————', response)
     for (let key in response) {
       if (response.hasOwnProperty(key)) {
         response[key].length
@@ -97,40 +95,45 @@ async function getOldestYearAndQuarter(hedgeFundId) {
 }
 
 async function calcMimicReturn(hedgeFundId, startingValue) {
-  let prevValue = startingValue
-  let quarterlyValues = {}
-  let prevPortfolio = null
-  let portfolio = null
-  let thirteenF = 'need to add to make the do while loop before defined in loop'
-  let [year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
-  console.log(year, quarter)
-  do {
-    thirteenF = await ThirteenF.findOne({
-      where: {
-        year: year,
-        quarter: quarter,
-        hedgeFundId: hedgeFundId,
-      },
-      include: [
-        {
-          model: Stock,
+  try {
+    let prevValue = startingValue
+    let quarterlyValues = {}
+    let prevPortfolio = null
+    let portfolio = null
+    let thirteenF =
+      'need to add to make the do while loop before defined in loop'
+    let [year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
+    console.log(year, quarter)
+    do {
+      thirteenF = await ThirteenF.findOne({
+        where: {
+          year: year,
+          quarter: quarter,
+          hedgeFundId: hedgeFundId,
         },
-      ],
-    })
-    if (!thirteenF) break
-    let date = await thirteenF.dataValues.dateOfFiling
-    if (!portfolio) portfolio = createPortfolio(thirteenF, prevValue)
-    if (!prevPortfolio) prevPortfolio = portfolio
-    let newValue = await findInvestmentPortfolioNewValue(prevPortfolio, date)
-    portfolio = createPortfolio(thirteenF, newValue)
-    prevValue = prevPortfolio.value
-    let quarterlyValue = newValue
-    quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
-    prevPortfolio = portfolio
-    ;({year, quarter} = getNextYearAndQuarter(year, quarter))
-  } while (thirteenF)
-  console.log(quarterlyValues)
-  return quarterlyValues
+        include: [
+          {
+            model: Stock,
+          },
+        ],
+      })
+      if (!thirteenF) break
+      let date = await thirteenF.dataValues.dateOfFiling
+      if (!portfolio) portfolio = createPortfolio(thirteenF, prevValue)
+      if (!prevPortfolio) prevPortfolio = portfolio
+      let newValue = await findInvestmentPortfolioNewValue(prevPortfolio, date)
+      portfolio = createPortfolio(thirteenF, newValue)
+      prevValue = prevPortfolio.value
+      let quarterlyValue = newValue
+      quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
+      prevPortfolio = portfolio
+      ;({year, quarter} = getNextYearAndQuarter(year, quarter))
+    } while (thirteenF)
+    console.log(quarterlyValues)
+    return quarterlyValues
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 function createPortfolio(thirteenF, value) {
@@ -147,19 +150,24 @@ function createPortfolio(thirteenF, value) {
 }
 
 async function findInvestmentPortfolioNewValue(portfolio, date) {
-  let newValue = 0
-  const tickersArr = Object.keys(portfolio).filter((key) => key !== 'value')
+  try {
+    let newValue = 0
+    const tickersArr = Object.keys(portfolio).filter((key) => key !== 'value')
 
-  const responseObj = await getPrice(tickersArr, date)
+    const responseObj = await getPrice(tickersArr, date)
 
-  for (let key in portfolio) {
-    if (key !== 'value') {
-      const currPrice = responseObj[key] || portfolio[key].prevPrice
-      const pricePercentage = currPrice / portfolio[key].prevPrice
-      newValue += pricePercentage * portfolio.value * portfolio[key].percentage
+    for (let key in portfolio) {
+      if (key !== 'value') {
+        const currPrice = responseObj[key] || portfolio[key].prevPrice
+        const pricePercentage = currPrice / portfolio[key].prevPrice
+        newValue +=
+          pricePercentage * portfolio.value * portfolio[key].percentage
+      }
     }
+    return newValue
+  } catch (err) {
+    console.error(err)
   }
-  return newValue
 }
 
 function getNextYearAndQuarter(year, quarter) {
@@ -188,7 +196,6 @@ async function getBeta(tickers) {
       modules: ['summaryDetail'],
     })
 
-    console.log('RESPONSE IN GETBETA————————')
     for (let key in response) {
       if (response.hasOwnProperty(key)) {
         response[key].summaryDetail.beta
