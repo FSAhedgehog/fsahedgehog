@@ -167,7 +167,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
