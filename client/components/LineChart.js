@@ -77,11 +77,10 @@ export class LineChart extends React.Component {
                 <VictoryTooltip
                   cornerRadius={10}
                   flyoutStyle={{
-                    fill: '#000000',
+                    fill: '#cccccc',
                     strokeWidth: 0.8,
-                    opacity: 0.37,
+                    opacity: 0.77,
                   }}
-                  style={{fontFamily: font}}
                 />
               }
             />
@@ -152,7 +151,12 @@ export class LineChart extends React.Component {
             data={quarterlyValue}
             style={{
               data: {stroke: '#59EA94'},
-              labels: {fill: '#59EA94', fontSize: '12px', fontWeight: '500'},
+
+              labels: {
+                fill: '#59EA94',
+                fontSize: '18px',
+                fontWeight: '500',
+              },
             }}
           />
           <VictoryLine
@@ -161,9 +165,7 @@ export class LineChart extends React.Component {
               data: {stroke: 'rgb(157, 97, 255)'},
               labels: {
                 fill: 'rgb(157, 97, 255)',
-                fontSize: '12px',
-                fontWeight: '500',
-                fontFamily: font,
+                fontSize: '18px',
               },
             }}
           />

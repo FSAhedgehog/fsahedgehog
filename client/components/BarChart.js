@@ -1,5 +1,11 @@
 import React from 'react'
-import {VictoryBar, VictoryChart, VictoryLegend, VictoryAxis, VictoryLabel} from 'victory'
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryLegend,
+  VictoryAxis,
+  VictoryLabel,
+} from 'victory'
 import {findAverageBeta, camelCase, determineColor} from './utilities'
 
 export const BarChart = (props) => {
@@ -62,8 +68,11 @@ export const BarChart = (props) => {
         style={{
           data: {fontFamily: font},
           labels: {fontFamily: font},
-          parent: {fontFamily: font, border: '1px solid #ccc',
-            borderRadius: '15px',},
+          parent: {
+            fontFamily: font,
+            border: '1px solid #ccc',
+            borderRadius: '15px',
+          },
         }}
       >
         <VictoryAxis
@@ -102,7 +111,7 @@ export const BarChart = (props) => {
               fontFamily: font,
             },
           }}
-          labels={({datum}) => datum.value.toFixed(2)}
+          labels={({datum}) => (datum.value ? datum.value.toFixed(2) : 0)}
           x="type"
           y="value"
         />
