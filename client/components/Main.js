@@ -37,10 +37,10 @@ export class Main extends React.Component {
             <div className="flex-column">
               <h2 className="flex-row text">Step two: View Return and Risk</h2>
               <p className="flex-row left right top explainer">
-                Here you can see how mimicing this strategy would have compared
-                to the stock market in general (we use the S&P500). Also, check
-                out the average volatility of their current portfolio measured
-                using the{' '}
+                Here you can see how mimicing the selected investor's strategy
+                would have compared to the stock market in general (we use the
+                S&P500). Also, check out the average volatility of their current
+                portfolio measured using the{' '}
                 <a href="https://en.wikipedia.org/wiki/Beta_(finance)">beta</a>:
               </p>
             </div>
@@ -67,15 +67,17 @@ export class Main extends React.Component {
                   Step three: Consider Current Strategy
                 </h2>
                 <p className="flex-row left right top explainer">
-                  Take a gander at this investor's current strategy. Keep in
-                  mind that form 13Fs are filed within 45 days of the end of the
-                  quarter, so this data always comes with a bit of a lag. Also,
-                  check out the average volatility of their current portfolio
-                  measured using the{' '}
-                  <a href="https://en.wikipedia.org/wiki/Beta_(finance)">
-                    beta
+                  Take a look at this investor's current strategy. Keep in mind
+                  that form 13Fs are filed within 45 days of the end of the
+                  quarter, so this data is always on a delay. Use our calculator
+                  to estimate how to invest your money if you copied this
+                  strategy. If you're new to investing, click &nbsp;
+                  <a href="https://www.nerdwallet.com/article/investing/how-to-invest-in-stocks">
+                    here
                   </a>
-                  :
+                  &nbsp; to learn more. If you're ready to invest,&nbsp;
+                  <a href="https://robinhood.com/us/en/">here</a>&nbsp; is a
+                  good resource that makes investing accessible to anyone.
                 </p>
               </div>
               <div className="what-to-buy flex-row not-too-big">
