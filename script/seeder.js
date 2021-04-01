@@ -30,16 +30,16 @@ const HEDGEFUNDS = [
   // 'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   // 'International Value Advisers, LLC',
-  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
-  // 'ARIEL INVESTMENTS, LLC',
-  // 'Appaloosa LP',
-  // 'TIGER GLOBAL MANAGEMENT LLC',
-  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
-  'WEDGEWOOD PARTNERS INC',
+  'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  'ARIEL INVESTMENTS, LLC',
+  'Appaloosa LP',
+  'TIGER GLOBAL MANAGEMENT LLC',
+  // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  // 'WEDGEWOOD PARTNERS INC',
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '40'
+const SIZE = '80'
 
 // CHANGE STARTING VALUE HEREE
 const STARTING_VALUE = 10000
@@ -170,7 +170,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
