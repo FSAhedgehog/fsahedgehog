@@ -2,7 +2,6 @@ import React from 'react'
 import {camelCase} from './utilities'
 
 const SortedHedgeFunds = (props) => {
-  console.log('PROPS', props)
   const {
     currentHedgeFunds,
     renderPageNumbers,

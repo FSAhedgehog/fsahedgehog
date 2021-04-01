@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-export const Navbar = (props) => (
+export const Navbar = () => (
   <div>
     <div className="flex-row icon top">
       <h1 className="flex-row">Hedgehog</h1>
@@ -9,8 +9,6 @@ export const Navbar = (props) => (
     <nav>
       <div className="flex-row space">
         <Link to="/disclaimer">Disclaimer</Link>
-        {/* <Link to="/stocks">Stocks</Link>
-        <Link to="/resources">Resources</Link> */}
       </div>
     </nav>
   </div>
