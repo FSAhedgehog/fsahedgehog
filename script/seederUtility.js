@@ -209,7 +209,7 @@ async function fundRisk(thirteenFId) {
     })
     let thirteenFBeta = data
       .map((stock) => {
-        return stock.percentageOfPortfolio * stock.beta ? stock.beta : 1
+        return stock.percentageOfPortfolio * (stock.beta ? stock.beta : 1)
       })
       .reduce((total, curVal) => {
         return total + curVal
