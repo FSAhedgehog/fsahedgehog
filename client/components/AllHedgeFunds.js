@@ -125,7 +125,6 @@ class AllHedgeFunds extends React.Component {
                   <div>{this.moveHedgeHogToState(hedgeFund.id)}</div>
                 </div>
                 <div className="hedgeFundReturnsContainer">
-                  {/* <p className="assetsReturn">Asset's Returns: </p> */}
                   <div className="singleReturnContainer">
                     <div className="yearReturnLabel">
                       <p>1 Yr</p>

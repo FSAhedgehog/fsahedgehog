@@ -29,26 +29,20 @@ export class PieChart extends React.Component {
     const pieStocks = this.renderStocks()
     const font = "'Poppins', sans-serif"
     return (
-      <div>
-        <h6 className="text-center">Percentage of Portfolio</h6>
-
+      <div className="pie-chart">
+        <h6 className="text-center pie-title">Percentage of Portfolio</h6>
         <VictoryPie
           containerComponent={<VictoryContainer responsive={false} />}
           data={pieStocks}
           labels={({datum}) => `${datum.x}\n ${datum.y.toFixed(2)}%`}
           padding={75}
-          colorScale={['#8affc1', '#907AD6', '#DABFFF', '#9D61FF']}
+          colorScale={['#8affc1', '#c3ffdf', '#DABFFF', '#9D61FF']}
           theme={VictoryTheme.material}
           style={{
             title: {fontSize: 20},
             labels: {fontFamily: font, padding: 30},
-            parent: {
-              border: '1px solid #ccc',
-              borderRadius: '15px',
-            },
           }}
           animate={{easing: 'exp'}}
-          // labelComponent={<CustomLabel />}
         />
       </div>
     )
