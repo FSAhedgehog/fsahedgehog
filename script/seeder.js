@@ -23,13 +23,13 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  // 'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'GREENLIGHT CAPITAL INC',
-  // 'Pershing Square Capital Management, L.P.',
-  // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
-  // 'International Value Advisers, LLC',
+  'DAILY JOURNAL CORP',
+  'BERKSHIRE HATHAWAY INC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
+  'GREENLIGHT CAPITAL INC',
+  'Pershing Square Capital Management, L.P.',
+  'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  'International Value Advisers, LLC',
   'FAIRHOLME CAPITAL MANAGEMENT LLC',
   'ARIEL INVESTMENTS, LLC',
   'Appaloosa LP',
@@ -39,7 +39,7 @@ const HEDGEFUNDS = [
 ]
 
 // CHANGE SIZE HERE
-const SIZE = '120'
+const SIZE = String(HEDGEFUNDS.length * 20)
 
 // CHANGE STARTING VALUE HEREE
 const STARTING_VALUE = 10000
@@ -103,16 +103,12 @@ async function createHedgeFunds(filings) {
 
 async function create13F(createdHedgeFund, filing) {
   try {
-    const response = await ThirteenF.findOrCreate({
-      where: {
-        dateOfFiling: filing.filedAt,
-        year: filing.periodOfReport.slice(0, 4),
-        quarter: findQuarter(filing.periodOfReport.slice(5, 7)),
-      },
+    const created13F = await ThirteenF.create({
+      dateOfFiling: filing.filedAt,
+      year: filing.periodOfReport.slice(0, 4),
+      quarter: findQuarter(filing.periodOfReport.slice(5, 7)),
     })
-    const created = response[1]
-    if (!created) return
-    const created13F = response[0]
+
     await createStocks(createdHedgeFund, created13F, filing.holdings)
   } catch (err) {
     console.error(err)
@@ -499,7 +495,6 @@ async function findTickers(timer, stocks, lastOne) {
 
     if (cusipObject[currStock.cusip]) {
       currStock.ticker = cusipObject[currStock.cusip]
-      console.log('TICKER FOUND!', cusipObject[currStock.cusip])
       await currStock.save()
     }
   }
