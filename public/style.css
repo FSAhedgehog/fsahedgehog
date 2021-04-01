@@ -145,10 +145,8 @@ select:hover {
 }
 
 .hedgeFundName p {
-
   font-size: 13px;
   padding: 6px 5px 5px 5px;
-
 }
 
 .hedgeFundHog {
@@ -206,7 +204,6 @@ select:hover {
   height: 150px;
 }
 
-
 .text {
   color: rgb(157, 97, 255);
 }
@@ -235,7 +232,6 @@ input {
 .text-center {
   text-align: center;
 }
-
 
 /* Pages Styling */
 .pages-container {
@@ -281,7 +277,7 @@ input {
   text-align: center;
 }
 
-tr:nth-child(even){
+tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 table {
@@ -289,34 +285,35 @@ table {
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   justify-content: space-between;
   margin-bottom: 5px;
-  margin-left: 10px
+  margin-left: 10px;
 }
 
-td, th {
-    padding: 10px;
+td,
+th {
+  padding: 10px;
 }
-tr:nth-child(even){
+tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-.paddingThree{
-    padding-top: 25px
+.paddingThree {
+  padding-top: 25px;
 }
 
 /*mobile 400px and less*/
-@media screen and (max-width: 480px){
+@media screen and (max-width: 480px) {
   .mobile {
     width: 58%;
     justify-content: center;
   }
-  .text,.center-h3{
+  .text,
+  .center-h3 {
     text-align: center;
-  };
-.singleHedgeFundContainer {
-  flex-wrap: wrap
+  }
+  .singleHedgeFundContainer {
+    flex-wrap: wrap;
+  }
 }
-
-
 
 /* PIE STYLING */
 .pie-title {
@@ -327,4 +324,3 @@ tr:nth-child(even){
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
 }
-
