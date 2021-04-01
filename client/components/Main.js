@@ -66,6 +66,17 @@ export class Main extends React.Component {
                 <h2 className="flex-row text">
                   Step three: Consider Current Strategy
                 </h2>
+                <p className="flex-row left right top explainer">
+                  Take a gander at this investor's current strategy. Keep in
+                  mind that form 13Fs are filed within 45 days of the end of the
+                  quarter, so this data always comes with a bit of a lag. Also,
+                  check out the average volatility of their current portfolio
+                  measured using the{' '}
+                  <a href="https://en.wikipedia.org/wiki/Beta_(finance)">
+                    beta
+                  </a>
+                  :
+                </p>
               </div>
               <div className="what-to-buy flex-row not-too-big">
                 <WhatToBuy
