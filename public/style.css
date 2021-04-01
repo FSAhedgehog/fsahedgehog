@@ -109,7 +109,7 @@ select {
 }
 
 select:hover {
-  background: #f7f7f7;
+  background: black;
   cursor: pointer;
   color: #59ea94;
 }

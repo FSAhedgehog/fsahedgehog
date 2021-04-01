@@ -241,8 +241,6 @@ async function setBeta() {
         if (betasObj[stock.ticker]) {
           stock.beta = betasObj[stock.ticker]
           await stock.save()
-        } else {
-          // await stock.destroy()
         }
       }
     }
