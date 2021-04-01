@@ -87,7 +87,10 @@ class AllHedgeFunds extends React.Component {
     })
 
     if (this.state.sort !== 'none') {
-      hedgeFunds = sortHedgeFunds(hedgeFunds, this.state.sort).reverse()
+      currentHedgeFunds = sortHedgeFunds(
+        currentHedgeFunds,
+        this.state.sort
+      ).reverse()
     }
     return (
       <div className="flex-column">
