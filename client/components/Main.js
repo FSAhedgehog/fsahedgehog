@@ -72,9 +72,8 @@ export class Main extends React.Component {
                   quarter, so this data is always on a delay. Use our calculator
                   to estimate how to invest your money if you copied this
                   strategy. If you're new to investing, click &nbsp;
-                  <a href="https://www.nerdwallet.com/article/investing/how-to-invest-in-stocks">
-                    here
-                  </a>
+                  {/* prettier-ignore */}
+                  <a href="https://www.nerdwallet.com/article/investing/how-to-invest-in-stocks">here</a>
                   &nbsp; to learn more. If you're ready to invest,&nbsp;
                   <a href="https://robinhood.com/us/en/">here</a>&nbsp; is a
                   good resource that makes investing accessible to anyone.
