@@ -83,10 +83,7 @@ class AllHedgeFunds extends React.Component {
     })
 
     if (this.state.sort !== 'none') {
-      currentHedgeFunds = sortHedgeFunds(
-        currentHedgeFunds,
-        this.state.sort
-      ).reverse()
+      hedgeFunds = sortHedgeFunds(hedgeFunds, this.state.sort).reverse()
     }
     let currentHedgeFunds = hedgeFunds.slice(
       indexOfFirstHedge,
