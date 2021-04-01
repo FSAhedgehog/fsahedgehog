@@ -45,3 +45,15 @@ export function determineColor(number) {
     return 'rgb(157, 97, 255)'
   }
 }
+
+export function sortHedgeFunds(hedgeFunds, sort) {
+  if (sort === 'none') {
+    return hedgeFunds
+  } else if (sort === '1Year') {
+    return hedgeFunds.sort((a, b) => a.yearOneReturn - b.yearOneReturn)
+  } else if (sort === '3Year') {
+    return hedgeFunds.sort((a, b) => a.yearThreeReturn - b.yearThreeReturn)
+  } else if (sort === '5Year') {
+    return hedgeFunds.sort((a, b) => a.yearFiveReturn - b.yearFiveReturn)
+  }
+}
