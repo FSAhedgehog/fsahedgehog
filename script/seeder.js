@@ -40,7 +40,7 @@ const HEDGEFUNDS = [
   // 'WEDGEWOOD PARTNERS INC',
 ]
 
-const SIZE = String(HEDGEFUNDS.length * 1)
+const SIZE = String(HEDGEFUNDS.length * 20)
 
 // CHANGE STARTING VALUE HERE
 const STARTING_VALUE = 10000
