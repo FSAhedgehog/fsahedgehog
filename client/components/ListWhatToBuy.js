@@ -1,11 +1,10 @@
 import React from 'react'
 
-
 class Test extends React.Component {
   constructor() {
     super()
     this.state = {
-      money: 0,
+      money: 3000,
       currentPage: 1,
       stocksPerPage: 5,
     }
@@ -15,7 +14,7 @@ class Test extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+    this.setState({[event.target.name]: event.target.value})
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -23,26 +22,19 @@ class Test extends React.Component {
   }
   handleClick(event) {
     this.setState({
-      currentPage: Number(event.target.id)
+      currentPage: Number(event.target.id),
     })
   }
 
   render() {
     let stocks = this.props.stocks || []
-    let { currentPage, stocksPerPage} = this.state
+    let {currentPage, stocksPerPage} = this.state
     let indexOfLastStock = currentPage * stocksPerPage
     let indexOfFirstStock = indexOfLastStock - stocksPerPage
-    let currentStock = stocks.slice(
-      indexOfFirstStock,
-      indexOfLastStock
-    )
+    let currentStock = stocks.slice(indexOfFirstStock, indexOfLastStock)
 
     const pageNumbers = []
-    for (
-      let i = 1;
-      i <= Math.ceil(stocks.length / stocksPerPage);
-      i++
-    ) {
+    for (let i = 1; i <= Math.ceil(stocks.length / stocksPerPage); i++) {
       pageNumbers.push(i)
     }
 
@@ -61,13 +53,16 @@ class Test extends React.Component {
         </div>
       )
     })
-    return(
+    return (
       <div>
         <div className="center-form">
           <form onSubmit={this.handleSubmit}>
-            <div  className="form">
+            <div className="form">
               <label htmlFor="money">
-                <small>Here's the breakdown of stocks if you invested your money the same way:</small>
+                <small>
+                  Here's the breakdown of stocks if you invested your money the
+                  same way:
+                </small>
               </label>
               <input
                 required
@@ -92,34 +87,34 @@ class Test extends React.Component {
             </tr>
           </thead>
           <tbody>
-      {currentStock.map((stock) => {
-        return (
-          <React.Fragment key={stock.id}>
-            <tr>
-              <td>{stock.name}</td>
-              <td>{stock.ticker}</td>
-              <td>{(stock.percentageOfPortfolio * 100).toFixed(3) + "%"}</td>
+            {currentStock.map((stock) => {
+              return (
+                <React.Fragment key={stock.id}>
+                  <tr>
+                    <td>{stock.name}</td>
+                    <td>{stock.ticker}</td>
+                    <td>
+                      {(stock.percentageOfPortfolio * 100).toFixed(3) + '%'}
+                    </td>
 
-              <th>
-                {"$"+ ( Math.floor(
-                  this.state.money * stock.percentageOfPortfolio
-                ))}
-              </th>
-            </tr>
-          </React.Fragment>
-        )
-      })}
-         </tbody>
+                    <th>
+                      {'$' +
+                        Math.floor(
+                          this.state.money * stock.percentageOfPortfolio
+                        )}
+                    </th>
+                  </tr>
+                </React.Fragment>
+              )
+            })}
+          </tbody>
         </table>
         <div className="pages-container">
           <div id="page-numbers">{renderPageNumbers} </div>
         </div>
-    </div>
-      )
-    }
+      </div>
+    )
   }
-
-
+}
 
 export default Test
-

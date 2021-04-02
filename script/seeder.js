@@ -23,21 +23,21 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  'TRIAN FUND MANAGEMENT, L.P.',
-  'ValueAct Holdings, L.P.',
+  // 'TRIAN FUND MANAGEMENT, L.P.',
+  // 'ValueAct Holdings, L.P.',
   'DAILY JOURNAL CORP',
-  'BERKSHIRE HATHAWAY INC',
-  'BILL & MELINDA GATES FOUNDATION TRUST',
-  'GREENLIGHT CAPITAL INC',
-  'Pershing Square Capital Management, L.P.',
-  'ATLANTIC INVESTMENT MANAGEMENT, INC.',
-  'International Value Advisers, LLC',
-  'FAIRHOLME CAPITAL MANAGEMENT LLC',
-  'ARIEL INVESTMENTS, LLC',
-  'Appaloosa LP',
-  'TIGER GLOBAL MANAGEMENT LLC',
-  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
-  'WEDGEWOOD PARTNERS INC',
+  // 'BERKSHIRE HATHAWAY INC',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'GREENLIGHT CAPITAL INC',
+  // 'Pershing Square Capital Management, L.P.',
+  // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  // 'International Value Advisers, LLC',
+  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  // 'ARIEL INVESTMENTS, LLC',
+  // 'Appaloosa LP',
+  // 'TIGER GLOBAL MANAGEMENT LLC',
+  // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  // 'WEDGEWOOD PARTNERS INC',
 ]
 
 const SIZE = String(HEDGEFUNDS.length * 1)
@@ -167,7 +167,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
     await createHedgeFunds(data.filings)
