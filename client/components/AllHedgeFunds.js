@@ -17,7 +17,6 @@ class AllHedgeFunds extends React.Component {
     this.moveHedgeHogToState = this.moveHedgeHogToState.bind(this)
     this.updateSort = this.updateSort.bind(this)
     this.handleClick = this.handleClick.bind(this)
-    this.scroll = this.scroll.bind(this)
   }
 
   componentDidMount() {
@@ -25,7 +24,6 @@ class AllHedgeFunds extends React.Component {
     if (!this.props.singleHedgeFund.id) {
       this.props.getMySingleHedgeFund()
     }
-    console.log(document)
   }
 
   handleClick(event) {
