@@ -13,7 +13,6 @@ class AllHedgeFunds extends React.Component {
       currentPage: 1,
       hedgeFundsPerPage: 5,
     }
-
     this.clickHedgeFund = this.clickHedgeFund.bind(this)
     this.moveHedgeHogToState = this.moveHedgeHogToState.bind(this)
     this.updateSort = this.updateSort.bind(this)

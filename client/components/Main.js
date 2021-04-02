@@ -10,6 +10,7 @@ export class Main extends React.Component {
   componentDidMount() {
     this.props.getMySingleHedgeFund()
   }
+
   render() {
     if (!this.props.loading) {
       return (
@@ -40,7 +41,7 @@ export class Main extends React.Component {
             </div>
             <div className="flex-row sml-bottom">
               <div className="flex-column">
-                <h2 className="flex-row text">
+                <h2 className="flex-row text" id="anchor-name">
                   Step two: View Return and Risk
                 </h2>
                 <p className="flex-row left right top explainer">
