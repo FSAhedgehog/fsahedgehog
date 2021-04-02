@@ -18,7 +18,7 @@ class Test extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault()
-    this.setState(this.money)
+    this.setState({money: ''})
   }
   handleClick(event) {
     this.setState({
