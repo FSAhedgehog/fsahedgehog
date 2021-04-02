@@ -180,10 +180,10 @@ select:hover {
   width: 85px;
 }
 
-.yearReturnNumber p {
+/* .yearReturnNumber p {
   font-size: 12px;
   padding-left: 3px;
-}
+} */
 
 .yearReturnLabel p {
   font-size: 11px;
@@ -265,9 +265,9 @@ input {
   cursor: pointer;
 }
 
-/* #page-numbers {
+ #page-numbers {
   padding: 5px;
-} */
+}
 
 /* what to buy table styling */
 .form {
@@ -311,9 +311,12 @@ tr:nth-child(even) {
   .center-h3 {
     text-align: center;
   }
-  .singleHedgeFundContainer {
-    flex-wrap: wrap;
+  .hedgeFundReturnContainer{
+    align-items: justify
   }
+  /* .hedgeFundName{
+    font-size:
+  } */
 }
 
 /* PIE STYLING */
