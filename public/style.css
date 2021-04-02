@@ -286,6 +286,7 @@ table {
   justify-content: space-between;
   margin-bottom: 5px;
   margin-left: 10px;
+  width: 100%
 }
 
 td,
