@@ -39,6 +39,11 @@ form div {
   display: inline-block;
 }
 
+.Link {
+  all: initial;
+  all: unset;
+}
+
 .space {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;

@@ -1,5 +1,6 @@
 import React from 'react'
 import {camelCase} from './utilities'
+import {Link, animateScroll as scroll} from 'react-scroll'
 
 const SortedHedgeFunds = (props) => {
   const {
@@ -31,9 +32,13 @@ const SortedHedgeFunds = (props) => {
         {currentHedgeFunds.map((hedgeFund) => {
           return (
             <div
-              key={hedgeFund.id}
-              onClick={() => clickHedgeFund(hedgeFund.id)}
+              onClick={() => {
+                clickHedgeFund(hedgeFund.id)
+                document.getElementsByClassName('Link')[0].click()
+              }}
+              href="#anchor-name"
               className="singleHedgeFundContainer"
+              key={hedgeFund.id}
             >
               <div className="hedgeFundName">
                 <p>{camelCase(hedgeFund.name)}</p>
@@ -78,6 +83,14 @@ const SortedHedgeFunds = (props) => {
       <div className="pages-container">
         <div id="page-numbers">{renderPageNumbers} </div>
       </div>
+      <Link
+        className="Link"
+        spy={true}
+        smooth={true}
+        offset={-30}
+        duration={700}
+        to="anchor-name"
+      />
     </div>
   )
 }
