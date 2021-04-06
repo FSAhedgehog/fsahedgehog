@@ -42,15 +42,13 @@ const Stock = db.define('stock', {
 
 module.exports = Stock
 
-//CUSIP HOOK
-//if string is less than 9 characters
+//CUSIP HOOKS
 Stock.beforeCreate((stock) => {
   if (stock.cusip.length === 8) {
     stock.cusip = '0' + stock.cusip
   }
 })
 
-// before update
 Stock.beforeUpdate((stock) => {
   if (stock.cusip.length === 8) {
     stock.cusip = '0' + stock.cusip

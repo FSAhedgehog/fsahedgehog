@@ -1,5 +1,5 @@
 import React from 'react'
-import {VictoryPie, VictoryTheme, VictoryContainer, VictoryLabel} from 'victory'
+import {VictoryPie, VictoryTheme, VictoryContainer} from 'victory'
 
 export class PieChart extends React.Component {
   constructor() {

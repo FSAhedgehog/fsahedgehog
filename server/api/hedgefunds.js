@@ -29,8 +29,6 @@ router.get('/:id', async (req, res, next) => {
       order: [[ThirteenF, 'dateOfFiling', 'DESC']],
     })
 
-    // console.log('SINGLE HEDGE API———', singleHedgeFund.thirteenFs)
-
     res.json(singleHedgeFund)
   } catch (err) {
     next(err)
