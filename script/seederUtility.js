@@ -1,6 +1,6 @@
 const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
-const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
+const {ThirteenF, Stock} = require('../server/db/models')
 require('dotenv').config()
 
 const OPEN_FIJI_KEY = process.env.OPEN_FIJI_KEY
@@ -79,7 +79,6 @@ async function getPrice(tickers, date) {
 
 async function getOldestYearAndQuarter(hedgeFundId) {
   try {
-    console.log('IN GET OLDEST YEAR______')
     const thirteenFs = await ThirteenF.findAll({
       where: {
         hedgeFundId: hedgeFundId,
@@ -103,7 +102,6 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
     let thirteenF =
       'need to add to make the do while loop before defined in loop'
     let [year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
-    console.log(year, quarter)
     do {
       thirteenF = await ThirteenF.findOne({
         where: {
@@ -129,7 +127,7 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
       prevPortfolio = portfolio
       ;({year, quarter} = getNextYearAndQuarter(year, quarter))
     } while (thirteenF)
-    console.log(quarterlyValues)
+
     return quarterlyValues
   } catch (error) {
     console.error(error)
@@ -180,15 +178,6 @@ function getNextYearAndQuarter(year, quarter) {
   return {year, quarter}
 }
 
-function getDateOfReporting(year, quarter) {
-  let date = `${year}`
-  date += quarter === 1 ? '-03-31' : ''
-  date += quarter === 2 ? '-06-30' : ''
-  date += quarter === 3 ? '-09-30' : ''
-  date += quarter === 4 ? '-12-31' : ''
-  return date
-}
-
 async function getBeta(tickers) {
   try {
     const response = await yahooFinance.quote({
@@ -223,7 +212,7 @@ async function fundRisk(thirteenFId) {
       })
     return thirteenFBeta
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 

@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  VictoryBar,
-  VictoryChart,
-  VictoryLegend,
-  VictoryAxis,
-  VictoryLabel,
-} from 'victory'
+import {VictoryBar, VictoryChart, VictoryLegend, VictoryAxis} from 'victory'
 import {findAverageBeta, camelCase, determineColor} from './utilities'
 
 export const BarChart = (props) => {

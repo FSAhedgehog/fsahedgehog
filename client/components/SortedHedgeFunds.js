@@ -1,6 +1,6 @@
 import React from 'react'
 import {camelCase} from './utilities'
-import {Link, animateScroll as scroll} from 'react-scroll'
+import {Link} from 'react-scroll'
 
 const SortedHedgeFunds = (props) => {
   const {

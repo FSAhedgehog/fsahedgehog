@@ -127,8 +127,6 @@ select:hover {
 }
 
 .singleHedgeFundContainer {
-  /* border: solid 1px black; */
-
   display: flex;
   height: 15%;
   border-radius: 15px;
@@ -184,11 +182,6 @@ select:hover {
   align-items: center;
   width: 85px;
 }
-
-/* .yearReturnNumber p {
-  font-size: 12px;
-  padding-left: 3px;
-} */
 
 .yearReturnLabel p {
   font-size: 11px;
@@ -270,7 +263,7 @@ input {
   cursor: pointer;
 }
 
- #page-numbers {
+#page-numbers {
   padding: 5px;
 }
 
@@ -285,19 +278,21 @@ input {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+
 table {
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   justify-content: space-between;
   margin-bottom: 5px;
   margin-left: 10px;
-  width: 100%
+  width: 100%;
 }
 
 td,
 th {
   padding: 10px;
 }
+
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
@@ -316,12 +311,9 @@ tr:nth-child(even) {
   .center-h3 {
     text-align: center;
   }
-  .hedgeFundReturnContainer{
-    align-items: justify
+  .hedgeFundReturnContainer {
+    align-items: justify;
   }
-  /* .hedgeFundName{
-    font-size:
-  } */
 }
 
 /* PIE STYLING */
