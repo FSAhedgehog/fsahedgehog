@@ -22,6 +22,18 @@ const HedgeFund = db.define('hedgeFund', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  yearFifteenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
+  yearTwentyReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
+  maxReturn: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
 })
 
 module.exports = HedgeFund

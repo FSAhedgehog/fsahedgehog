@@ -8,6 +8,7 @@ import {
   VictoryVoronoiContainer,
   VictoryLabel,
 } from 'victory'
+// import {getPrice} from '../../script/seederUtility'
 import {camelCase} from './utilities'
 
 export class LineChart extends React.Component {
@@ -24,7 +25,6 @@ export class LineChart extends React.Component {
       let dateB = new Date(b.dateOfFiling)
       return dateA - dateB
     })
-
     const returnArray = []
     for (let i = 0; i < thirteenFs.length; i++) {
       let yValue = Math.round((thirteenFs[i][type] / 1000) * 10 - 100)
@@ -39,9 +39,11 @@ export class LineChart extends React.Component {
     }
     return returnArray
   }
+
   render() {
-    const quarterlyValue = this.renderQuarterlyValues('quarterlyValue')
-    const spValue = this.renderQuarterlyValues('spValue')
+    let quarterlyValue = this.renderQuarterlyValues('quarterlyValue')
+    quarterlyValue = addGaps(quarterlyValue)
+    let spValue = this.renderQuarterlyValues('spValue')
     const {hedgeFund} = this.props
     const font = "'Poppins', sans-serif"
 
@@ -172,4 +174,48 @@ export class LineChart extends React.Component {
       </div>
     )
   }
+}
+
+function getNextYearAndQuarter(year, quarter) {
+  quarter = Number(quarter)
+  year = Number(year)
+  if (quarter === 4) {
+    year++
+    quarter = 1
+  } else {
+    quarter++
+  }
+  return {year, quarter}
+}
+
+function addGaps(dataArr) {
+  console.log(dataArr, 'ADD GAPS')
+  for (let i = 0; i < dataArr.length - 1; i++) {
+    let j = i
+    const nextDataPoint = `${dataArr[i + 1].x.slice(0, 4)}Q${dataArr[
+      i + 1
+    ].x.slice(5, 6)}`
+    while (
+      yFormatNextYearAndQuarter(
+        dataArr[j].x.slice(0, 4),
+        dataArr[j].x.slice(5, 6)
+      ) !== nextDataPoint
+    ) {
+      dataArr.splice(j + 1, 0, {
+        x: yFormatNextYearAndQuarter(
+          dataArr[j].x.slice(0, 4),
+          dataArr[j].x.slice(5, 6)
+        ),
+        y: null,
+      })
+      j++
+      // debugger
+    }
+  }
+  return dataArr
+}
+
+function yFormatNextYearAndQuarter(year, quarter) {
+  ;({year, quarter} = getNextYearAndQuarter(year, quarter))
+  return `${year}Q${quarter}`
 }
