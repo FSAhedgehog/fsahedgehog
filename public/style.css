@@ -39,6 +39,14 @@ form div {
   display: inline-block;
 }
 
+#mce-EMAIL {
+  width: 400px;
+}
+/*
+#emailIFrame {
+  display: none !important;
+} */
+
 .Link {
   all: initial;
   all: unset;
@@ -190,11 +198,12 @@ select:hover {
 }
 
 /* VICTORY LINE CHART STYLING */
-.lineChart {
-  width: 450px;
+/* .lineChart {
+  width: 850px;
   height: 350px;
   border-radius: 15px;
-}
+  overflow: hidden;
+} */
 
 /* HOG BASKET STYLING */
 .basket-hog {

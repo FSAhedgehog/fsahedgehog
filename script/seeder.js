@@ -17,7 +17,6 @@ const {
 require('dotenv').config()
 
 const EDGAR_KEY = process.env.EDGAR_KEY
-
 // CHANGE HEDGEFUNDS HERE
 // SEEDING TAKES ABOUT FOUR MINUTES PER HEDGEFUND
 // --------------------------------------------------------
@@ -27,10 +26,10 @@ const HEDGEFUNDS = [
   // 'TRIAN FUND MANAGEMENT, L.P.',
   // 'ValueAct Holdings, L.P.',
   // 'DAILY JOURNAL CORP',
-  'BERKSHIRE HATHAWAY INC',
-  'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'BERKSHIRE HATHAWAY INC',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'Scion Asset Management, LLC',
-  'GREENLIGHT CAPITAL INC',
+  // 'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   // 'International Value Advisers, LLC',
@@ -410,81 +409,103 @@ async function getCurrentYearAndQuarter(hedgeFundId) {
   }
 }
 
-async function calcHedgeFundReturn(hedgeFund, startingValue) {
+function findYearAndQuarterYearsAgo(curQuarter) {
+  let yearSubtractor
+  let quarter
+  switch (curQuarter) {
+    case 1:
+      quarter = 2
+      yearSubtractor = 1
+      return [yearSubtractor, quarter]
+    case 2:
+      quarter = 3
+      yearSubtractor = 1
+      return [yearSubtractor, quarter]
+    case 3:
+      quarter = 4
+      yearSubtractor = 1
+      return [yearSubtractor, quarter]
+    default:
+      quarter = 1
+      yearSubtractor = 0
+      return [yearSubtractor, quarter]
+  }
+}
+
+async function findThirteenF(hedgeFund, years, curYear, curQuarter) {
+  const thirteenF = await ThirteenF.findOne({
+    where: {
+      hedgeFundId: hedgeFund.id,
+      year: curYear - years,
+      quarter: curQuarter,
+    },
+  })
+  return thirteenF
+}
+
+async function calcHedgeFundReturn(hedgeFund) {
   try {
     const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFund.id)
     const [oldYear, oldQuarter] = await getOldestYearAndQuarter(hedgeFund.id)
-    console.log(oldYear, 'OLD YEAR', oldQuarter, 'OLD QUARTER')
-    const current13F = await ThirteenF.findOne({
-      where: {
-        hedgeFundId: hedgeFund.id,
-        year: curYear,
-        quarter: curQuarter,
-      },
-    })
+    // const [yearSubtractor, quarterBack] = findYearAndQuarterYearsAgo(curQuarter)
+    const current13F = await findThirteenF(hedgeFund, 0, curYear, curQuarter)
     const currentValue = current13F ? current13F.quarterlyValue : null
-    const oneYearAway13F = await ThirteenF.findOne({
-      where: {
-        hedgeFundId: hedgeFund.id,
-        year: curYear - 1,
-        quarter: curQuarter,
-      },
-    })
+    const oneYearAway13F = await findThirteenF(
+      hedgeFund,
+      1,
+      curYear,
+      curQuarter
+    )
     if (oneYearAway13F) {
       saveReturn(1, oneYearAway13F, currentValue, hedgeFund)
     }
 
-    const threeYearsAway13F = await ThirteenF.findOne({
-      where: {
-        hedgeFundId: hedgeFund.id,
-        year: curYear - 3,
-        quarter: curQuarter,
-      },
-    })
+    const threeYearsAway13F = await findThirteenF(
+      hedgeFund,
+      3,
+      curYear,
+      curQuarter
+    )
     if (threeYearsAway13F) {
       saveReturn(3, threeYearsAway13F, currentValue, hedgeFund)
     }
 
-    const fiveYearsAway13F = await ThirteenF.findOne({
-      where: {
-        hedgeFundId: hedgeFund.id,
-        year: curYear - 5,
-        quarter: curQuarter,
-      },
-    })
+    const fiveYearsAway13F = await findThirteenF(
+      hedgeFund,
+      5,
+      curYear,
+      curQuarter
+    )
     if (fiveYearsAway13F) {
       saveReturn(5, fiveYearsAway13F, currentValue, hedgeFund)
     }
 
-    const tenYearsAway13F = await ThirteenF.findOne({
-      where: {
-        hedgeFundId: hedgeFund.id,
-        year: curYear - 10,
-        quarter: curQuarter,
-      },
-    })
+    const tenYearsAway13F = await findThirteenF(
+      hedgeFund,
+      10,
+      curYear,
+      curQuarter
+    )
     if (tenYearsAway13F) {
       saveReturn(10, tenYearsAway13F, currentValue, hedgeFund)
     }
 
-    const fifteenYearsAway13F = await ThirteenF.findOne({
-      where: {
-        hedgeFundId: hedgeFund.id,
-        year: curYear - 15,
-        quarter: curQuarter,
-      },
-    })
+    const fifteenYearsAway13F = await findThirteenF(
+      hedgeFund,
+      15,
+      curYear,
+      curQuarter
+    )
     if (fifteenYearsAway13F) {
       saveReturn(15, fifteenYearsAway13F, currentValue, hedgeFund)
     }
 
-    const twentyYearsAway13F = await ThirteenF.findOne({
-      where: {
-        hedgeFundId: hedgeFund.id,
-        year: curYear - 20,
-        quarter: curQuarter,
-      },
-    })
+    const twentyYearsAway13F = await findThirteenF(
+      hedgeFund,
+      20,
+      curYear,
+      curQuarter
+    )
     if (tenYearsAway13F) {
       saveReturn(20, twentyYearsAway13F, currentValue, hedgeFund)
     }

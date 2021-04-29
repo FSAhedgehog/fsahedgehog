@@ -8,16 +8,23 @@ import {
   VictoryVoronoiContainer,
   VictoryLabel,
 } from 'victory'
-// import {getPrice} from '../../script/seederUtility'
 import {camelCase} from './utilities'
 
 export class LineChart extends React.Component {
   constructor() {
     super()
+    this.state = {
+      lineChart: 99,
+    }
     this.renderQuarterlyValues = this.renderQuarterlyValues.bind(this)
+    this.onClick = this.onClick.bind(this)
   }
 
-  renderQuarterlyValues(type) {
+  onClick(event) {
+    this.setState({lineChart: Number(event.target.value)})
+  }
+
+  renderQuarterlyValues(type, numberOf13Fs) {
     let {thirteenFs} = this.props
 
     thirteenFs = thirteenFs.sort((a, b) => {
@@ -26,8 +33,11 @@ export class LineChart extends React.Component {
       return dateA - dateB
     })
     const returnArray = []
-    for (let i = 0; i < thirteenFs.length; i++) {
-      let yValue = Math.round((thirteenFs[i][type] / 1000) * 10 - 100)
+    let startingIndex = thirteenFs.length - numberOf13Fs
+    let startingValue = thirteenFs[startingIndex][type]
+    console.log(startingValue)
+    for (let i = startingIndex; i < thirteenFs.length; i++) {
+      let yValue = Math.round((thirteenFs[i][type] / startingValue - 1) * 100)
       let newObject = {
         x: `${thirteenFs[i].year}Q${thirteenFs[i].quarter}`,
         y: yValue,
@@ -41,24 +51,52 @@ export class LineChart extends React.Component {
   }
 
   render() {
-    let quarterlyValue = this.renderQuarterlyValues('quarterlyValue')
+    let indexNumberOf13Fs = this.props.thirteenFs.length - 1
+    if (this.state.lineChart === 5) {
+      indexNumberOf13Fs = 21
+    } else if (this.state.lineChart === 3) {
+      indexNumberOf13Fs = 13
+    } else if (this.state.lineChart === 1) {
+      indexNumberOf13Fs = 5
+    }
+
+    let quarterlyValue = this.renderQuarterlyValues(
+      'quarterlyValue',
+      indexNumberOf13Fs
+    )
     quarterlyValue = addGaps(quarterlyValue)
-    let spValue = this.renderQuarterlyValues('spValue')
+    let spValue = this.renderQuarterlyValues('spValue', indexNumberOf13Fs)
     const {hedgeFund} = this.props
     const font = "'Poppins', sans-serif"
 
     return (
       <div>
+        <ul>
+          <button type="button" value={99} onClick={this.onClick}>
+            Max
+          </button>
+          <button type="button" value={5} onClick={this.onClick}>
+            5 years
+          </button>
+          <button type="button" value={3} onClick={this.onClick}>
+            3 years
+          </button>
+          <button type="button" value={1} onClick={this.onClick}>
+            1 year
+          </button>
+        </ul>
         <VictoryChart
           animate={{
-            duration: 2000,
-            onLoad: {duration: 1000},
+            duration: 500,
+            easing: 'sinOut',
+            onLoad: {duration: 500},
           }}
           style={{
             parent: {
               border: '1px solid #ccc',
               boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
               borderRadius: '15px',
+              overflow: 'hidden',
             },
           }}
           containerComponent={
@@ -88,7 +126,7 @@ export class LineChart extends React.Component {
           }
         >
           <VictoryLabel
-            text="Five Year Historical Return"
+            text="Historical Return"
             x={225}
             y={24}
             textAnchor="middle"
@@ -189,7 +227,6 @@ function getNextYearAndQuarter(year, quarter) {
 }
 
 function addGaps(dataArr) {
-  console.log(dataArr, 'ADD GAPS')
   for (let i = 0; i < dataArr.length - 1; i++) {
     let j = i
     const nextDataPoint = `${dataArr[i + 1].x.slice(0, 4)}Q${dataArr[
@@ -209,7 +246,6 @@ function addGaps(dataArr) {
         y: null,
       })
       j++
-      // debugger
     }
   }
   return dataArr

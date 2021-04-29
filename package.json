@@ -42,10 +42,12 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.41",
     "axios": "^0.21.1",
     "bootstrap": "^3.4.1",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "express-session": "^1.15.1",
@@ -66,7 +68,9 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "request": "^2.88.2",
+    "sec-api": "^2.0.1",
     "sequelize": "^5.3.1",
+    "socket.io": "^4.0.1",
     "victory": "^35.4.12",
     "yahoo-finance": "^0.3.7"
   },
