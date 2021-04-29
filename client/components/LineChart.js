@@ -110,6 +110,7 @@ export class LineChart extends React.Component {
                     datum.y
                   }%`
                 }
+
                 return label
               }}
               labelComponent={
