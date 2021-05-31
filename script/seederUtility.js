@@ -4,6 +4,8 @@ const {ThirteenF, Stock} = require('../server/db/models')
 // const {getCurrentYearAndQuarter} = require('./seeder')
 require('dotenv').config()
 // console.log(getCurrentYearAndQuarter, 'CURRENT YEAR')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const OPEN_FIJI_KEY = process.env.OPEN_FIJI_KEY
 
 function findQuarterOfReport(month) {
@@ -115,22 +117,76 @@ async function getOldestYearAndQuarter(hedgeFundId) {
   }
 }
 
+async function getNewestYearAndQuarter(hedgeFundId) {
+  try {
+    const thirteenFs = await ThirteenF.findAll({
+      where: {
+        hedgeFundId: hedgeFundId,
+      },
+      order: [['dateOfFiling', 'DESC']],
+    })
+    const newest13F = thirteenFs[0]
+
+    return [newest13F.year, newest13F.quarter]
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 function isYearAndQuarterLesser(year, quarter, curYear, curQuarter) {
   if (year > curYear) return false
   if (year === curYear && quarter > curQuarter) return false
   return true
 }
 
+async function findNewest13FWithQuarterlyValue(hedgeFundId) {
+  const thirteenFWithQuarterlyValues = await ThirteenF.findAll({
+    where: {
+      hedgeFundId: hedgeFundId,
+      quarterlyValue: {
+        [Op.ne]: null,
+      },
+    },
+    order: [['dateOfFiling', 'DESC']],
+  })
+
+  if (thirteenFWithQuarterlyValues) {
+    return thirteenFWithQuarterlyValues[0]
+  }
+  return null
+}
+
 async function calcMimicReturn(hedgeFundId, startingValue) {
   try {
-    let prevValue = startingValue
+    const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFundId)
+    let mostRecent13FQuarterlyValue = await findNewest13FWithQuarterlyValue(
+      hedgeFundId
+    )
+    let year
+    let quarter
+    let prevValue
+    if (mostRecent13FQuarterlyValue) {
+      if (
+        mostRecent13FQuarterlyValue.year !== curYear ||
+        mostRecent13FQuarterlyValue.quarter !== curQuarter
+      ) {
+        prevValue = mostRecent13FQuarterlyValue.quarterlyValue
+        year = mostRecent13FQuarterlyValue.year
+        quarter = mostRecent13FQuarterlyValue.quarter
+      } else {
+        year = curYear
+        quarter = curQuarter
+      }
+    } else {
+      prevValue = startingValue
+      ;[year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
+    }
     let quarterlyValues = {}
     let prevPortfolio = null
     let portfolio = null
     let thirteenF =
       'need to add to make the do while loop before defined in loop'
-    let [year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
-    const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFundId)
+    console.log(year, quarter)
     do {
       thirteenF = await ThirteenF.findOne({
         where: {

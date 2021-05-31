@@ -41,7 +41,7 @@ const HEDGEFUNDS = [
   // 'WEDGEWOOD PARTNERS INC',
 ]
 
-const SIZE = String(HEDGEFUNDS.length * 30)
+const SIZE = String(HEDGEFUNDS.length * 31)
 
 const STARTING_VALUE = 10000
 
@@ -167,7 +167,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     console.log('Database seeding!')
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
@@ -322,9 +322,11 @@ async function setQuarterlyValues() {
 
       for (let j = 0; j < hedgeFund.thirteenFs.length; j++) {
         const thirteenF = hedgeFund.thirteenFs[j]
-        thirteenF.quarterlyValue = Math.round(
-          hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
-        )
+        if (!thirteenF.quarterlyValue) {
+          thirteenF.quarterlyValue = Math.round(
+            hedgeyReturnObj[`${thirteenF.year}Q${thirteenF.quarter}`]
+          )
+        }
         await thirteenF.save()
       }
     }
