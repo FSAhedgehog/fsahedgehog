@@ -4,11 +4,31 @@ import {LineChart} from './LineChart'
 import {BarChart, PieChart} from '../components'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
+import {EmailSub} from './EmailSub'
 import ListWhatToBuy from './ListWhatToBuy'
+// import api from 'sec-api'
 
 export class Main extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleNewFiling = this.handleNewFiling.bind(this)
+  }
+
   componentDidMount() {
     this.props.getMySingleHedgeFund()
+    // this.socket = api(
+    //   '2108c41e0e17da17615cf7024cd06578f7cf7f7e37dd31410801c59ecbacc696'
+    // )
+    // this.socket.on('filing', this.handleNewFiling)
+    // if (this.socket.connected) {
+    //   console.log('socket.io is connected.')
+    // } else {
+    //   console.log('NOT CONNECTED')
+    // }
+  }
+
+  handleNewFiling(filing) {
+    console.log(filing)
   }
 
   render() {
@@ -20,6 +40,7 @@ export class Main extends React.Component {
               <h3 className="flex-row center-h3">
                 Welcome, future wealthy person!
               </h3>
+              <EmailSub />
             </div>
             <div className="flex-row sml-bottom">
               <div className="flex-column">

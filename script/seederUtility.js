@@ -1,19 +1,43 @@
 const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {ThirteenF, Stock} = require('../server/db/models')
+// const {getCurrentYearAndQuarter} = require('./seeder')
 require('dotenv').config()
-
+// console.log(getCurrentYearAndQuarter, 'CURRENT YEAR')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 const OPEN_FIJI_KEY = process.env.OPEN_FIJI_KEY
-function findQuarter(month) {
+
+function findQuarterOfReport(month) {
   month = Number(month)
-  if (month === 3) {
-    return 1
-  } else if (month > 3 && month <= 6) {
-    return 2
-  } else if (month > 7 && month <= 9) {
-    return 3
-  } else {
+  if (month < 3) {
     return 4
+  } else if (month > 3 && month < 6) {
+    return 1
+  } else if (month > 6 && month < 9) {
+    return 2
+  } else {
+    return 3
+  }
+}
+
+function findYearOfReport(yearFiled, quarterReported) {
+  if (quarterReported === 4) return yearFiled - 1
+  return yearFiled
+}
+
+async function getCurrentYearAndQuarter(hedgeFundId) {
+  try {
+    const thirteenFs = await ThirteenF.findAll({
+      where: {
+        hedgeFundId: hedgeFundId,
+      },
+      order: [['dateOfFiling', 'DESC']],
+    })
+    const newest13F = thirteenFs[0]
+    return [newest13F.year, newest13F.quarter]
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -93,15 +117,76 @@ async function getOldestYearAndQuarter(hedgeFundId) {
   }
 }
 
+async function getNewestYearAndQuarter(hedgeFundId) {
+  try {
+    const thirteenFs = await ThirteenF.findAll({
+      where: {
+        hedgeFundId: hedgeFundId,
+      },
+      order: [['dateOfFiling', 'DESC']],
+    })
+    const newest13F = thirteenFs[0]
+
+    return [newest13F.year, newest13F.quarter]
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+function isYearAndQuarterLesser(year, quarter, curYear, curQuarter) {
+  if (year > curYear) return false
+  if (year === curYear && quarter > curQuarter) return false
+  return true
+}
+
+async function findNewest13FWithQuarterlyValue(hedgeFundId) {
+  const thirteenFWithQuarterlyValues = await ThirteenF.findAll({
+    where: {
+      hedgeFundId: hedgeFundId,
+      quarterlyValue: {
+        [Op.ne]: null,
+      },
+    },
+    order: [['dateOfFiling', 'DESC']],
+  })
+
+  if (thirteenFWithQuarterlyValues) {
+    return thirteenFWithQuarterlyValues[0]
+  }
+  return null
+}
+
 async function calcMimicReturn(hedgeFundId, startingValue) {
   try {
-    let prevValue = startingValue
+    const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFundId)
+    let mostRecent13FQuarterlyValue = await findNewest13FWithQuarterlyValue(
+      hedgeFundId
+    )
+    let year
+    let quarter
+    let prevValue
+    if (mostRecent13FQuarterlyValue) {
+      if (
+        mostRecent13FQuarterlyValue.year !== curYear ||
+        mostRecent13FQuarterlyValue.quarter !== curQuarter
+      ) {
+        prevValue = mostRecent13FQuarterlyValue.quarterlyValue
+        year = mostRecent13FQuarterlyValue.year
+        quarter = mostRecent13FQuarterlyValue.quarter
+      } else {
+        year = curYear
+        quarter = curQuarter
+      }
+    } else {
+      prevValue = startingValue
+      ;[year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
+    }
     let quarterlyValues = {}
     let prevPortfolio = null
     let portfolio = null
     let thirteenF =
       'need to add to make the do while loop before defined in loop'
-    let [year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
+    console.log(year, quarter)
     do {
       thirteenF = await ThirteenF.findOne({
         where: {
@@ -115,18 +200,22 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
           },
         ],
       })
-      if (!thirteenF) break
-      let date = await thirteenF.dataValues.dateOfFiling
+      let date = thirteenF ? await thirteenF.dataValues.dateOfFiling : null
       if (!portfolio) portfolio = createPortfolio(thirteenF, prevValue)
       if (!prevPortfolio) prevPortfolio = portfolio
-      let newValue = await findInvestmentPortfolioNewValue(prevPortfolio, date)
-      portfolio = createPortfolio(thirteenF, newValue)
-      prevValue = prevPortfolio.value
+      let newValue =
+        thirteenF &&
+        Object.keys(prevPortfolio).filter((key) => key !== 'value').length !== 0
+          ? await findInvestmentPortfolioNewValue(prevPortfolio, date)
+          : prevPortfolio.value
+      console.log(newValue, 'NEW VALUE')
+      if (thirteenF) portfolio = createPortfolio(thirteenF, newValue)
+      if (thirteenF) prevValue = prevPortfolio.value
       let quarterlyValue = newValue
       quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
-      prevPortfolio = portfolio
+      if (thirteenF) prevPortfolio = portfolio
       ;({year, quarter} = getNextYearAndQuarter(year, quarter))
-    } while (thirteenF)
+    } while (isYearAndQuarterLesser(year, quarter, curYear, curQuarter))
 
     return quarterlyValues
   } catch (error) {
@@ -136,11 +225,13 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
 
 function createPortfolio(thirteenF, value) {
   let portfolio = {}
-  for (let i = 0; i < thirteenF.stocks.length; i++) {
-    const stock = thirteenF.stocks[i]
-    portfolio[stock.ticker] = {
-      percentage: stock.percentageOfPortfolio,
-      prevPrice: stock.price,
+  if (thirteenF) {
+    for (let i = 0; i < thirteenF.stocks.length; i++) {
+      const stock = thirteenF.stocks[i]
+      portfolio[stock.ticker] = {
+        percentage: stock.percentageOfPortfolio,
+        prevPrice: stock.price,
+      }
     }
   }
   portfolio.value = value
@@ -204,12 +295,14 @@ async function fundRisk(thirteenFId) {
       where: {thirteenFId: thirteenFId},
     })
     let thirteenFBeta = data
-      .map((stock) => {
-        return stock.percentageOfPortfolio * (stock.beta ? stock.beta : 1)
-      })
-      .reduce((total, curVal) => {
-        return total + curVal
-      })
+      ? data
+          .map((stock) => {
+            return stock.percentageOfPortfolio * (stock.beta ? stock.beta : 1)
+          })
+          .reduce((total, curVal) => {
+            return total + curVal
+          }, 0)
+      : null
     return thirteenFBeta
   } catch (error) {
     console.error(error)
@@ -234,7 +327,8 @@ function breakIntoChunks(array) {
 module.exports = {
   getTickers,
   getPrice,
-  findQuarter,
+  findQuarterOfReport,
+  findYearOfReport,
   getBeta,
   calcMimicReturn,
   fundRisk,
