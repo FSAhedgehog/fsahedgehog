@@ -238,6 +238,40 @@ function createPortfolio(thirteenF, value) {
   return portfolio
 }
 
+// create top 10 portfolio
+function createTopTenPortfolio(thirteenF, value) {
+  let tempPortfolio = {}
+  let finalPortfolio = {}
+  let percentageArr = []
+  let stockCount = thirteenF.stocks.length
+  if (thirteenF) {
+    for (let i = 0; i < stockCount; i++) {
+      const stock = thirteenF.stocks[i]
+      percentageArr.push(stock.percentageOfPortfolio)
+      percentageArr.sort((a, b) => b - a)
+    }
+    for (let i = 0; i < stockCount; i++) {
+      const stock = thirteenF.stocks[i]
+      tempPortfolio[stock.ticker] = {
+        percentage: stock.percentageOfPortfolio,
+        prevPrice: stock.price,
+      }
+    }
+    for (let i = 0; i < stockCount; i++) {
+      const stock = thirteenF.stocks[i]
+      if (percentageArr.includes(stock.percentageOfPortfolio)) {
+        finalPortfolio[stock.ticker] = {
+          percentage: stock.percentageOfPortfolio,
+          prevPrice: stock.price,
+        }
+      }
+    }
+  }
+
+  finalPortfolio.value = value
+  return finalPortfolio
+}
+
 async function findInvestmentPortfolioNewValue(portfolio, date) {
   try {
     let newValue = 0

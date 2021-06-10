@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Route, Switch} from 'react-router-dom'
 import Main from './components/Main'
+import singleHedgeFund from './components/singleHedgeFund'
 import {Disclaimer} from './components/Disclaimer'
 
 class Routes extends Component {
@@ -8,6 +9,7 @@ class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={Main} />
+        <Route exact path="/hedgefund/:id" component={singleHedgeFund} />
         <Route exact path="/disclaimer" component={Disclaimer} />
       </Switch>
     )

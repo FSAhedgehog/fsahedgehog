@@ -14,10 +14,15 @@ export class Main extends React.Component {
   }
 
   render() {
+    // have email sub, line chart, volatility chart, what to buy, portfolio,
     if (!this.props.loading) {
       return (
         <div>
           <div className="flex-column">
+            <div className="flex-row sml-bottom">
+              <h3 className="flex-row center-h3">Welcome!</h3>
+              <EmailSub />
+            </div>
             <div className="flex-row sml-bottom">
               <div className="flex-column">
                 <h2 className="flex-row text">Step one: Choose a Hedge Fund</h2>
@@ -105,7 +110,6 @@ export class Main extends React.Component {
     }
   }
 }
-
 const mapStateToProps = (state) => {
   return {
     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
