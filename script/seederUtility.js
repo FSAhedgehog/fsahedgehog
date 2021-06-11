@@ -156,6 +156,7 @@ async function findNewest13FWithQuarterlyValue(hedgeFundId) {
   return null
 }
 
+/*eslint max-statements: ["error", 55]*/
 async function calcMimicReturn(hedgeFundId, startingValue) {
   try {
     const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFundId)
@@ -182,8 +183,11 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
       ;[year, quarter] = await getOldestYearAndQuarter(hedgeFundId)
     }
     let quarterlyValues = {}
+    let topTenQuarterlyValues = {}
     let prevPortfolio = null
     let portfolio = null
+    let topTenPortfolio = null
+    let topTenPrevPortfolio = null
     let thirteenF =
       'need to add to make the do while loop before defined in loop'
     console.log(year, quarter)
@@ -201,23 +205,46 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
         ],
       })
       let date = thirteenF ? await thirteenF.dataValues.dateOfFiling : null
-      if (!portfolio) portfolio = createPortfolio(thirteenF, prevValue)
-      if (!prevPortfolio) prevPortfolio = portfolio
+      if (!portfolio) {
+        portfolio = createPortfolio(thirteenF, prevValue)
+        topTenPortfolio = createTopTenPortfolio(thirteenF, prevValue)
+      }
+      if (!prevPortfolio) {
+        prevPortfolio = portfolio
+        topTenPrevPortfolio = topTenPortfolio
+      }
       let newValue =
         thirteenF &&
         Object.keys(prevPortfolio).filter((key) => key !== 'value').length !== 0
           ? await findInvestmentPortfolioNewValue(prevPortfolio, date)
           : prevPortfolio.value
-      console.log(newValue, 'NEW VALUE')
-      if (thirteenF) portfolio = createPortfolio(thirteenF, newValue)
-      if (thirteenF) prevValue = prevPortfolio.value
+      let topTenNewValue =
+        thirteenF &&
+        Object.keys(topTenPrevPortfolio).filter((key) => key !== 'value')
+          .length !== 0
+          ? await findInvestmentPortfolioNewValue(topTenPrevPortfolio, date)
+          : topTenPrevPortfolio.value
+      console.log(newValue, topTenNewValue, 'NEW VALUE')
+      if (thirteenF) {
+        portfolio = createPortfolio(thirteenF, newValue)
+        topTenPortfolio = createTopTenPortfolio(thirteenF, topTenNewValue)
+      }
+      if (thirteenF) {
+        prevValue = prevPortfolio.value
+        topTenPrevPortfolio = topTenPrevPortfolio.value
+      }
       let quarterlyValue = newValue
+      let topTenQuarterlyValue = topTenNewValue
       quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
-      if (thirteenF) prevPortfolio = portfolio
+      topTenQuarterlyValues[`${year}Q${quarter}`] = topTenQuarterlyValue
+      if (thirteenF) {
+        prevPortfolio = portfolio
+        topTenPrevPortfolio = topTenPortfolio
+      }
       ;({year, quarter} = getNextYearAndQuarter(year, quarter))
     } while (isYearAndQuarterLesser(year, quarter, curYear, curQuarter))
 
-    return quarterlyValues
+    return [quarterlyValues, topTenQuarterlyValues]
   } catch (error) {
     console.error(error)
   }
@@ -236,6 +263,47 @@ function createPortfolio(thirteenF, value) {
   }
   portfolio.value = value
   return portfolio
+}
+
+// create top 10 portfolio
+function createTopTenPortfolio(thirteenF, value) {
+  let tempPortfolio = {}
+  let finalPortfolio = {}
+  let percentageArr = []
+  let stockCount = thirteenF.stocks.length
+  if (thirteenF) {
+    for (let i = 0; i < stockCount; i++) {
+      const stock = thirteenF.stocks[i]
+      percentageArr.push(stock.percentageOfPortfolio)
+      percentageArr.sort((a, b) => b - a)
+      percentageArr = percentageArr.slice(0, 10)
+    }
+    for (let i = 0; i < stockCount; i++) {
+      const stock = thirteenF.stocks[i]
+      tempPortfolio[stock.ticker] = {
+        percentage: stock.percentageOfPortfolio,
+        prevPrice: stock.price,
+      }
+    }
+    console.log(percentageArr, 'PERCENTAGE ARR')
+    const totalPercentage = percentageArr.reduce((a, b) => a + b, 0)
+    const multiplier = 1 / totalPercentage
+    console.log(multiplier, 'Multiplier')
+    // need to find the total percentage of the top ten stocks
+    // then multiply each percentage by an amount?
+    for (let i = 0; i < stockCount; i++) {
+      const stock = thirteenF.stocks[i]
+      if (percentageArr.includes(stock.percentageOfPortfolio)) {
+        finalPortfolio[stock.ticker] = {
+          percentage: stock.percentageOfPortfolio * multiplier,
+          prevPrice: stock.price,
+        }
+      }
+    }
+  }
+
+  finalPortfolio.value = value
+  return finalPortfolio
 }
 
 async function findInvestmentPortfolioNewValue(portfolio, date) {

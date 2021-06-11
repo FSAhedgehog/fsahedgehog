@@ -64,11 +64,19 @@ export class LineChart extends React.Component {
       'quarterlyValue',
       indexNumberOf13Fs
     )
-    quarterlyValue = addGaps(quarterlyValue)
+    // quarterlyValue = addGaps(quarterlyValue)
     let spValue = this.renderQuarterlyValues('spValue', indexNumberOf13Fs)
-    const {hedgeFund} = this.props
-    const font = "'Poppins', sans-serif"
-
+    let topTenValue = this.renderQuarterlyValues(
+      'topTenQuarterlyValue',
+      indexNumberOf13Fs
+    )
+    console.log(quarterlyValue, 'QUARTERLY VALUE')
+    console.log(quarterlyValue[quarterlyValue.length - 1].y)
+    let {hedgeFund} = this.props
+    let font = "'Poppins', sans-serif"
+    let quarterIndex = quarterlyValue.length - 1
+    console.log(quarterlyValue, quarterIndex)
+    console.log(quarterlyValue[quarterIndex].y)
     return (
       <div>
         <ul>
@@ -126,7 +134,7 @@ export class LineChart extends React.Component {
             />
           }
         >
-          <VictoryLabel
+          {/* <VictoryLabel
             text="Historical Return"
             x={225}
             y={24}
@@ -136,28 +144,49 @@ export class LineChart extends React.Component {
               fontFamily: font,
               fontSize: 20,
             }}
-          />
+          /> */}
           <VictoryLegend
-            x={50}
-            y={70}
+            x={30}
+            y={45}
             centerTitle
             orientation="vertical"
             style={{
               data: {fontFamily: font},
               labels: {
                 fontFamily: font,
-                fontSize: 13,
+                fontSize: 11,
               },
             }}
             data={[
               {
-                name: `${camelCase(hedgeFund.name)
-                  .split(' ')
-                  .filter((word, i) => i < 3)
-                  .join(' ')}`,
-                symbol: {fill: '#59EA94'},
+                name: `${
+                  camelCase(hedgeFund.name)
+                    .split(' ')
+                    .filter((word, i) => i < 3)
+                    .join(' ') +
+                  ' (' +
+                  quarterlyValue[quarterIndex].y
+                }%) `,
+                labels: {fill: '#59EA94'},
+                symbol: {fill: 'rgb(255,255,255)'},
               },
-              {name: 'S&P500', symbol: {fill: 'rgb(157, 97, 255)'}},
+              {
+                name: `${
+                  camelCase(hedgeFund.name)
+                    .split(' ')
+                    .filter((word, i) => i < 3)
+                    .join(' ') +
+                  ' Top Ten (' +
+                  topTenValue[quarterIndex].y
+                }%) `,
+                labels: {fill: 'rgb(99, 222, 251)'},
+                symbol: {fill: 'rgb(255,255,255)'},
+              },
+              {
+                name: `S&P500 (${spValue[quarterIndex].y}%)`,
+                labels: {fill: 'rgb(157, 97, 255)'},
+                symbol: {fill: 'rgb(255,255,255)'},
+              },
             ]}
           />
           <VictoryAxis
@@ -167,17 +196,14 @@ export class LineChart extends React.Component {
                 fontSize: 12,
                 fontFamily: font,
               },
-              grid: {stroke: '#818e99', strokeWidth: 0.3},
             }}
             tickFormat={(t) => `${t.slice(0, 4)}        `}
           />
           <VictoryAxis
             dependentAxis
-            label="Total Gain or Loss On Assets"
             tickFormat={(t) => `${t}%`}
             style={{
               tickLabels: {padding: 5, fontSize: 10, fontFamily: font},
-              grid: {stroke: '#818e99', strokeWidth: 0.5},
               axisLabel: {
                 padding: 53,
                 fontSize: 13,
@@ -196,6 +222,17 @@ export class LineChart extends React.Component {
                 fill: '#59EA94',
                 fontSize: '18px',
                 fontWeight: '500',
+              },
+            }}
+          />
+          <VictoryLine
+            data={topTenValue}
+            style={{
+              data: {stroke: 'rgb(99, 222, 251)'},
+              labels: {
+                y: -20,
+                fill: 'rgb(99, 222, 251)',
+                fontSize: '18px',
               },
             }}
           />
