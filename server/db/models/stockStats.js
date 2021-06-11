@@ -29,6 +29,16 @@ const stockStats = db.define('stockStats', {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  year: {
+    type: Sequelize.INTEGER,
+  },
+  quarter: {
+    type: Sequelize.INTEGER,
+    validate: {
+      min: 1,
+      max: 4,
+    },
+  },
 })
 
 module.exports = stockStats
