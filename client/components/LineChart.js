@@ -186,7 +186,7 @@ export class LineChart extends React.Component {
                 name: `S&P500 (${spValue[quarterIndex].y}%)`,
                 labels: {fill: 'rgb(157, 97, 255)'},
                 symbol: {fill: 'rgb(255,255,255)'},
-                // hello
+                // helloooooo
               },
             ]}
           />
