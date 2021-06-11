@@ -27,8 +27,8 @@ const HEDGEFUNDS = [
   // 'ValueAct Holdings, L.P.',
   // 'DAILY JOURNAL CORP',
   // 'BERKSHIRE HATHAWAY INC',
-  'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'Scion Asset Management, LLC',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
   // 'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
@@ -167,7 +167,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: true})
+    await db.sync({force: false})
     console.log('Database seeding!')
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
