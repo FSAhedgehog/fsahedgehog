@@ -186,6 +186,7 @@ export class LineChart extends React.Component {
                 name: `S&P500 (${spValue[quarterIndex].y}%)`,
                 labels: {fill: 'rgb(157, 97, 255)'},
                 symbol: {fill: 'rgb(255,255,255)'},
+                // helloooooo
               },
             ]}
           />
@@ -267,6 +268,7 @@ function getNextYearAndQuarter(year, quarter) {
 function addGaps(dataArr) {
   for (let i = 0; i < dataArr.length - 1; i++) {
     let j = i
+    // add gaps was a good function but we don't need it!!!!!
     const nextDataPoint = `${dataArr[i + 1].x.slice(0, 4)}Q${dataArr[
       i + 1
     ].x.slice(5, 6)}`
