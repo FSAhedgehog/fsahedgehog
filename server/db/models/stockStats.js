@@ -14,27 +14,19 @@ const stockStats = db.define('stockStats', {
     type: Sequelize.BIGINT,
     allowNull: true,
   },
-  countRank: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-  },
   totalInvested: {
     type: Sequelize.STRING,
-  },
-  totalInvestedRank: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
   },
   totalPercentage: {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
-  totalPercentageRank: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-  },
   beta: {
     type: Sequelize.FLOAT,
+    allowNull: true,
+  },
+  company: {
+    type: Sequelize.STRING,
     allowNull: true,
   },
 })

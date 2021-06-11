@@ -24,17 +24,19 @@ async function countStocks() {
     let stocks = thirteenFs[i].stocks
     for (let j = 0; j < stocks.length; j++) {
       let ticker = stocks[j].ticker
+      let stock = stocks[j]
       if (Object.keys(countObj).includes(ticker)) {
         countObj[ticker].count++
-        countObj[ticker].totalValue += stocks[j].totalValue
-        countObj[ticker].percentage += stocks[j].percentageOfPortfolio
+        countObj[ticker].totalValue += Number(stock.totalValue)
+        countObj[ticker].percentage += parseFloat(stock.percentageOfPortfolio)
       } else {
         countObj[ticker] = {
-          cusip: stocks[j].cusip,
+          cusip: stock.cusip,
           count: 1,
-          beta: stocks[j].beta,
-          totalValue: stocks[j].totalValue,
-          percentage: stocks[j].percentageOfPortfolio,
+          beta: stock.beta,
+          totalValue: Number(stock.totalValue),
+          percentage: parseFloat(stock.percentageOfPortfolio),
+          company: stock.name,
         }
       }
     }
@@ -55,6 +57,7 @@ async function setStockCount() {
         beta: stockKey.beta,
         totalInvested: stringValue,
         totalPercentage: stockKey.percentage,
+        company: stockKey.company,
       })
     }
   } catch (error) {
