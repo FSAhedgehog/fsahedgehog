@@ -685,23 +685,33 @@ async function findThisQuarters13Fs() {
     },
     include: [Stock],
   })
-  return thirteenFsThisQuarter
+  return [thirteenFsThisQuarter, curYear, curQuarter]
 }
 
-async function countStocks() {
-  const thirteenFs = await findThisQuarters13Fs()
+async function sumStockStats() {
+  const [thirteenFs, year, quarter] = await findThisQuarters13Fs()
   let countObj = {}
   for (let i = 0; i < thirteenFs.length; i++) {
     let stocks = thirteenFs[i].stocks
     for (let j = 0; j < stocks.length; j++) {
       let ticker = stocks[j].ticker
+      let stock = stocks[j]
       if (Object.keys(countObj).includes(ticker)) {
         countObj[ticker].count++
+        countObj[ticker].totalValue += Number(stock.totalValue)
+        countObj[ticker].percentage += parseFloat(stock.percentageOfPortfolio)
       } else {
         countObj[ticker] = {
-          cusip: stocks[j].cusip,
+          cusip: stock.cusip,
           count: 1,
-          beta: stocks[j].beta,
+          beta: stock.beta,
+          totalValue: Number(stock.totalValue),
+          percentage: parseFloat(stock.percentageOfPortfolio),
+          company: stock.name,
+          year: year,
+          quarter: quarter,
+          // need to addd current quarter and yearOneReturn
+          // this will allow force false to be okay when adding new companies
         }
       }
     }
@@ -709,53 +719,26 @@ async function countStocks() {
   return countObj
 }
 
-async function setStockCount() {
+async function setStockStats() {
   try {
-    const countObj = await countStocks()
-    // eslint-disable-next-line guard-for-in
+    const countObj = await sumStockStats()
     for (let key in countObj) {
+      let stockKey = countObj[key]
+      let stringValue = String(stockKey.totalValue)
       let createdStockStat = await StockStats.create({
         ticker: key,
-        cusip: countObj[key].cusip,
-        count: countObj[key].count,
-        beta: countObj[key].beta,
+        cusip: stockKey.cusip,
+        count: stockKey.count,
+        beta: stockKey.beta,
+        totalInvested: stringValue,
+        totalPercentage: stockKey.percentage,
+        company: stockKey.company,
       })
     }
   } catch (error) {
     console.error(error)
   }
 }
-
-// try {
-//   const thirteenFs = await ThirteenF.findAll()
-//   for (let i = 0; i < thirteenFs.length; i++) {
-//     const thirteenF = thirteenFs[i]
-//     thirteenF.portfolioValue = await getFundValue(thirteenF.id)
-//     await thirteenF.save()
-//     await setStockPercentageOfFund(thirteenF)
-//   }
-// } catch (error) {
-//   console.error(error)
-// }
-
-// async function create13F(createdHedgeFund, filing) {
-//   try {
-//     const quarter = findQuarterOfReport(filing.filedAt.slice(5, 7))
-//     const year = findYearOfReport(filing.filedAt.slice(0, 4), quarter)
-//     const created13F = await ThirteenF.create({
-//       dateOfFiling: filing.filedAt,
-//       year: year,
-//       quarter: quarter,
-//     })
-//     await createStocks(createdHedgeFund, created13F, filing.holdings)
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
-
-// need to query all of the most recent 13F's with the stocks
-// then need to count each with an obj with the ticker, cusip, count
-// then need to put into the database
 
 async function lastFunctions() {
   try {
@@ -767,6 +750,7 @@ async function lastFunctions() {
     await calculateSPValue()
     await setHedgeFundReturns(STARTING_VALUE)
     await setFundRisk()
+    await setStockStats()
     console.log('Seeding success!')
   } catch (err) {
     console.error(err)
