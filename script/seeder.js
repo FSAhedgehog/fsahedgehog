@@ -1,6 +1,6 @@
 const axios = require('axios')
 const db = require('../server/db')
-const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
+const {HedgeFund, ThirteenF, Stock, StockStats} = require('../server/db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const {
@@ -13,6 +13,8 @@ const {
   fundRisk,
   breakIntoChunks,
   getOldestYearAndQuarter,
+  getCurrentYearAndQuarter,
+  getCurrentYearAndQuarterForEveryone,
 } = require('./seederUtility')
 require('dotenv').config()
 
@@ -26,22 +28,22 @@ const HEDGEFUNDS = [
   // 'TRIAN FUND MANAGEMENT, L.P.',
   // 'ValueAct Holdings, L.P.',
   // 'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
-  'Scion Asset Management, LLC',
+  'BERKSHIRE HATHAWAY INC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
-  // 'Pershing Square Capital Management, L.P.',
+  'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   // 'International Value Advisers, LLC',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
   // 'Appaloosa LP',
-  // 'TIGER GLOBAL MANAGEMENT LLC',
+  'TIGER GLOBAL MANAGEMENT LLC',
   // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
   // 'WEDGEWOOD PARTNERS INC',
 ]
 
-const SIZE = String(HEDGEFUNDS.length * 31)
+const SIZE = String(HEDGEFUNDS.length * 4)
 
 const STARTING_VALUE = 10000
 
@@ -167,7 +169,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: false})
+    await db.sync({force: true})
     console.log('Database seeding!')
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
@@ -400,21 +402,6 @@ async function calculateSPValue() {
   }
 }
 
-async function getCurrentYearAndQuarter(hedgeFundId) {
-  try {
-    const thirteenFs = await ThirteenF.findAll({
-      where: {
-        hedgeFundId: hedgeFundId,
-      },
-      order: [['dateOfFiling', 'DESC']],
-    })
-    const newest13F = thirteenFs[0]
-    return [newest13F.year, newest13F.quarter]
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 function findYearAndQuarterYearsAgo(curQuarter) {
   let yearSubtractor
   let quarter
@@ -459,7 +446,6 @@ async function calcHedgeFundReturn(hedgeFund) {
     const topTenCurrentValue = current13F
       ? current13F.topTenQuarterlyValue
       : null
-    console.log(topTenCurrentValue, 'TOP TEN CURRENT VALUE')
     const oneYearAway13F = await findThirteenF(
       hedgeFund,
       1,
@@ -583,8 +569,6 @@ async function saveReturn(
 ) {
   const value = thirteenF.quarterlyValue
   const topTenValue = thirteenF.topTenQuarterlyValue
-  console.log(topTenValue)
-  console.log(topTenQuarterlyValue, 'TOP TEN Q V')
   const roi = currentValue / value
   const topTenRoi = topTenQuarterlyValue / topTenValue
   let dataLabel = ''
@@ -692,6 +676,87 @@ async function deleteNullTickers() {
   }
 }
 
+async function findThisQuarters13Fs() {
+  const [curYear, curQuarter] = await getCurrentYearAndQuarterForEveryone()
+  const thirteenFsThisQuarter = await ThirteenF.findAll({
+    where: {
+      year: curYear,
+      quarter: curQuarter,
+    },
+    include: [Stock],
+  })
+  return thirteenFsThisQuarter
+}
+
+async function countStocks() {
+  const thirteenFs = await findThisQuarters13Fs()
+  let countObj = {}
+  for (let i = 0; i < thirteenFs.length; i++) {
+    let stocks = thirteenFs[i].stocks
+    for (let j = 0; j < stocks.length; j++) {
+      let ticker = stocks[j].ticker
+      if (Object.keys(countObj).includes(ticker)) {
+        countObj[ticker].count++
+      } else {
+        countObj[ticker] = {
+          cusip: stocks[j].cusip,
+          count: 1,
+          beta: stocks[j].beta,
+        }
+      }
+    }
+  }
+  return countObj
+}
+
+async function setStockCount() {
+  try {
+    const countObj = await countStocks()
+    // eslint-disable-next-line guard-for-in
+    for (let key in countObj) {
+      let createdStockStat = await StockStats.create({
+        ticker: key,
+        cusip: countObj[key].cusip,
+        count: countObj[key].count,
+        beta: countObj[key].beta,
+      })
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// try {
+//   const thirteenFs = await ThirteenF.findAll()
+//   for (let i = 0; i < thirteenFs.length; i++) {
+//     const thirteenF = thirteenFs[i]
+//     thirteenF.portfolioValue = await getFundValue(thirteenF.id)
+//     await thirteenF.save()
+//     await setStockPercentageOfFund(thirteenF)
+//   }
+// } catch (error) {
+//   console.error(error)
+// }
+
+// async function create13F(createdHedgeFund, filing) {
+//   try {
+//     const quarter = findQuarterOfReport(filing.filedAt.slice(5, 7))
+//     const year = findYearOfReport(filing.filedAt.slice(0, 4), quarter)
+//     const created13F = await ThirteenF.create({
+//       dateOfFiling: filing.filedAt,
+//       year: year,
+//       quarter: quarter,
+//     })
+//     await createStocks(createdHedgeFund, created13F, filing.holdings)
+//   } catch (err) {
+//     console.error(err)
+//   }
+// }
+
+// need to query all of the most recent 13F's with the stocks
+// then need to count each with an obj with the ticker, cusip, count
+// then need to put into the database
+
 async function lastFunctions() {
   try {
     await deleteNullTickers()
@@ -749,3 +814,10 @@ module.exports = {
   setFundRisk,
   // getCurrentYearAndQuarter,
 }
+
+// I need to create a function similar to the mimic return that go through all of the 13F's starting at the first quarter and creates an obj with the count of each stocksForTheThirteenF
+// need to create a function that goes through all of the most recent 13F's counts the stocks and then puts the stocks in decsending order in the Database
+// that could be a new stockStates table
+// each stock would be put in the table with a Qrank, quantity, $Rank, dollar amount, %rank, percentage amount, ticker, cusip
+
+// also need to add number of stocks to each 13F

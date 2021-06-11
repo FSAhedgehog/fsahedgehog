@@ -1,9 +1,7 @@
 const yahooFinance = require('yahoo-finance')
 const axios = require('axios')
 const {ThirteenF, Stock} = require('../server/db/models')
-// const {getCurrentYearAndQuarter} = require('./seeder')
 require('dotenv').config()
-// console.log(getCurrentYearAndQuarter, 'CURRENT YEAR')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const OPEN_FIJI_KEY = process.env.OPEN_FIJI_KEY
@@ -32,6 +30,18 @@ async function getCurrentYearAndQuarter(hedgeFundId) {
       where: {
         hedgeFundId: hedgeFundId,
       },
+      order: [['dateOfFiling', 'DESC']],
+    })
+    const newest13F = thirteenFs[0]
+    return [newest13F.year, newest13F.quarter]
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+async function getCurrentYearAndQuarterForEveryone() {
+  try {
+    const thirteenFs = await ThirteenF.findAll({
       order: [['dateOfFiling', 'DESC']],
     })
     const newest13F = thirteenFs[0]
@@ -224,7 +234,6 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
           .length !== 0
           ? await findInvestmentPortfolioNewValue(topTenPrevPortfolio, date)
           : topTenPrevPortfolio.value
-      console.log(newValue, topTenNewValue, 'NEW VALUE')
       if (thirteenF) {
         portfolio = createPortfolio(thirteenF, newValue)
         topTenPortfolio = createTopTenPortfolio(thirteenF, topTenNewValue)
@@ -285,12 +294,8 @@ function createTopTenPortfolio(thirteenF, value) {
         prevPrice: stock.price,
       }
     }
-    console.log(percentageArr, 'PERCENTAGE ARR')
     const totalPercentage = percentageArr.reduce((a, b) => a + b, 0)
     const multiplier = 1 / totalPercentage
-    console.log(multiplier, 'Multiplier')
-    // need to find the total percentage of the top ten stocks
-    // then multiply each percentage by an amount?
     for (let i = 0; i < stockCount; i++) {
       const stock = thirteenF.stocks[i]
       if (percentageArr.includes(stock.percentageOfPortfolio)) {
@@ -402,4 +407,6 @@ module.exports = {
   fundRisk,
   getOldestYearAndQuarter,
   breakIntoChunks,
+  getCurrentYearAndQuarter,
+  getCurrentYearAndQuarterForEveryone,
 }
