@@ -49,6 +49,7 @@ async function findThisQuarters13Fs() {
   return [thirteenFsThisQuarter, curYear, curQuarter]
 }
 
+// edit this function to account for nulls the same way the aver return function does!!
 async function findAmountCountBetaAvg() {
   // let b = await findThisQuarters13Fs()
   // console.log(b)
