@@ -6,7 +6,6 @@
     "node": "~12.11.1"
   },
   "main": "index.js",
-  "type": "module" ,
   "scripts": {
     "build-client": "webpack",
     "heroku-postbuild": "webpack",

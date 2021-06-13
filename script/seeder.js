@@ -29,7 +29,7 @@ const HEDGEFUNDS = [
   // 'ValueAct Holdings, L.P.',
   // 'DAILY JOURNAL CORP',
   // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
