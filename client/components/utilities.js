@@ -14,7 +14,6 @@ export function findAverageBeta(thirteenFs) {
       thirteenFs.reduce((accum, element) => {
         return accum + element.thirteenFBeta
       }, 0) / thirteenFs.length
-
     return result
   } else {
     return 1.0
