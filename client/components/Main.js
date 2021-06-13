@@ -1,7 +1,7 @@
 import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
 import {LineChart} from './LineChart'
-import {BarChart, PieChart} from '../components'
+import {BarChart, PieChart, StockStats} from '../components'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
 import {EmailSub} from './EmailSub'
@@ -96,6 +96,7 @@ export class Main extends React.Component {
                   stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
                 />
               </div>
+              <StockStats />
             </div>
           </div>
         </div>

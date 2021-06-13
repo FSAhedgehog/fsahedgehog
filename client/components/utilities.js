@@ -42,3 +42,18 @@ export function sortHedgeFunds(hedgeFunds, sort) {
     return hedgeFunds.sort((a, b) => a.yearFiveReturn - b.yearFiveReturn)
   }
 }
+
+export function sortedStockCount(stocks) {
+  let c = stocks.sort((a, b) => Number(b.count) - Number(a.count))
+  return c
+}
+
+export function sortedStockPercentage(stocks) {
+  return stocks.sort((a, b) => b.totalPercentage - a.totalPercentage)
+}
+
+export function sortedStockInvested(stocks) {
+  return stocks.sort((a, b) => b.totalInvested - a.totalInvested)
+}
+
+//.filter((stock, i) => i < 10)

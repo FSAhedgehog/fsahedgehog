@@ -1,6 +1,7 @@
 import React from 'react'
 import {VictoryBar, VictoryChart, VictoryLegend, VictoryAxis} from 'victory'
 import {findAverageBeta, camelCase, determineColor} from './utilities'
+import {std} from 'mathjs'
 
 export const BarChart = (props) => {
   const latest13Fs = props.hedgeFunds.map(
@@ -14,6 +15,8 @@ export const BarChart = (props) => {
     singleHedgeFund.thirteenFs[singleHedgeFund.thirteenFs.length - 1]
       .thirteenFBeta
 
+  const percentile = getPercentile(latest13Fs, averageBeta, singleFundBeta)
+  console.log(percentile)
   const data = [
     {
       type: 'S&P',
@@ -72,7 +75,9 @@ export const BarChart = (props) => {
       >
         <VictoryAxis
           dependentAxis
-          label="Market Beta"
+          label={`${singleHedgeFund.name} current portfolio is ${Math.round(
+            percentile * 100
+          )} percentile for volatility/risk`}
           style={{
             tickLabels: {fontFamily: font},
             axisLabel: {fontStyle: 'italic', padding: 34, fontFamily: font},
@@ -116,3 +121,51 @@ export const BarChart = (props) => {
 }
 
 export default BarChart
+
+function getPercentile(thirteenFs, averageBeta, portfolioBeta) {
+  if (thirteenFs.length) {
+    const stDev = std(thirteenFs.map((thirteenF) => thirteenF.thirteenFBeta))
+    let z = (portfolioBeta - averageBeta) / stDev
+    let percentile = getZPercent(z)
+    return percentile
+  } else {
+    return 0.5
+  }
+}
+
+function getZPercent(z) {
+  // z == number of standard deviations from the mean
+
+  // if z is greater than 6.5 standard deviations from the mean the
+  // number of significant digits will be outside of a reasonable range
+
+  if (z < -6.5) {
+    return 0.0
+  }
+
+  if (z > 6.5) {
+    return 1.0
+  }
+
+  var factK = 1
+  var sum = 0
+  var term = 1
+  var k = 0
+  var loopStop = Math.exp(-23)
+
+  while (Math.abs(term) > loopStop) {
+    term =
+      (((0.3989422804 * Math.pow(-1, k) * Math.pow(z, k)) /
+        (2 * k + 1) /
+        Math.pow(2, k)) *
+        Math.pow(z, k + 1)) /
+      factK
+    sum += term
+    k++
+    factK *= k
+  }
+
+  sum += 0.5
+
+  return sum
+}
