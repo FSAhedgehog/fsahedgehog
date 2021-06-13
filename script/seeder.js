@@ -733,6 +733,8 @@ async function setStockStats() {
         totalInvested: stringValue,
         totalPercentage: stockKey.percentage,
         company: stockKey.company,
+        quarter: stockKey.quarter,
+        year: stockKey.year,
       })
     }
   } catch (error) {

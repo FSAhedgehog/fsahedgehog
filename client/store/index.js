@@ -4,8 +4,9 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import singleHedgeFund from './oneFund'
 import hedgeFunds from './funds'
+import stockStats from './stockStats'
 
-const reducer = combineReducers({singleHedgeFund, hedgeFunds})
+const reducer = combineReducers({singleHedgeFund, hedgeFunds, stockStats})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
