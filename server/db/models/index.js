@@ -2,6 +2,7 @@ const Stock = require('./stock')
 const HedgeFund = require('./hedgefund')
 const ThirteenF = require('./thirteenF')
 const StockStats = require('./stockStats')
+const HedgeFundStats = require('./hedgeFundStats')
 
 ThirteenF.belongsTo(HedgeFund)
 HedgeFund.hasMany(ThirteenF)
@@ -15,4 +16,5 @@ module.exports = {
   HedgeFund,
   ThirteenF,
   StockStats,
+  HedgeFundStats,
 }

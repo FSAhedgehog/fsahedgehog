@@ -17,7 +17,6 @@ export class StockStats extends React.Component {
     let stockStats = this.props.stockStats
     let sortedCount = sortedStockCount(stockStats)
     let sortedPercentage = sortedStockPercentage(stockStats)
-    console.log(sortedCount)
     let sortedInvested = sortedStockInvested(stockStats)
     if (!this.props.loading) {
       return (

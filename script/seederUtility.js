@@ -200,7 +200,6 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
     let topTenPrevPortfolio = null
     let thirteenF =
       'need to add to make the do while loop before defined in loop'
-    console.log(year, quarter)
     do {
       thirteenF = await ThirteenF.findOne({
         where: {

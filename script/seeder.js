@@ -28,7 +28,7 @@ const HEDGEFUNDS = [
   // 'TRIAN FUND MANAGEMENT, L.P.',
   // 'ValueAct Holdings, L.P.',
   // 'DAILY JOURNAL CORP',
-  'BERKSHIRE HATHAWAY INC',
+  // 'BERKSHIRE HATHAWAY INC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
@@ -38,12 +38,12 @@ const HEDGEFUNDS = [
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
   // 'Appaloosa LP',
-  'TIGER GLOBAL MANAGEMENT LLC',
+  // 'TIGER GLOBAL MANAGEMENT LLC',
   // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
   // 'WEDGEWOOD PARTNERS INC',
 ]
 
-const SIZE = String(HEDGEFUNDS.length * 4)
+const SIZE = String(HEDGEFUNDS.length * 5)
 
 const STARTING_VALUE = 10000
 
@@ -143,7 +143,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
   try {
     const sumStocks = filterStocks(holdings)
     const createdStocks = []
-
+    const numberOfStocks = Object.keys(sumStocks).length
     for (let key in sumStocks) {
       if (sumStocks.hasOwnProperty(key)) {
         const createdStockHolding = await Stock.create({
@@ -158,6 +158,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
     }
     await created13F.addStocks(createdStocks)
     created13F.portfolioValue = await getFundValue(created13F.id)
+    created13F.numberOfStocks = numberOfStocks
     created13F.save()
     setStockPercentageOfFund(created13F)
     await createdHedgeFund.addThirteenF(created13F)
@@ -544,7 +545,6 @@ async function calcHedgeFundReturn(hedgeFund) {
       },
     })
     if (maxYearsAway13F) {
-      console.log('GOT TO MAX YEARS')
       saveReturn(
         oldYear,
         maxYearsAway13F,
@@ -676,71 +676,71 @@ async function deleteNullTickers() {
   }
 }
 
-async function findThisQuarters13Fs() {
-  const [curYear, curQuarter] = await getCurrentYearAndQuarterForEveryone()
-  const thirteenFsThisQuarter = await ThirteenF.findAll({
-    where: {
-      year: curYear,
-      quarter: curQuarter,
-    },
-    include: [Stock],
-  })
-  return [thirteenFsThisQuarter, curYear, curQuarter]
-}
+// async function findThisQuarters13Fs() {
+//   const [curYear, curQuarter] = await getCurrentYearAndQuarterForEveryone()
+//   const thirteenFsThisQuarter = await ThirteenF.findAll({
+//     where: {
+//       year: curYear,
+//       quarter: curQuarter,
+//     },
+//     include: [Stock],
+//   })
+//   return [thirteenFsThisQuarter, curYear, curQuarter]
+// }
 
-async function sumStockStats() {
-  const [thirteenFs, year, quarter] = await findThisQuarters13Fs()
-  let countObj = {}
-  for (let i = 0; i < thirteenFs.length; i++) {
-    let stocks = thirteenFs[i].stocks
-    for (let j = 0; j < stocks.length; j++) {
-      let ticker = stocks[j].ticker
-      let stock = stocks[j]
-      if (Object.keys(countObj).includes(ticker)) {
-        countObj[ticker].count++
-        countObj[ticker].totalValue += Number(stock.totalValue)
-        countObj[ticker].percentage += parseFloat(stock.percentageOfPortfolio)
-      } else {
-        countObj[ticker] = {
-          cusip: stock.cusip,
-          count: 1,
-          beta: stock.beta,
-          totalValue: Number(stock.totalValue),
-          percentage: parseFloat(stock.percentageOfPortfolio),
-          company: stock.name,
-          year: year,
-          quarter: quarter,
-          // need to addd current quarter and yearOneReturn
-          // this will allow force false to be okay when adding new companies
-        }
-      }
-    }
-  }
-  return countObj
-}
+// async function sumStockStats() {
+//   const [thirteenFs, year, quarter] = await findThisQuarters13Fs()
+//   let countObj = {}
+//   for (let i = 0; i < thirteenFs.length; i++) {
+//     let stocks = thirteenFs[i].stocks
+//     for (let j = 0; j < stocks.length; j++) {
+//       let ticker = stocks[j].ticker
+//       let stock = stocks[j]
+//       if (Object.keys(countObj).includes(ticker)) {
+//         countObj[ticker].count++
+//         countObj[ticker].totalValue += Number(stock.totalValue)
+//         countObj[ticker].percentage += parseFloat(stock.percentageOfPortfolio)
+//       } else {
+//         countObj[ticker] = {
+//           cusip: stock.cusip,
+//           count: 1,
+//           beta: stock.beta,
+//           totalValue: Number(stock.totalValue),
+//           percentage: parseFloat(stock.percentageOfPortfolio),
+//           company: stock.name,
+//           year: year,
+//           quarter: quarter,
+//           // need to addd current quarter and yearOneReturn
+//           // this will allow force false to be okay when adding new companies
+//         }
+//       }
+//     }
+//   }
+//   return countObj
+// }
 
-async function setStockStats() {
-  try {
-    const countObj = await sumStockStats()
-    for (let key in countObj) {
-      let stockKey = countObj[key]
-      let stringValue = String(stockKey.totalValue)
-      let createdStockStat = await StockStats.create({
-        ticker: key,
-        cusip: stockKey.cusip,
-        count: stockKey.count,
-        beta: stockKey.beta,
-        totalInvested: stringValue,
-        totalPercentage: stockKey.percentage,
-        company: stockKey.company,
-        quarter: stockKey.quarter,
-        year: stockKey.year,
-      })
-    }
-  } catch (error) {
-    console.error(error)
-  }
-}
+// async function setStockStats() {
+//   try {
+//     const countObj = await sumStockStats()
+//     for (let key in countObj) {
+//       let stockKey = countObj[key]
+//       let stringValue = String(stockKey.totalValue)
+//       let createdStockStat = await StockStats.create({
+//         ticker: key,
+//         cusip: stockKey.cusip,
+//         count: stockKey.count,
+//         beta: stockKey.beta,
+//         totalInvested: stringValue,
+//         totalPercentage: stockKey.percentage,
+//         company: stockKey.company,
+//         quarter: stockKey.quarter,
+//         year: stockKey.year,
+//       })
+//     }
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
 
 async function lastFunctions() {
   try {
@@ -752,7 +752,7 @@ async function lastFunctions() {
     await calculateSPValue()
     await setHedgeFundReturns(STARTING_VALUE)
     await setFundRisk()
-    await setStockStats()
+    // await setStockStats()
     console.log('Seeding success!')
   } catch (err) {
     console.error(err)

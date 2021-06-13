@@ -35,7 +35,6 @@ export class LineChart extends React.Component {
     const returnArray = []
     let startingIndex = thirteenFs.length - numberOf13Fs
     let startingValue = thirteenFs[startingIndex][type]
-    console.log(startingValue)
     for (let i = startingIndex; i < thirteenFs.length; i++) {
       let yValue = Math.round((thirteenFs[i][type] / startingValue - 1) * 100)
       let newObject = {
@@ -51,7 +50,7 @@ export class LineChart extends React.Component {
   }
 
   render() {
-    let indexNumberOf13Fs = this.props.thirteenFs.length - 1
+    let indexNumberOf13Fs = this.props.thirteenFs.length
     if (this.state.lineChart === 5) {
       indexNumberOf13Fs = 21
     } else if (this.state.lineChart === 3) {
@@ -70,13 +69,9 @@ export class LineChart extends React.Component {
       'topTenQuarterlyValue',
       indexNumberOf13Fs
     )
-    console.log(quarterlyValue, 'QUARTERLY VALUE')
-    console.log(quarterlyValue[quarterlyValue.length - 1].y)
     let {hedgeFund} = this.props
     let font = "'Poppins', sans-serif"
     let quarterIndex = quarterlyValue.length - 1
-    console.log(quarterlyValue, quarterIndex)
-    console.log(quarterlyValue[quarterIndex].y)
     return (
       <div>
         <ul>

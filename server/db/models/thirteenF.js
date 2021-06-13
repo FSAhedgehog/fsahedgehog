@@ -34,6 +34,9 @@ const ThirteenF = db.define('thirteenF', {
   thirteenFBeta: {
     type: Sequelize.FLOAT,
   },
+  numberOfStocks: {
+    type: Sequelize.INTEGER,
+  },
 })
 
 module.exports = ThirteenF

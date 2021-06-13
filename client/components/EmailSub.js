@@ -7,11 +7,6 @@ import axios from 'axios'
 //   server: 'us1',
 // })
 
-// async function run() {
-//   const response = await mailchimp.ping.get()
-//   console.log(response)
-// }
-
 export class EmailSub extends React.Component {
   constructor() {
     super()
@@ -36,7 +31,6 @@ export class EmailSub extends React.Component {
     setTimeout(() => {
       let response = document.querySelectorAll('#templateBody')[0].childNodes[3]
         .childNodes[0].innerText
-      console.log(response)
       if (response) {
         this.setState((prevState) => ({
           email: '',
@@ -44,7 +38,6 @@ export class EmailSub extends React.Component {
           pastEmail: prevState.email,
         }))
       } else {
-        console.log(response)
         document.getElementsByClassName(
           'email'
         )[0].placeholder = `${this.state.email} is already subscribed`
@@ -134,7 +127,6 @@ async function postEmail(email) {
       },
       config
     )
-    console.log(response)
   } catch (error) {
     console.log(error)
   }
