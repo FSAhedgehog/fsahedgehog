@@ -43,7 +43,7 @@ const HEDGEFUNDS = [
   // 'WEDGEWOOD PARTNERS INC',
 ]
 
-const SIZE = String(HEDGEFUNDS.length * 4)
+const SIZE = String(HEDGEFUNDS.length * 5)
 
 const STARTING_VALUE = 10000
 
@@ -544,7 +544,6 @@ async function calcHedgeFundReturn(hedgeFund) {
       },
     })
     if (maxYearsAway13F) {
-      console.log('GOT TO MAX YEARS')
       saveReturn(
         oldYear,
         maxYearsAway13F,

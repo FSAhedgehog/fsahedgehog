@@ -16,7 +16,6 @@ export const BarChart = (props) => {
       .thirteenFBeta
 
   const percentile = getPercentile(latest13Fs, averageBeta, singleFundBeta)
-  console.log(percentile)
   const data = [
     {
       type: 'S&P',

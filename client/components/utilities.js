@@ -21,6 +21,28 @@ export function findAverageBeta(thirteenFs) {
   }
 }
 
+export function findAverageReturn(hedgeFunds, years) {
+  if (hedgeFunds.length) {
+    let goodFunds = hedgeFunds.length
+    const result =
+      hedgeFunds.reduce((totalReturns, hedgeFund) => {
+        if (hedgeFund[years]) {
+          if (typeof hedgeFund[years] === 'string') {
+            return totalReturns + Number(hedgeFund[years].slice(6))
+          }
+          return totalReturns + hedgeFund[years]
+        } else {
+          goodFunds--
+          return totalReturns
+        }
+      }, 0) / goodFunds
+    if (goodFunds === 0) return 'N/A'
+    return result
+  } else {
+    return 1.0
+  }
+}
+
 export function determineColor(number) {
   if (number > 1.1) {
     return '#DABFFF'
