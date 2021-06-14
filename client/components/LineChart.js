@@ -69,6 +69,10 @@ export class LineChart extends React.Component {
       'topTenQuarterlyValue',
       indexNumberOf13Fs
     )
+    let bottomTenValue = this.renderQuarterlyValues(
+      'bottomTenQuarterlyValue',
+      indexNumberOf13Fs
+    )
     let {hedgeFund} = this.props
     let font = "'Poppins', sans-serif"
     let quarterIndex = quarterlyValue.length - 1
@@ -178,6 +182,18 @@ export class LineChart extends React.Component {
                 symbol: {fill: 'rgb(255,255,255)'},
               },
               {
+                name: `${
+                  camelCase(hedgeFund.name)
+                    .split(' ')
+                    .filter((word, i) => i < 3)
+                    .join(' ') +
+                  ' Bottom Ten (' +
+                  bottomTenValue[quarterIndex].y
+                }%) `,
+                labels: {fill: 'rgb(255, 120, 61)'},
+                symbol: {fill: 'rgb(255,255,255)'},
+              },
+              {
                 name: `S&P500 (${spValue[quarterIndex].y}%)`,
                 labels: {fill: 'rgb(157, 97, 255)'},
                 symbol: {fill: 'rgb(255,255,255)'},
@@ -225,6 +241,17 @@ export class LineChart extends React.Component {
             data={topTenValue}
             style={{
               data: {stroke: 'rgb(99, 222, 251)'},
+              labels: {
+                y: -20,
+                fill: 'rgb(99, 222, 251)',
+                fontSize: '18px',
+              },
+            }}
+          />
+          <VictoryLine
+            data={bottomTenValue}
+            style={{
+              data: {stroke: 'rgb(255, 120, 61)'},
               labels: {
                 y: -20,
                 fill: 'rgb(99, 222, 251)',

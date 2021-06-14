@@ -30,7 +30,7 @@ const HEDGEFUNDS = [
   // 'DAILY JOURNAL CORP',
   // 'BERKSHIRE HATHAWAY INC',
   'BILL & MELINDA GATES FOUNDATION TRUST',
-  // 'Scion Asset Management, LLC',
+  'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
   'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
@@ -318,10 +318,11 @@ async function setQuarterlyValues() {
     })
     for (let i = 0; i < hedgeFunds.length; i++) {
       const hedgeFund = hedgeFunds[i]
-      const [hedgeyReturnObj, topTenHedgeyReturnObj] = await calcMimicReturn(
-        hedgeFund.id,
-        STARTING_VALUE
-      )
+      const [
+        hedgeyReturnObj,
+        topTenHedgeyReturnObj,
+        bottomTenHedgeyReturbObj,
+      ] = await calcMimicReturn(hedgeFund.id, STARTING_VALUE)
       for (let j = 0; j < hedgeFund.thirteenFs.length; j++) {
         const thirteenF = hedgeFund.thirteenFs[j]
         const year = thirteenF.year
@@ -332,6 +333,9 @@ async function setQuarterlyValues() {
           )
           thirteenF.topTenQuarterlyValue = Math.round(
             topTenHedgeyReturnObj[`${year}Q${quarter}`]
+          )
+          thirteenF.bottomTenQuarterlyValue = Math.round(
+            bottomTenHedgeyReturbObj[`${year}Q${quarter}`]
           )
         }
         await thirteenF.save()
@@ -447,6 +451,9 @@ async function calcHedgeFundReturn(hedgeFund) {
     const topTenCurrentValue = current13F
       ? current13F.topTenQuarterlyValue
       : null
+    const bottomTenCurrentValue = current13F
+      ? current13F.bottomTenQuarterlyValue
+      : null
     const oneYearAway13F = await findThirteenF(
       hedgeFund,
       1,
@@ -454,7 +461,14 @@ async function calcHedgeFundReturn(hedgeFund) {
       curQuarter
     )
     if (oneYearAway13F) {
-      saveReturn(1, oneYearAway13F, currentValue, hedgeFund, topTenCurrentValue)
+      saveReturn(
+        1,
+        oneYearAway13F,
+        currentValue,
+        hedgeFund,
+        topTenCurrentValue,
+        bottomTenCurrentValue
+      )
     }
 
     const threeYearsAway13F = await findThirteenF(
@@ -469,7 +483,8 @@ async function calcHedgeFundReturn(hedgeFund) {
         threeYearsAway13F,
         currentValue,
         hedgeFund,
-        topTenCurrentValue
+        topTenCurrentValue,
+        bottomTenCurrentValue
       )
     }
 
@@ -485,7 +500,8 @@ async function calcHedgeFundReturn(hedgeFund) {
         fiveYearsAway13F,
         currentValue,
         hedgeFund,
-        topTenCurrentValue
+        topTenCurrentValue,
+        bottomTenCurrentValue
       )
     }
 
@@ -501,7 +517,8 @@ async function calcHedgeFundReturn(hedgeFund) {
         tenYearsAway13F,
         currentValue,
         hedgeFund,
-        topTenCurrentValue
+        topTenCurrentValue,
+        bottomTenCurrentValue
       )
     }
 
@@ -517,7 +534,8 @@ async function calcHedgeFundReturn(hedgeFund) {
         fifteenYearsAway13F,
         currentValue,
         hedgeFund,
-        topTenCurrentValue
+        topTenCurrentValue,
+        bottomTenCurrentValue
       )
     }
 
@@ -533,7 +551,8 @@ async function calcHedgeFundReturn(hedgeFund) {
         twentyYearsAway13F,
         currentValue,
         hedgeFund,
-        topTenCurrentValue
+        topTenCurrentValue,
+        bottomTenCurrentValue
       )
     }
 
@@ -551,6 +570,7 @@ async function calcHedgeFundReturn(hedgeFund) {
         currentValue,
         hedgeFund,
         topTenCurrentValue,
+        bottomTenCurrentValue,
         oldQuarter
       )
     }
@@ -559,20 +579,25 @@ async function calcHedgeFundReturn(hedgeFund) {
   }
 }
 
+/*eslint max-params: ["error", 8]*/
 async function saveReturn(
   year,
   thirteenF,
   currentValue,
   hedgeFund,
   topTenQuarterlyValue,
+  bottomTenQuarterlyValue,
   quarter
 ) {
   const value = thirteenF.quarterlyValue
   const topTenValue = thirteenF.topTenQuarterlyValue
+  const bottomTenValue = thirteenF.bottomTenQuarterlyValue
   const roi = currentValue / value
   const topTenRoi = topTenQuarterlyValue / topTenValue
+  const bottomTenRoi = bottomTenQuarterlyValue / bottomTenValue
   let dataLabel = ''
   let dataLabel2 = ''
+  let dataLabel3 = ''
   switch (year) {
     case 1:
       dataLabel = 'yearOneReturn'
@@ -619,12 +644,37 @@ async function saveReturn(
       dataLabel2 = 'maxTopTenReturn'
       break
   }
+  switch (year) {
+    case 1:
+      dataLabel3 = 'yearOneBottomTenReturn'
+      break
+    case 3:
+      dataLabel3 = 'yearThreeBottomTenReturn'
+      break
+    case 5:
+      dataLabel3 = 'yearFiveBottomTenReturn'
+      break
+    case 10:
+      dataLabel3 = 'yearTenBottomTenReturn'
+      break
+    case 15:
+      dataLabel3 = 'yearFifteenBottomTenReturn'
+      break
+    case 20:
+      dataLabel3 = 'yearTwentyBottomTenReturn'
+      break
+    default:
+      dataLabel3 = 'maxBottomTenReturn'
+      break
+  }
   if (dataLabel === 'maxReturn') {
     hedgeFund[dataLabel] = `${year}Q${quarter}${roi}`
     hedgeFund[dataLabel2] = `${year}Q${quarter}${topTenRoi}`
+    hedgeFund[dataLabel3] = `${year}Q${quarter}${bottomTenRoi}`
   } else {
     hedgeFund[dataLabel] = roi
     hedgeFund[dataLabel2] = topTenRoi
+    hedgeFund[dataLabel3] = bottomTenRoi
   }
   await hedgeFund.save()
 }
@@ -676,72 +726,6 @@ async function deleteNullTickers() {
   }
 }
 
-// async function findThisQuarters13Fs() {
-//   const [curYear, curQuarter] = await getCurrentYearAndQuarterForEveryone()
-//   const thirteenFsThisQuarter = await ThirteenF.findAll({
-//     where: {
-//       year: curYear,
-//       quarter: curQuarter,
-//     },
-//     include: [Stock],
-//   })
-//   return [thirteenFsThisQuarter, curYear, curQuarter]
-// }
-
-// async function sumStockStats() {
-//   const [thirteenFs, year, quarter] = await findThisQuarters13Fs()
-//   let countObj = {}
-//   for (let i = 0; i < thirteenFs.length; i++) {
-//     let stocks = thirteenFs[i].stocks
-//     for (let j = 0; j < stocks.length; j++) {
-//       let ticker = stocks[j].ticker
-//       let stock = stocks[j]
-//       if (Object.keys(countObj).includes(ticker)) {
-//         countObj[ticker].count++
-//         countObj[ticker].totalValue += Number(stock.totalValue)
-//         countObj[ticker].percentage += parseFloat(stock.percentageOfPortfolio)
-//       } else {
-//         countObj[ticker] = {
-//           cusip: stock.cusip,
-//           count: 1,
-//           beta: stock.beta,
-//           totalValue: Number(stock.totalValue),
-//           percentage: parseFloat(stock.percentageOfPortfolio),
-//           company: stock.name,
-//           year: year,
-//           quarter: quarter,
-//           // need to addd current quarter and yearOneReturn
-//           // this will allow force false to be okay when adding new companies
-//         }
-//       }
-//     }
-//   }
-//   return countObj
-// }
-
-// async function setStockStats() {
-//   try {
-//     const countObj = await sumStockStats()
-//     for (let key in countObj) {
-//       let stockKey = countObj[key]
-//       let stringValue = String(stockKey.totalValue)
-//       let createdStockStat = await StockStats.create({
-//         ticker: key,
-//         cusip: stockKey.cusip,
-//         count: stockKey.count,
-//         beta: stockKey.beta,
-//         totalInvested: stringValue,
-//         totalPercentage: stockKey.percentage,
-//         company: stockKey.company,
-//         quarter: stockKey.quarter,
-//         year: stockKey.year,
-//       })
-//     }
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
-
 async function lastFunctions() {
   try {
     await deleteNullTickers()
@@ -752,7 +736,6 @@ async function lastFunctions() {
     await calculateSPValue()
     await setHedgeFundReturns(STARTING_VALUE)
     await setFundRisk()
-    // await setStockStats()
     console.log('Seeding success!')
   } catch (err) {
     console.error(err)
