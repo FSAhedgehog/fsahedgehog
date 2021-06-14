@@ -14,11 +14,19 @@ const HedgeFund = db.define('hedgeFund', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  yearOneBottomTenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
   yearThreeReturn: {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
   yearThreeTopTenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
+  yearThreeBottomTenReturn: {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
@@ -30,11 +38,19 @@ const HedgeFund = db.define('hedgeFund', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  yearFiveBottomTenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
   yearTenReturn: {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
   yearTenTopTenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
+  yearTenBottomTenReturn: {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
@@ -46,6 +62,10 @@ const HedgeFund = db.define('hedgeFund', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  yearFifteenBottomTenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
   yearTwentyReturn: {
     type: Sequelize.FLOAT,
     allowNull: true,
@@ -54,11 +74,19 @@ const HedgeFund = db.define('hedgeFund', {
     type: Sequelize.FLOAT,
     allowNull: true,
   },
+  yearTwentyBottomTenReturn: {
+    type: Sequelize.FLOAT,
+    allowNull: true,
+  },
   maxReturn: {
     type: Sequelize.STRING,
     allowNull: true,
   },
   maxTopTenReturn: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  maxBottomTenReturn: {
     type: Sequelize.STRING,
     allowNull: true,
   },

@@ -166,7 +166,7 @@ async function findNewest13FWithQuarterlyValue(hedgeFundId) {
   return null
 }
 
-/*eslint max-statements: ["error", 55]*/
+/*eslint max-statements: ["error", 70]*/
 async function calcMimicReturn(hedgeFundId, startingValue) {
   try {
     const [curYear, curQuarter] = await getCurrentYearAndQuarter(hedgeFundId)
@@ -194,10 +194,13 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
     }
     let quarterlyValues = {}
     let topTenQuarterlyValues = {}
+    let bottomTenQuarterlyValues = {}
     let prevPortfolio = null
     let portfolio = null
     let topTenPortfolio = null
     let topTenPrevPortfolio = null
+    let bottomTenPortfolio = null
+    let bottomTenPrevPortfolio = null
     let thirteenF =
       'need to add to make the do while loop before defined in loop'
     do {
@@ -216,11 +219,13 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
       let date = thirteenF ? await thirteenF.dataValues.dateOfFiling : null
       if (!portfolio) {
         portfolio = createPortfolio(thirteenF, prevValue)
-        topTenPortfolio = createTopTenPortfolio(thirteenF, prevValue)
+        topTenPortfolio = createTenPortfolio(thirteenF, prevValue, 'top')
+        bottomTenPortfolio = createTenPortfolio(thirteenF, prevValue)
       }
       if (!prevPortfolio) {
         prevPortfolio = portfolio
         topTenPrevPortfolio = topTenPortfolio
+        bottomTenPrevPortfolio = bottomTenPortfolio
       }
       let newValue =
         thirteenF &&
@@ -233,26 +238,37 @@ async function calcMimicReturn(hedgeFundId, startingValue) {
           .length !== 0
           ? await findInvestmentPortfolioNewValue(topTenPrevPortfolio, date)
           : topTenPrevPortfolio.value
+      let bottomTenNewValue =
+        thirteenF &&
+        Object.keys(bottomTenPrevPortfolio).filter((key) => key !== 'value')
+          .length !== 0
+          ? await findInvestmentPortfolioNewValue(bottomTenPrevPortfolio, date)
+          : bottomTenPrevPortfolio.value
       if (thirteenF) {
         portfolio = createPortfolio(thirteenF, newValue)
-        topTenPortfolio = createTopTenPortfolio(thirteenF, topTenNewValue)
+        topTenPortfolio = createTenPortfolio(thirteenF, topTenNewValue, 'top')
+        bottomTenPortfolio = createTenPortfolio(thirteenF, bottomTenNewValue)
       }
       if (thirteenF) {
         prevValue = prevPortfolio.value
         topTenPrevPortfolio = topTenPrevPortfolio.value
+        bottomTenPrevPortfolio = bottomTenPrevPortfolio.value
       }
       let quarterlyValue = newValue
       let topTenQuarterlyValue = topTenNewValue
+      let bottomTenQuarterlyValue = bottomTenNewValue
       quarterlyValues[`${year}Q${quarter}`] = quarterlyValue
       topTenQuarterlyValues[`${year}Q${quarter}`] = topTenQuarterlyValue
+      bottomTenQuarterlyValues[`${year}Q${quarter}`] = bottomTenQuarterlyValue
       if (thirteenF) {
         prevPortfolio = portfolio
         topTenPrevPortfolio = topTenPortfolio
+        bottomTenPrevPortfolio = bottomTenPortfolio
       }
       ;({year, quarter} = getNextYearAndQuarter(year, quarter))
     } while (isYearAndQuarterLesser(year, quarter, curYear, curQuarter))
 
-    return [quarterlyValues, topTenQuarterlyValues]
+    return [quarterlyValues, topTenQuarterlyValues, bottomTenQuarterlyValues]
   } catch (error) {
     console.error(error)
   }
@@ -274,7 +290,7 @@ function createPortfolio(thirteenF, value) {
 }
 
 // create top 10 portfolio
-function createTopTenPortfolio(thirteenF, value) {
+function createTenPortfolio(thirteenF, value, end) {
   let tempPortfolio = {}
   let finalPortfolio = {}
   let percentageArr = []
@@ -283,8 +299,12 @@ function createTopTenPortfolio(thirteenF, value) {
     for (let i = 0; i < stockCount; i++) {
       const stock = thirteenF.stocks[i]
       percentageArr.push(stock.percentageOfPortfolio)
-      percentageArr.sort((a, b) => b - a)
-      percentageArr = percentageArr.slice(0, 10)
+    }
+
+    if (end === 'top') {
+      percentageArr = percentageArr.sort((a, b) => b - a).slice(0, 10)
+    } else {
+      percentageArr = percentageArr.sort((a, b) => a - b).slice(0, 10)
     }
     for (let i = 0; i < stockCount; i++) {
       const stock = thirteenF.stocks[i]
