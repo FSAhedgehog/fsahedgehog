@@ -6,7 +6,6 @@ import {getHedgeStats} from '../store/hedgeStats.js'
 import {getStockStats} from '../store/stockStats.js'
 import {connect} from 'react-redux'
 import {EmailSub} from './EmailSub'
-// import api from 'sec-api'
 
 export class Main extends React.Component {
   componentDidMount() {

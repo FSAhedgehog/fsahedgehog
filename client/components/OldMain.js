@@ -7,7 +7,6 @@ import {getSingleHedgeFund} from '../store/oneFund'
 import {EmailSub} from './EmailSub'
 import {findAverageReturn} from './utilities'
 import ListWhatToBuy from './ListWhatToBuy'
-// import api from 'sec-api'
 
 export class Main extends React.Component {
   componentDidMount() {
