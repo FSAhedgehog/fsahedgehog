@@ -12,7 +12,7 @@ export const Navbar = () => (
     </div>
     <nav>
       <div className="flex-row space">
-        <Link to="/disclaimer">Disclaimer</Link>
+        <Link to="/methodology">methodology</Link>
       </div>
     </nav>
   </div>
