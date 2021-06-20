@@ -8,7 +8,7 @@ export const Footer = () => (
     </div>
     <nav>
       <div className="flex-row space">
-        <Link to="/disclaimer">Disclaimer</Link>
+        <Link to="/methodology">Methodology</Link>
       </div>
     </nav>
   </div>
