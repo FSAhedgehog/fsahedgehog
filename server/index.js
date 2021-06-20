@@ -8,8 +8,7 @@ const db = require('./db')
 require('dotenv').config()
 let cors = require('cors')
 const sessionStore = new SequelizeStore({db})
-const PORT = process.env.PORT
-//  || 8080
+const PORT = process.env.PORT || 8080
 const app = express()
 module.exports = app
 const http = require('http')

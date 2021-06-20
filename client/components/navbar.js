@@ -7,8 +7,8 @@ export const Navbar = () => (
       <img
         id="Nav-Logo"
         src={
-          process.env.PUBLIC_URL
-            ? process.env.PUBLIC_URL + '/images/HedgeHog-Logo-Black.png'
+          process.env.PORT
+            ? process.env.PORT + '/images/HedgeHog-Logo-Black.png'
             : '/images/HedgeHog-Logo-Black.png'
         }
         alt="Turqoise Hog"
