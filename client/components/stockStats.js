@@ -1,23 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getStockStats} from '../store/stockStats'
-import {
-  sortedStockCount,
-  sortedStockPercentage,
-  sortedStockInvested,
-} from './utilities'
-// import api from 'sec-api'
 
 export class StockStats extends React.Component {
-  componentDidMount() {
-    this.props.getMyStockStats()
-  }
-
   render() {
     let stockStats = this.props.stockStats
-    let sortedCount = sortedStockCount(stockStats)
-    let sortedPercentage = sortedStockPercentage(stockStats)
-    let sortedInvested = sortedStockInvested(stockStats)
     if (!this.props.loading) {
       return (
         <div>
@@ -57,10 +43,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getMyStockStats: () => dispatch(getStockStats()),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(StockStats)
+export default connect(mapStateToProps)(StockStats)

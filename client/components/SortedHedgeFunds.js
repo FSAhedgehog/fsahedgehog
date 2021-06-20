@@ -6,7 +6,7 @@ const SortedHedgeFunds = (props) => {
   const {
     currentHedgeFunds,
     renderPageNumbers,
-    moveHedgeHogToState,
+    // moveHedgeHogToState,
     clickHedgeFund,
     updateSort,
   } = props
@@ -42,7 +42,7 @@ const SortedHedgeFunds = (props) => {
             >
               <div className="hedgeFundName">
                 <p>{camelCase(hedgeFund.name)}</p>
-                <div>{moveHedgeHogToState(hedgeFund.id)}</div>
+                {/* <div>{moveHedgeHogToState(hedgeFund.id)}</div> */}
               </div>
               <div className="hedgeFundReturnsContainer">
                 <div className="singleReturnContainer">

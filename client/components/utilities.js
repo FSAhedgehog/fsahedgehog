@@ -70,7 +70,10 @@ export function sortedStockCount(stocks) {
 }
 
 export function sortedStockPercentage(stocks) {
-  return stocks.sort((a, b) => b.totalPercentage - a.totalPercentage)
+  console.log(stocks, 'BEFORE')
+  stocks = stocks.sort((a, b) => b.totalPercentage - a.totalPercentage)
+  console.log(stocks, 'AFTER')
+  return stocks
 }
 
 export function sortedStockInvested(stocks) {

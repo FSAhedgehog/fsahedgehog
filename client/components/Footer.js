@@ -1,14 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-export const Navbar = () => (
+export const Footer = () => (
   <div>
     <div className="flex-row icon top">
-      <img
-        id="Nav-Logo"
-        src="images/HedgeHog-Logo-Black.png"
-        alt="Turqoise Hog"
-      ></img>
+      <h1 className="flex-row">Hedgehog</h1>
     </div>
     <nav>
       <div className="flex-row space">

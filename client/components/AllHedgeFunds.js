@@ -13,18 +13,18 @@ class AllHedgeFunds extends React.Component {
       currentPage: 1,
       hedgeFundsPerPage: 5,
     }
-    this.clickHedgeFund = this.clickHedgeFund.bind(this)
-    this.moveHedgeHogToState = this.moveHedgeHogToState.bind(this)
+    // this.clickHedgeFund = this.clickHedgeFund.bind(this)
+    // this.moveHedgeHogToState = this.moveHedgeHogToState.bind(this)
     this.updateSort = this.updateSort.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
-    this.props.getHedgeFunds()
-    if (!this.props.singleHedgeFund.id) {
-      this.props.getMySingleHedgeFund()
-    }
-  }
+  // componentDidMount() {
+  //   this.props.getHedgeFunds()
+  //   if (!this.props.singleHedgeFund.id) {
+  //     this.props.getMySingleHedgeFund()
+  //   }
+  // }
 
   handleClick(event) {
     this.setState({
@@ -32,22 +32,22 @@ class AllHedgeFunds extends React.Component {
     })
   }
 
-  clickHedgeFund(hedgeFundId) {
-    this.moveHedgeHogToState()
-    return this.props.getMySingleHedgeFund(hedgeFundId)
-  }
+  // clickHedgeFund(hedgeFundId) {
+  //   this.moveHedgeHogToState()
+  //   return this.props.getMySingleHedgeFund(hedgeFundId)
+  // }
 
-  moveHedgeHogToState(hedgeFundId) {
-    if (this.props.singleHedgeFund.id === hedgeFundId) {
-      return (
-        <img
-          className="hedgeFundHog"
-          src="images/hogGreen.png"
-          alt="hedgehog icon"
-        ></img>
-      )
-    }
-  }
+  // moveHedgeHogToState(hedgeFundId) {
+  //   if (this.props.singleHedgeFund.id === hedgeFundId) {
+  //     return (
+  //       <img
+  //         className="hedgeFundHog"
+  //         src="images/hogGreen.png"
+  //         alt="hedgehog icon"
+  //       ></img>
+  //     )
+  //   }
+  // }
 
   updateSort(event) {
     this.setState({sort: event.target.value})
@@ -97,8 +97,8 @@ class AllHedgeFunds extends React.Component {
       <SortedHedgeFunds
         currentHedgeFunds={currentHedgeFunds}
         renderPageNumbers={renderPageNumbers}
-        moveHedgeHogToState={this.moveHedgeHogToState}
-        clickHedgeFund={this.clickHedgeFund}
+        // moveHedgeHogToState={this.moveHedgeHogToState}
+        // clickHedgeFund={this.clickHedgeFund}
         updateSort={this.updateSort}
       />
     )
@@ -108,16 +108,7 @@ class AllHedgeFunds extends React.Component {
 const mapStateToProps = (state) => {
   return {
     hedgeFunds: state.hedgeFunds.hedgeFunds,
-    singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  getHedgeFunds: () => {
-    dispatch(getHedgeFunds())
-  },
-  getMySingleHedgeFund: (hedgeFundId) =>
-    dispatch(getSingleHedgeFund(hedgeFundId)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AllHedgeFunds)
+export default connect(mapStateToProps)(AllHedgeFunds)
