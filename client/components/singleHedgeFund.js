@@ -10,7 +10,8 @@ import ListWhatToBuy from './ListWhatToBuy'
 
 export class singleHedgeFund extends React.Component {
   componentDidMount() {
-    this.props.getMySingleHedgeFund()
+    let id = this.props.match.params.id
+    this.props.getMySingleHedgeFund(id)
   }
 
   render() {

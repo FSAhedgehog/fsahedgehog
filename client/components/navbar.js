@@ -6,7 +6,11 @@ export const Navbar = () => (
     <div className="flex-row icon top">
       <img
         id="Nav-Logo"
-        src="images/HedgeHog-Logo-Black.png"
+        src={
+          process.env.PUBLIC_URL
+            ? process.env.PUBLIC_URL + '/images/HedgeHog-Logo-Black.png'
+            : '/images/HedgeHog-Logo-Black.png'
+        }
         alt="Turqoise Hog"
       ></img>
     </div>
