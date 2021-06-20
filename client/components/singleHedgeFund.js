@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
 import {EmailSub} from './EmailSub'
 import ListWhatToBuy from './ListWhatToBuy'
-// import api from 'sec-api'
 
 export class singleHedgeFund extends React.Component {
   componentDidMount() {
