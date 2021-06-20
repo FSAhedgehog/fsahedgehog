@@ -18,7 +18,6 @@
 - redux update to 4.0.1 from 3.6.0
 - redux-logger update to 3.0.6 from 2.8.1
 - sequelize update to 5.2.15 from 4.38.0
-- socket.io update to 2.2.0 from 2.1.0
 
 ### DevDependencies
 
