@@ -1,4 +1,4 @@
-export {Navbar} from './Navbar'
+export {Navbar} from './navbar'
 export {Footer} from './Footer'
 export {default as AllHedgeFunds} from './AllHedgeFunds'
 export {Main} from './Main'
