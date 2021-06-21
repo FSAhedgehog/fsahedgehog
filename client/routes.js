@@ -4,6 +4,7 @@ import Main from './components/Main'
 import OldMain from './components/OldMain'
 import singleHedgeFund from './components/singleHedgeFund'
 import {Methodology} from './components/Methodology'
+import {About} from './components/About'
 
 class Routes extends Component {
   render() {
@@ -13,6 +14,7 @@ class Routes extends Component {
         <Route exact path="/hedgefunds" component={Main} />
         <Route exact path="/hedgefunds/:id" component={singleHedgeFund} />
         <Route exact path="/methodology" component={Methodology} />
+        <Route exact path="/about" component={About} />
       </Switch>
     )
   }

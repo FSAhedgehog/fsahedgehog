@@ -341,4 +341,9 @@ tr:nth-child(even) {
 #Nav-Logo {
   height: 100%;
   width: 250px;
+  border-radius: 15px;
+}
+
+#Nav-Logo:hover {
+  background-color: #e1e1e1;
 }
