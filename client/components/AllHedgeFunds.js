@@ -1,10 +1,20 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import {getHedgeFunds} from '../store/funds'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
 import {sortHedgeFunds, camelCase} from './utilities'
 import SortedHedgeFunds from './SortedHedgeFunds'
 import {Link} from 'react-scroll'
+import history from '../history'
+// import {useHistory} from 'react-router-dom'
+// import {useNavigate} from 'react-router-dom'
+// const navigate = useNavigate()
+// navigate('/home')
+
+// const history = useHistory()
+// const clickHedgeFund = useCallback(() => history.push('/sample'), [history])
+
+// const history = useHistory()
 
 class AllHedgeFunds extends React.Component {
   constructor() {
@@ -34,9 +44,33 @@ class AllHedgeFunds extends React.Component {
   }
 
   clickHedgeFund(hedgeFundId) {
-    this.moveHedgeHogToState()
-    return this.props.getMySingleHedgeFund(hedgeFundId)
+    // this.moveHedgeHogToState()
+
+    // history.push(`hedgefunds/${hedgeFundId}`)
+    // console.loge(history, 'HISTORY')
+    // // history.push(`hedgefunds/${hedgeFundId}`)
+    // navigate(`hedgefunds/${hedgeFundId}`)
+    // console.log(history)
+    history.push(`hedgefunds/${hedgeFundId}`)
+    // useCallback(() => history.push('/sample'), [history])
+    // return this.props.getMySingleHedgeFund(hedgeFundId)
   }
+
+  // clickHedgeFund = (hedgeFundId) => {
+  //   const history = useHistory()
+  //   useCallback((hedgeFundId) => history.push(`hedgefunds/${hedgeFundId}`), [
+  //     history,
+  //   ])
+  // }
+
+  // clickHedgeFund = useCallback(() => history.push('/sample'), [history])
+
+  // clickHedgeFund = useCallback(
+  //   (hedgeFundId) => history.push(`hedgefunds/${hedgeFundId}`),
+  //   [history]
+  // )
+
+  // const handleOnClick = useCallback(() => history.push('/sample'), [history]);
 
   // moveHedgeHogToState(hedgeFundId) {
   //   if (this.props.singleHedgeFund.id === hedgeFundId) {
@@ -132,7 +166,7 @@ class AllHedgeFunds extends React.Component {
               <div
                 onClick={() => {
                   this.clickHedgeFund(hedgeFund.id)
-                  document.getElementsByClassName('Link')[0].click()
+                  // document.getElementsByClassName('Link')[0].click()
                 }}
                 href="#anchor-name"
                 className="singleHedgeFundContainer"

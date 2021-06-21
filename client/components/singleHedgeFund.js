@@ -19,9 +19,6 @@ export class singleHedgeFund extends React.Component {
       return (
         <div>
           <div className="flex-column">
-            <div className="flex-row sml-bottom">
-              <AllHedgeFunds />
-            </div>
             <div className="flex-row space-around">
               <div className="flex-row space">
                 <LineChart
@@ -60,7 +57,6 @@ const mapStateToProps = (state) => {
   return {
     singleHedgeFund: state.singleHedgeFund.singleHedgeFund,
     loading: state.singleHedgeFund.loading,
-    hedgeFunds: state.hedgeFunds.hedgeFunds,
   }
 }
 

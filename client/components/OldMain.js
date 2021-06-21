@@ -14,19 +14,19 @@ export class Main extends React.Component {
   }
 
   render() {
-    let yearOneReturn = findAverageReturn(
-      this.props.hedgeFunds,
-      'yearOneReturn'
-    )
-    let yearThreeReturn = findAverageReturn(
-      this.props.hedgeFunds,
-      'yearThreeReturn'
-    )
-    let yearFiveReturn = findAverageReturn(
-      this.props.hedgeFunds,
-      'yearFiveReturn'
-    )
-    let maxReturn = findAverageReturn(this.props.hedgeFunds, 'maxReturn')
+    // let yearOneReturn = findAverageReturn(
+    //   this.props.hedgeFunds,
+    //   'yearOneReturn'
+    // )
+    // let yearThreeReturn = findAverageReturn(
+    //   this.props.hedgeFunds,
+    //   'yearThreeReturn'
+    // )
+    // let yearFiveReturn = findAverageReturn(
+    //   this.props.hedgeFunds,
+    //   'yearFiveReturn'
+    // )
+    // let maxReturn = findAverageReturn(this.props.hedgeFunds, 'maxReturn')
     if (!this.props.loading) {
       return (
         <div>
@@ -34,10 +34,10 @@ export class Main extends React.Component {
             <div className="flex-row sml-bottom">
               <div className="flex-column">
                 <h2 className="flex-row text">Step one: Choose a Hedge Fund</h2>
-                <h2>{yearOneReturn}</h2>
+                {/* <h2>{yearOneReturn}</h2>
                 <h2>{yearThreeReturn}</h2>
                 <h2>{yearFiveReturn}</h2>
-                <h2>{maxReturn}</h2>
+                <h2>{maxReturn}</h2> */}
                 <p className="flex-row left right top explainer">
                   Each quarter we get a glimpse into super-investors' portfolios
                   when they release their holdings via a &nbsp;

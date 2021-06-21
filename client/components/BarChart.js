@@ -4,18 +4,18 @@ import {findAverageBeta, camelCase, determineColor} from './utilities'
 import {std} from 'mathjs'
 
 export const BarChart = (props) => {
-  const latest13Fs = props.hedgeFunds.map(
-    (hedgeFund) => hedgeFund.thirteenFs[0]
-  )
+  // const latest13Fs = props.hedgeFunds.map(
+  //   (hedgeFund) => hedgeFund.thirteenFs[0]
+  // )
 
-  const averageBeta = findAverageBeta(latest13Fs)
+  // const averageBeta = findAverageBeta(latest13Fs)
 
   const singleHedgeFund = props.singleHedgeFund
   const singleFundBeta =
     singleHedgeFund.thirteenFs[singleHedgeFund.thirteenFs.length - 1]
       .thirteenFBeta
 
-  const percentile = getPercentile(latest13Fs, averageBeta, singleFundBeta)
+  // const percentile = getPercentile(latest13Fs, averageBeta, singleFundBeta)
   const data = [
     {
       type: 'S&P',
@@ -32,11 +32,11 @@ export const BarChart = (props) => {
       value: singleFundBeta,
       fill: determineColor(singleFundBeta),
     },
-    {
-      type: 'HF Average',
-      value: averageBeta,
-      fill: determineColor(averageBeta),
-    },
+    // {
+    //   type: 'HF Average',
+    //   value: averageBeta,
+    //   fill: determineColor(averageBeta),
+    // },
   ]
 
   const legendData = [
@@ -72,7 +72,7 @@ export const BarChart = (props) => {
           },
         }}
       >
-        <VictoryAxis
+        {/* <VictoryAxis
           dependentAxis
           label={`${singleHedgeFund.name} current portfolio is ${Math.round(
             percentile * 100
@@ -81,7 +81,7 @@ export const BarChart = (props) => {
             tickLabels: {fontFamily: font},
             axisLabel: {fontStyle: 'italic', padding: 34, fontFamily: font},
           }}
-        />
+        /> */}
         <VictoryAxis
           crossAxis
           style={{tickLabels: {fontSize: 12, fontFamily: font}}}
