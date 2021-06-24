@@ -1,3 +1,15 @@
+/* COLORS
+- ABFFDB rgb(171, 255, 219)- light green
+- A79AFF rgb(167, 154, 255)- light purple
+- FFE99A rob(255, 233, 154)- light yellow
+- FF9393 rgb(255, 147, 147)- light pink
+- 93FFD6 rgb(147, 255, 214)- med turquoise
+- 93E1FF rgb(147, 225, 255) - med blue
+- 8BFFCD rgb(139, 255, 205) - med green
+
+FONT
+- font-family: Cern,Helvetica,Arial,sans-serif */
+
 body {
   font-family: 'Poppins', sans-serif;
 }
@@ -17,16 +29,6 @@ label {
 
 h6 {
   font-size: 1.3rem;
-}
-
-nav a {
-  display: inline-block;
-  margin: 1rem;
-  color: #59ea94;
-}
-
-nav a:hover {
-  color: rgb(157, 97, 255);
 }
 
 img {
@@ -338,12 +340,94 @@ tr:nth-child(even) {
 
 /* Navbar */
 
+#nav-bar {
+  border-bottom: solid lightgray 1px;
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  background-color: #ffffff;
+  top: 100;
+  display: flex;
+  z-index: 1000;
+}
+
 #Nav-Logo {
   height: 100%;
   width: 250px;
   border-radius: 15px;
+  padding: 0.8rem;
+  margin-right: 1.5rem;
+  transition: all 0.2s ease-in-out;
 }
 
 #Nav-Logo:hover {
-  background-color: #e1e1e1;
+  transform: scale(1.05);
 }
+
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+}
+
+.nav-bar-link {
+  padding-top: 1.3rem;
+  padding-left: 3.5rem;
+  text-decoration: none;
+  margin: 1rem;
+  display: inline-block;
+  color: black;
+  font-size: 18px;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-bar-link:hover {
+  text-decoration: none;
+  transform: scale(1.1);
+}
+/* nav a {
+  display: inline-block;
+  margin: 1rem;
+  color: #59ea94;
+}
+
+nav a:hover {
+  color: rgb(157, 97, 255);
+} */
+
+/*
+.geeks {
+  width: 0px;
+  height: 5px;
+  background: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.geeks::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100;
+  height: 100%;
+  background: yellow;
+  animation: animate 1s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    left: 0;
+  }
+
+  50% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+} */
