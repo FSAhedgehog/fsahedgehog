@@ -19,12 +19,11 @@ export class Main extends React.Component {
       return (
         <div>
           <div className="flex-column">
-            <div className="flex-row sml-bottom">
+            <div className="">
               <AllHedgeFunds />
               <HedgeFundStats />
               <StockStats />
             </div>
-            <div></div>
           </div>
         </div>
       )
