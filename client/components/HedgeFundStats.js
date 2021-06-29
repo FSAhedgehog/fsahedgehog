@@ -6,6 +6,12 @@ import {getHedgeFunds} from '../store/funds'
 
 export class HedgeFundStats extends React.Component {
   render() {
+    // Math.round(Number(this.props.hedgeStats.avgPortfolioAmount) / 10000) *
+    //   (10000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    // let avgPortfolio = Math.round(
+    //   parseInt(this.props.hedgeStats.avgPortfolioAmount)
+    // )
+    // console.log(avgPortfolio)
     if (!this.props.loading) {
       return (
         <div className="hedgeFundsContainer">
@@ -24,7 +30,10 @@ export class HedgeFundStats extends React.Component {
                   <p>Portfolio Size $</p>
                 </div>
                 <div className="yearReturnNumber">
-                  <p>{`${this.props.hedgeStats.avgPortfolioAmount}`}</p>
+                  <p>{`${(
+                    Number(this.props.hedgeStats.avgPortfolioAmount) /
+                    1000000000
+                  ).toFixed(2)}`}</p>
                 </div>
               </div>
               <div className="singleReturnContainer">
@@ -32,7 +41,7 @@ export class HedgeFundStats extends React.Component {
                   <p>Average Beta</p>
                 </div>
                 <div className="yearReturnNumber">
-                  <p>{`${this.props.hedgeStats.avgBeta}`}</p>
+                  <p>{`${this.props.hedgeStats.avgBeta.toFixed(2)}`}</p>
                 </div>
               </div>
             </div>

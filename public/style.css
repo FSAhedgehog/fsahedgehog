@@ -391,12 +391,13 @@ tr:nth-child(even) {
   display: flex;
   left: 0;
   width: 70%;
-  margin-left: 20px;
+  margin-left: 30px;
 }
 
 #right-half-hedgefunds-page {
   right: 0;
   width: 30%;
+  margin-right: 30px;
 }
 
 .nav-bar-link:hover {
