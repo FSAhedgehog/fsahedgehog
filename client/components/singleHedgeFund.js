@@ -17,7 +17,7 @@ export class singleHedgeFund extends React.Component {
     // have email sub, line chart, volatility chart, what to buy, portfolio,
     if (!this.props.loading) {
       return (
-        <div>
+        <div className="single-hedgefunds-page">
           <div className="flex-column">
             <div className="flex-row space-around">
               <div className="flex-row space">

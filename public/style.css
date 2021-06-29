@@ -387,6 +387,10 @@ tr:nth-child(even) {
   margin-top: 110px;
 }
 
+.single-hedgefunds-page {
+  margin-top: 110px;
+}
+
 #left-half-hedgefunds-page {
   display: flex;
   left: 0;
