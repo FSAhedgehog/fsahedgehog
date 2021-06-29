@@ -313,7 +313,7 @@ tr:nth-child(even) {
   padding-top: 25px;
 }
 
-/*mobile 400px and less*/
+/* mobile 400px and less
 @media screen and (max-width: 480px) {
   .mobile {
     width: 58%;
@@ -326,7 +326,7 @@ tr:nth-child(even) {
   .hedgeFundReturnContainer {
     align-items: justify;
   }
-}
+} */
 
 /* PIE STYLING */
 .pie-title {
@@ -346,10 +346,9 @@ tr:nth-child(even) {
   overflow: hidden;
   width: 100%;
   background-color: #ffffff;
-  top: 100;
+  top: 0;
   display: flex;
   z-index: 1000;
-  /* margin-bottom: 100px; */
 }
 
 #Nav-Logo {
@@ -373,14 +372,9 @@ tr:nth-child(even) {
 }
 
 .nav-bar-link {
-  /* padding-top: 1.3rem;
-  padding-left: 3.5rem; */
   padding: 0.6rem;
   margin-top: 1.3rem;
   margin-left: 3.1rem;
-  /* padding-top: 1rem;
-  padding-left: 1.5rem; */
-  /* margin: 0.8rem; */
   text-decoration: none;
   display: inline-block;
   color: black;
@@ -388,28 +382,22 @@ tr:nth-child(even) {
   transition: all 0.2s ease-in-out;
 }
 
-/* .room-for-nav {
-  margin-top: 50px;
-  padding-top: 50px;
-} */
-
-#nav-bar {
-  margin-bottom: 50px;
+.all-hedgefunds-page {
+  display: flex;
+  margin-top: 110px;
 }
 
 #left-half-hedgefunds-page {
   display: flex;
+  left: 0;
   width: 70%;
+  margin-left: 20px;
 }
 
-/* #hedgefunds-container {
-
-} */
-
-.all-hedgefunds-page {
-  margin-top: 120px;
+#right-half-hedgefunds-page {
+  right: 0;
+  width: 30%;
 }
-/* position:sticky or position:initial */
 
 .nav-bar-link:hover {
   text-decoration: none;

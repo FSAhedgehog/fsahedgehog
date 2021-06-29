@@ -17,13 +17,13 @@ export class Main extends React.Component {
   render() {
     if (!this.props.loading) {
       return (
-        <div>
-          <div className="flex-column">
-            <div className="">
-              <AllHedgeFunds />
-              <HedgeFundStats />
-              <StockStats />
-            </div>
+        <div className="all-hedgefunds-page">
+          <div id="left-half-hedgefunds-page">
+            <AllHedgeFunds />
+          </div>
+          <div id="right-half-hedgefunds-page">
+            <HedgeFundStats />
+            <StockStats />
           </div>
         </div>
       )

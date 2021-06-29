@@ -24,18 +24,9 @@ class AllHedgeFunds extends React.Component {
       currentPage: 1,
       hedgeFundsPerPage: 5,
     }
-    // this.clickHedgeFund = this.clickHedgeFund.bind(this)
-    // this.moveHedgeHogToState = this.moveHedgeHogToState.bind(this)
     this.updateSort = this.updateSort.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
-
-  // componentDidMount() {
-  //   this.props.getHedgeFunds()
-  //   if (!this.props.singleHedgeFund.id) {
-  //     this.props.getMySingleHedgeFund()
-  //   }
-  // }
 
   handleClick(event) {
     this.setState({
@@ -44,45 +35,8 @@ class AllHedgeFunds extends React.Component {
   }
 
   clickHedgeFund(hedgeFundId) {
-    // this.moveHedgeHogToState()
-
-    // history.push(`hedgefunds/${hedgeFundId}`)
-    // console.loge(history, 'HISTORY')
-    // // history.push(`hedgefunds/${hedgeFundId}`)
-    // navigate(`hedgefunds/${hedgeFundId}`)
-    // console.log(history)
     history.push(`hedgefunds/${hedgeFundId}`)
-    // useCallback(() => history.push('/sample'), [history])
-    // return this.props.getMySingleHedgeFund(hedgeFundId)
   }
-
-  // clickHedgeFund = (hedgeFundId) => {
-  //   const history = useHistory()
-  //   useCallback((hedgeFundId) => history.push(`hedgefunds/${hedgeFundId}`), [
-  //     history,
-  //   ])
-  // }
-
-  // clickHedgeFund = useCallback(() => history.push('/sample'), [history])
-
-  // clickHedgeFund = useCallback(
-  //   (hedgeFundId) => history.push(`hedgefunds/${hedgeFundId}`),
-  //   [history]
-  // )
-
-  // const handleOnClick = useCallback(() => history.push('/sample'), [history]);
-
-  // moveHedgeHogToState(hedgeFundId) {
-  //   if (this.props.singleHedgeFund.id === hedgeFundId) {
-  //     return (
-  //       <img
-  //         className="hedgeFundHog"
-  //         src="images/hogGreen.png"
-  //         alt="hedgehog icon"
-  //       ></img>
-  //     )
-  //   }
-  // }
 
   updateSort(event) {
     this.setState({sort: event.target.value})
@@ -128,20 +82,12 @@ class AllHedgeFunds extends React.Component {
       indexOfLastHedge
     )
 
-    // return (
-    //   <SortedHedgeFunds
-    //     currentHedgeFunds={currentHedgeFunds}
-    //     renderPageNumbers={renderPageNumbers}
-    //     // moveHedgeHogToState={this.moveHedgeHogToState}
-    //     // clickHedgeFund={this.clickHedgeFund}
-    //     updateSort={this.updateSort}
-    //   />
-    // )
     return (
-      <div className="all-hedgefunds-page">
-        <div id="left-half-hedgefunds-page">
+      <div>
+        <div>
           <div id="hedgefunds-container">
-            <div className="">
+            <h2>Hedge Funds</h2>
+            <div>
               <select
                 name="sort"
                 id="return"
