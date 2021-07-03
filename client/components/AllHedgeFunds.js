@@ -120,10 +120,10 @@ class AllHedgeFunds extends React.Component {
                     className="singleHedgeFundContainer"
                     key={hedgeFund.id}
                   >
-                    <div className="hedgeFundName">
-                      <p>{camelCase(hedgeFund.name)}</p>
-                      {/* <div>{moveHedgeHogToState(hedgeFund.id)}</div> */}
-                    </div>
+                    {/* <div className="hedgeFundName"> */}
+                    <p className="hedgeFundName">{camelCase(hedgeFund.name)}</p>
+                    {/* <div>{moveHedgeHogToState(hedgeFund.id)}</div> */}
+                    {/* </div> */}
                     <div className="hedgeFundReturnsContainer">
                       <div className="singleReturnContainer">
                         <div className="yearReturnLabel">
@@ -166,9 +166,9 @@ class AllHedgeFunds extends React.Component {
                 )
               })}
             </div>
-            <div className="pages-container">
+            {/* <div className="pages-container">
               <div id="page-numbers">{renderPageNumbers} </div>
-            </div>
+            </div> */}
             <Link
               className="Link"
               spy={true}

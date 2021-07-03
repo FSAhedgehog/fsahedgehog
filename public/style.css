@@ -155,14 +155,17 @@ select:hover {
 .hedgeFundName {
   width: 45%;
   display: flex;
-  padding-left: 5px;
+  padding-left: 10px;
   align-items: center;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.hedgeFundName p {
-  font-size: 13px;
+/* .hedgeFundName p {
+  font-size: 14px;
+  font-weight: 500;
   margin-top: 12px;
-}
+} */
 
 .hedgeFundHog {
   height: 32px;
@@ -173,32 +176,41 @@ select:hover {
 
 .hedgeFundReturnsContainer {
   display: flex;
-  width: 50%;
+  width: 55%;
   padding: 0px;
 }
 
 .hedgeFundReturnsContainer p {
-  padding-top: 8px;
+  /* padding-top: 8px; */
   font-size: 8px;
 }
 
 .hedgeFundReturnsContainer .assetsReturn {
-  padding-top: 8px;
+  /* padding-top: 8px; */
   font-size: 8px;
 }
 
 .singleReturnContainer {
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   display: flex;
-  padding: 6px 0px 0px 0px;
+  /* padding: 6px 0px 0px 0px; */
   align-items: center;
   width: 85px;
+  flex-direction: column;
 }
 
 .yearReturnLabel p {
   font-size: 11px;
-  margin-right: 3px;
+  margin: 0px;
+  /* margin-right: 3px; */
   color: rgb(157, 97, 255);
+}
+
+.yearReturnNumber p {
+  font-size: 11px;
+  margin: 0px;
+  /* margin-right: 3px; */
+  /* color: rgb(157, 97, 255); */
 }
 
 /* VICTORY LINE CHART STYLING */
