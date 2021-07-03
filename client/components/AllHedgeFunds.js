@@ -115,10 +115,19 @@ class AllHedgeFunds extends React.Component {
               </div>
               <div className="hedgeFundsContainer">
                 {currentHedgeFunds.map((hedgeFund, index) => {
-                  let portfolioValue = currentHedgeFunds[index].thirteenFs[0].thirteenFBeta
+                  let portfolioValue =
+                    currentHedgeFunds[index].thirteenFs[0].portfolioValue
+                  let amntIndicator
                   if (portfolioValue > 1000000000) {
-                    portfolioValue /
+                    portfolioValue = portfolioValue / 1000000000
+                    portfolioValue = round(portfolioValue, 1)
+                    amntIndicator = 'B'
+                  } else {
+                    portfolioValue = portfolioValue / 1000000
+                    portfolioValue = round(portfolioValue, 0)
+                    amntIndicator = 'M'
                   }
+
                   return (
                     <div
                       onClick={() => {
@@ -204,9 +213,7 @@ class AllHedgeFunds extends React.Component {
                             <p>Portfolio Value</p>
                           </div>
                           <div className="yearReturnNumber">
-                            <p>
-                              {portfolioValue}
-                            </p>
+                            <p>{`$${portfolioValue} ${amntIndicator}`}</p>
                           </div>
                         </div>
                         <div className="singleReturnContainer">
@@ -255,3 +262,8 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(AllHedgeFunds)
+
+function round(value, precision) {
+  var multiplier = Math.pow(10, precision || 0)
+  return Math.round(value * multiplier) / multiplier
+}
