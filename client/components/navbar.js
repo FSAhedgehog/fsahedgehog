@@ -70,40 +70,40 @@ export const Navbar = () => (
           ></img>
         </a>
       </div>
-      <div>
-        <Link
-          className="nav-bar-link"
-          id="hedgeFundsNavLink"
-          to="/hedgefunds"
-          onMouseOver={(el) => getRandomColor(el)}
-          onMouseOut={(el) => goBlackColor(el)}
-        >
-          Hedgefunds
-        </Link>
-        <div className="geeks" />
-      </div>
-      <div>
-        <Link
-          className="nav-bar-link"
-          id="methodologyNavLink"
-          to="/methodology"
-          onMouseOver={(el) => getRandomColor(el)}
-          onMouseOut={(el) => goBlackColor(el)}
-        >
-          Methodology
-        </Link>
-      </div>
-      <div>
-        <Link
-          className="nav-bar-link"
-          id="aboutNavLink"
-          to="/about"
-          onMouseOver={(el) => getRandomColor(el)}
-          onMouseOut={(el) => goBlackColor(el)}
-        >
-          About
-        </Link>
-      </div>
+      {/* <div> */}
+      <Link
+        className="nav-bar-link"
+        id="hedgeFundsNavLink"
+        to="/hedgefunds"
+        onMouseOver={(el) => getRandomColor(el)}
+        onMouseOut={(el) => goBlackColor(el)}
+      >
+        Hedgefunds
+      </Link>
+      <div className="geeks" />
+      {/* </div> */}
+      {/* <div> */}
+      <Link
+        className="nav-bar-link"
+        id="methodologyNavLink"
+        to="/methodology"
+        onMouseOver={(el) => getRandomColor(el)}
+        onMouseOut={(el) => goBlackColor(el)}
+      >
+        Methodology
+      </Link>
+      {/* </div> */}
+      {/* <div> */}
+      <Link
+        className="nav-bar-link"
+        id="aboutNavLink"
+        to="/about"
+        onMouseOver={(el) => getRandomColor(el)}
+        onMouseOut={(el) => goBlackColor(el)}
+      >
+        About
+      </Link>
+      {/* </div> */}
     </nav>
   </div>
 )

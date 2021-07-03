@@ -133,7 +133,7 @@ select:hover {
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 750px;
   border-radius: 15px;
 }
 
@@ -153,14 +153,15 @@ select:hover {
 }
 
 .hedgeFundName {
-  width: 70%;
+  width: 45%;
   display: flex;
   padding-left: 5px;
+  align-items: center;
 }
 
 .hedgeFundName p {
   font-size: 13px;
-  padding: 6px 5px 5px 5px;
+  margin-top: 12px;
 }
 
 .hedgeFundHog {
@@ -354,9 +355,8 @@ tr:nth-child(even) {
 #Nav-Logo {
   height: 100%;
   width: 200px;
-  border-radius: 15px;
-  padding: 0.2rem;
-  margin: 0.3rem;
+  padding: 1.5px;
+  margin: 1.5px;
   transition: all 0.2s ease-in-out;
 }
 
@@ -372,12 +372,12 @@ tr:nth-child(even) {
 }
 
 .nav-bar-link {
-  padding: 0.6rem;
-  margin-top: 1.3rem;
-  margin-left: 3.1rem;
   text-decoration: none;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
+  width: 190px;
   font-size: 18px;
   transition: all 0.2s ease-in-out;
 }
