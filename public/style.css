@@ -137,6 +137,10 @@ select:hover {
   border-radius: 15px;
 }
 
+.title {
+  margin: 0;
+}
+
 .hedgeFundStatsContainer {
 }
 
