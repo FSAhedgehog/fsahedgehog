@@ -391,6 +391,7 @@ tr:nth-child(even) {
   margin-top: 5px;
   font-size: 18px;
   transition: all 0.2s ease-in-out;
+  font-weight: 600;
 }
 
 .all-hedgefunds-page {
