@@ -57,21 +57,21 @@ class AllHedgeFunds extends React.Component {
       pageNumbers.push(i)
     }
 
-    const renderPageNumbers = pageNumbers.map((number) => {
-      return (
-        <div key={number} className="numbers">
-          <div
-            id={number}
-            className={
-              'number' + (this.state.currentPage === number ? ' active' : '')
-            }
-            onClick={this.handleClick}
-          >
-            {' ' + number + ' '}
-          </div>
-        </div>
-      )
-    })
+    // const renderPageNumbers = pageNumbers.map((number) => {
+    //   return (
+    //     <div key={number} className="numbers">
+    //       <div
+    //         id={number}
+    //         className={
+    //           'number' + (this.state.currentPage === number ? ' active' : '')
+    //         }
+    //         onClick={this.handleClick}
+    //       >
+    //         {' ' + number + ' '}
+    //       </div>
+    //     </div>
+    //   )
+    // })
 
     if (this.state.sort !== 'none') {
       hedgeFunds = sortHedgeFunds(hedgeFunds, this.state.sort).reverse()
@@ -84,9 +84,9 @@ class AllHedgeFunds extends React.Component {
 
     console.log(currentHedgeFunds[0], 'HERE')
     if (this.props.hedgeFunds.length) {
-      console.log(currentHedgeFunds[0].thirteenFs[0].numberOfStocks)
-      currentHedgeFunds[0].thirteenFs[0].portfolioValue
-      currentHedgeFunds[0].thirteenFs[0].thirteenFBeta
+      // console.log(currentHedgeFunds[0].thirteenFs[0].numberOfStocks)
+      // currentHedgeFunds[0].thirteenFs[0].portfolioValue
+      // currentHedgeFunds[0].thirteenFs[0].thirteenFBeta
       return (
         <div>
           <div>
@@ -114,7 +114,11 @@ class AllHedgeFunds extends React.Component {
                 </select>
               </div>
               <div className="hedgeFundsContainer">
-                {currentHedgeFunds.map((hedgeFund) => {
+                {currentHedgeFunds.map((hedgeFund, index) => {
+                  let portfolioValue = currentHedgeFunds[index].thirteenFs[0].thirteenFBeta
+                  if (portfolioValue > 1000000000) {
+                    portfolioValue /
+                  }
                   return (
                     <div
                       onClick={() => {
@@ -134,22 +138,23 @@ class AllHedgeFunds extends React.Component {
                       <div className="hedgeFundReturnsContainer">
                         <div className="singleReturnContainer">
                           <div className="yearReturnLabel">
-                            <p>1 Yr</p>
-                          </div>
-                          <div className="yearReturnNumber">
-                            <p>
-                              {`${(hedgeFund.yearOneReturn * 100 - 100).toFixed(
-                                1
-                              )}%`}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="singleReturnContainer">
-                          <div className="yearReturnLabel">
                             <p>Number of Stocks</p>
                           </div>
                           <div className="yearReturnNumber">
                             <p>
+                              {
+                                currentHedgeFunds[index].thirteenFs[0]
+                                  .numberOfStocks
+                              }
+                            </p>
+                          </div>
+                        </div>
+                        <div className="singleReturnContainer">
+                          <div className="yearReturnLabel">
+                            <p>1 Yr Return</p>
+                          </div>
+                          <div className="yearReturnNumber">
+                            <p>
                               {`${(hedgeFund.yearOneReturn * 100 - 100).toFixed(
                                 1
                               )}%`}
@@ -158,7 +163,7 @@ class AllHedgeFunds extends React.Component {
                         </div>
                         <div className="singleReturnContainer">
                           <div className="yearReturnLabel">
-                            <p>3 Yrs</p>
+                            <p>3 Yr Return</p>
                           </div>
                           <div className="yearReturnNumber">
                             <p>
@@ -171,7 +176,7 @@ class AllHedgeFunds extends React.Component {
                         </div>
                         <div className="singleReturnContainer">
                           <div className="yearReturnLabel">
-                            <p>5 Yrs</p>
+                            <p>5 Yr Return</p>
                           </div>
                           <div className="yearReturnNumber">
                             <p>
@@ -184,13 +189,35 @@ class AllHedgeFunds extends React.Component {
                         </div>
                         <div className="singleReturnContainer">
                           <div className="yearReturnLabel">
-                            <p>Max</p>
+                            <p>Total Return</p>
                           </div>
                           <div className="yearReturnNumber">
                             <p>
                               {`${(hedgeFund.maxReturn * 100 - 100).toFixed(
                                 1
                               )}%`}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="singleReturnContainer">
+                          <div className="yearReturnLabel">
+                            <p>Portfolio Value</p>
+                          </div>
+                          <div className="yearReturnNumber">
+                            <p>
+                              {portfolioValue}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="singleReturnContainer">
+                          <div className="yearReturnLabel">
+                            <p>Beta</p>
+                          </div>
+                          <div className="yearReturnNumber">
+                            <p>
+                              {currentHedgeFunds[
+                                index
+                              ].thirteenFs[0].thirteenFBeta.toFixed(2)}
                             </p>
                           </div>
                         </div>
