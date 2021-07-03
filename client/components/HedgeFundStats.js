@@ -14,7 +14,8 @@ export class HedgeFundStats extends React.Component {
     // console.log(avgPortfolio)
     if (!this.props.loading) {
       return (
-        <div className="hedgeFundsContainer">
+        <div className="hedgeFundStatsContainer">
+          <h2>Hedge Funds</h2>
           <div className="singleHedgeFundContainer">
             <div className="hedgeFundReturnsContainer">
               <div className="singleReturnContainer">

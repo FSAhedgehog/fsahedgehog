@@ -19,10 +19,10 @@ export class Main extends React.Component {
       return (
         <div className="all-hedgefunds-page">
           <div id="left-half-hedgefunds-page">
+            <HedgeFundStats />
             <AllHedgeFunds />
           </div>
           <div id="right-half-hedgefunds-page">
-            <HedgeFundStats />
             <StockStats />
           </div>
         </div>

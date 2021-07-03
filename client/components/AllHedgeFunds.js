@@ -84,14 +84,10 @@ class AllHedgeFunds extends React.Component {
 
     console.log(currentHedgeFunds[0], 'HERE')
     if (this.props.hedgeFunds.length) {
-      // console.log(currentHedgeFunds[0].thirteenFs[0].numberOfStocks)
-      // currentHedgeFunds[0].thirteenFs[0].portfolioValue
-      // currentHedgeFunds[0].thirteenFs[0].thirteenFBeta
       return (
         <div>
           <div>
             <div id="hedgefunds-container">
-              <h2>Hedge Funds</h2>
               <div>
                 <select
                   name="sort"
@@ -147,7 +143,7 @@ class AllHedgeFunds extends React.Component {
                       <div className="hedgeFundReturnsContainer">
                         <div className="singleReturnContainer">
                           <div className="yearReturnLabel">
-                            <p>Number of Stocks</p>
+                            <p># of Stocks</p>
                           </div>
                           <div className="yearReturnNumber">
                             <p>
@@ -210,7 +206,7 @@ class AllHedgeFunds extends React.Component {
                         </div>
                         <div className="singleReturnContainer">
                           <div className="yearReturnLabel">
-                            <p>Portfolio Value</p>
+                            <p>Value</p>
                           </div>
                           <div className="yearReturnNumber">
                             <p>{`$${portfolioValue} ${amntIndicator}`}</p>

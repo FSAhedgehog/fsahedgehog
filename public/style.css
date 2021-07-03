@@ -133,8 +133,11 @@ select:hover {
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
-  width: 750px;
+  width: 850px;
   border-radius: 15px;
+}
+
+.hedgeFundStatsContainer {
 }
 
 .singleHedgeFundContainer {
@@ -153,9 +156,9 @@ select:hover {
 }
 
 .hedgeFundName {
-  width: 45%;
+  width: 40%;
   display: flex;
-  padding-left: 10px;
+  padding-left: 9px;
   align-items: center;
   font-size: 14px;
   font-weight: 400;
@@ -177,8 +180,7 @@ select:hover {
 .hedgeFundReturnsContainer {
   display: flex;
   align-items: center;
-  width: 55%;
-  padding: 0px;
+  width: 60%;
 }
 
 .hedgeFundReturnsContainer p {
@@ -196,6 +198,7 @@ select:hover {
   display: flex;
   /* padding: 6px 0px 0px 0px; */
   align-items: center;
+  padding-left: 10px;
   width: 85px;
   flex-direction: column;
 }
@@ -420,9 +423,10 @@ tr:nth-child(even) {
 
 #left-half-hedgefunds-page {
   display: flex;
+  flex-direction: column;
   left: 0;
   width: 70%;
-  margin-left: 30px;
+  margin-left: 20px;
 }
 
 #right-half-hedgefunds-page {
