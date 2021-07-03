@@ -27,13 +27,46 @@ export class HedgeFundStats extends React.Component {
               </div>
               <div className="singleReturnContainer">
                 <div className="yearReturnLabel">
-                  <p>Portfolio Size $</p>
+                  <p>One Year Return </p>
                 </div>
                 <div className="yearReturnNumber">
                   <p>{`${(
-                    Number(this.props.hedgeStats.avgPortfolioAmount) /
-                    1000000000
-                  ).toFixed(2)}`}</p>
+                    this.props.hedgeStats.avgOneYearReturn * 100 -
+                    100
+                  ).toFixed(1)}`}</p>
+                </div>
+              </div>
+              <div className="singleReturnContainer">
+                <div className="yearReturnLabel">
+                  <p>Three Year Return </p>
+                </div>
+                <div className="yearReturnNumber">
+                  <p>{`${(
+                    this.props.hedgeStats.avgThreeYearReturn * 100 -
+                    100
+                  ).toFixed(1)}`}</p>
+                </div>
+              </div>
+              <div className="singleReturnContainer">
+                <div className="yearReturnLabel">
+                  <p>Five Year Return </p>
+                </div>
+                <div className="yearReturnNumber">
+                  <p>{`${(
+                    this.props.hedgeStats.avgFiveYearReturn * 100 -
+                    100
+                  ).toFixed(1)}`}</p>
+                </div>
+              </div>
+              <div className="singleReturnContainer">
+                <div className="yearReturnLabel">
+                  <p>Max Return </p>
+                </div>
+                <div className="yearReturnNumber">
+                  <p>{`${(
+                    this.props.hedgeStats.avgMaxReturn * 100 -
+                    100
+                  ).toFixed(1)}`}</p>
                 </div>
               </div>
               <div className="singleReturnContainer">
