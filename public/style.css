@@ -353,11 +353,21 @@ tr:nth-child(even) {
 }
 
 #Nav-Logo {
-  height: 100%;
+  /* height: 90%; */
   width: 200px;
-  padding: 1.5px;
-  margin: 1.5px;
+  /* padding: 1.5px;
+  margin: 1.5px; */
+  margin-right: 100px;
+  /* padding-bottom: 20px; */
   transition: all 0.2s ease-in-out;
+}
+
+#nav-logo-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 6px;
 }
 
 #Nav-Logo:hover {
@@ -375,9 +385,10 @@ tr:nth-child(even) {
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   color: black;
   width: 190px;
+  margin-top: 5px;
   font-size: 18px;
   transition: all 0.2s ease-in-out;
 }

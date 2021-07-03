@@ -55,21 +55,19 @@ function goBlackColor(el) {
 export const Navbar = () => (
   <div>
     <nav id="nav-bar">
-      <div>
-        <a href="/">
-          <img
-            id="Nav-Logo"
-            onMouseOver={() => getRandomLogo()}
-            onMouseOut={() => goBlackLogo()}
-            src={
-              process.env.PORT
-                ? process.env.PORT + '/images/HedgeHog-Logo-Black.png'
-                : '/images/HedgeHog-Logo-Black.png'
-            }
-            alt="Turqoise Hog"
-          ></img>
-        </a>
-      </div>
+      <a href="/" id="nav-logo-box">
+        <img
+          id="Nav-Logo"
+          onMouseOver={() => getRandomLogo()}
+          onMouseOut={() => goBlackLogo()}
+          src={
+            process.env.PORT
+              ? process.env.PORT + '/images/HedgeHog-Logo-Black.png'
+              : '/images/HedgeHog-Logo-Black.png'
+          }
+          alt="Turqoise Hog"
+        ></img>
+      </a>
       {/* <div> */}
       <Link
         className="nav-bar-link"
