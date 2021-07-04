@@ -28,7 +28,7 @@ export class HedgeFundStats extends React.Component {
                   <p>{`${(
                     this.props.hedgeStats.avgOneYearReturn * 100 -
                     100
-                  ).toFixed(1)}`}</p>
+                  ).toFixed(1)}%`}</p>
                 </div>
               </div>
               <div className="singleStatContainer">
@@ -39,7 +39,7 @@ export class HedgeFundStats extends React.Component {
                   <p>{`${(
                     this.props.hedgeStats.avgThreeYearReturn * 100 -
                     100
-                  ).toFixed(1)}`}</p>
+                  ).toFixed(1)}%`}</p>
                 </div>
               </div>
               <div className="singleStatContainer">
@@ -50,7 +50,7 @@ export class HedgeFundStats extends React.Component {
                   <p>{`${(
                     this.props.hedgeStats.avgFiveYearReturn * 100 -
                     100
-                  ).toFixed(1)}`}</p>
+                  ).toFixed(1)}%`}</p>
                 </div>
               </div>
               <div className="singleStatContainer">
@@ -61,7 +61,7 @@ export class HedgeFundStats extends React.Component {
                   <p>{`${(
                     this.props.hedgeStats.avgMaxReturn * 100 -
                     100
-                  ).toFixed(1)}`}</p>
+                  ).toFixed(1)}%`}</p>
                 </div>
               </div>
               <div className="singleStatContainer">
