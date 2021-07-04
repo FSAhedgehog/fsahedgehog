@@ -549,8 +549,11 @@ nav a:hover {
   display: flex;
   justify-content: center;
   /* position: fixed; */
-  position: relative;
-  border-collapse: collapse;
+  position: sticky;
+  top: 0;
+  background: white;
+  border-bottom: black 1px;
+  margin-bottom: 5px;
 }
 
 .data-labels p {
