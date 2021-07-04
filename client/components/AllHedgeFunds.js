@@ -6,15 +6,6 @@ import {sortHedgeFunds, camelCase} from './utilities'
 import SortedHedgeFunds from './SortedHedgeFunds'
 import {Link} from 'react-scroll'
 import history from '../history'
-// import {useHistory} from 'react-router-dom'
-// import {useNavigate} from 'react-router-dom'
-// const navigate = useNavigate()
-// navigate('/home')
-
-// const history = useHistory()
-// const clickHedgeFund = useCallback(() => history.push('/sample'), [history])
-
-// const history = useHistory()
 
 class AllHedgeFunds extends React.Component {
   constructor() {
