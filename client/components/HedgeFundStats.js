@@ -14,11 +14,11 @@ export class HedgeFundStats extends React.Component {
     // console.log(avgPortfolio)
     if (!this.props.loading) {
       return (
-        <div>
+        <div id="fundStatsWholeComponent">
           <h2 className="title">Hedge Funds</h2>
           <div className="hedgeFundStatsContainer">
-            <div className="hedgeFundReturnsContainer">
-              <div className="singleReturnContainer">
+            <div className="hedgeFundStatsBox">
+              <div className="singleStatContainer">
                 <div className="yearReturnLabel">
                   <p>Average # of Stocks</p>
                 </div>
@@ -26,9 +26,9 @@ export class HedgeFundStats extends React.Component {
                   <p>{`${this.props.hedgeStats.avgNumberOfStocks}`}</p>
                 </div>
               </div>
-              <div className="singleReturnContainer">
+              <div className="singleStatContainer">
                 <div className="yearReturnLabel">
-                  <p>One Year Return </p>
+                  <p>Average 1 Year Return </p>
                 </div>
                 <div className="yearReturnNumber">
                   <p>{`${(
@@ -37,9 +37,9 @@ export class HedgeFundStats extends React.Component {
                   ).toFixed(1)}`}</p>
                 </div>
               </div>
-              <div className="singleReturnContainer">
+              <div className="singleStatContainer">
                 <div className="yearReturnLabel">
-                  <p>Three Year Return </p>
+                  <p>Average 3 Year Return </p>
                 </div>
                 <div className="yearReturnNumber">
                   <p>{`${(
@@ -48,9 +48,9 @@ export class HedgeFundStats extends React.Component {
                   ).toFixed(1)}`}</p>
                 </div>
               </div>
-              <div className="singleReturnContainer">
+              <div className="singleStatContainer">
                 <div className="yearReturnLabel">
-                  <p>Five Year Return </p>
+                  <p>Average 5 Year Return </p>
                 </div>
                 <div className="yearReturnNumber">
                   <p>{`${(
@@ -59,9 +59,9 @@ export class HedgeFundStats extends React.Component {
                   ).toFixed(1)}`}</p>
                 </div>
               </div>
-              <div className="singleReturnContainer">
+              <div className="singleStatContainer">
                 <div className="yearReturnLabel">
-                  <p>Max Return </p>
+                  <p>Average Max Return </p>
                 </div>
                 <div className="yearReturnNumber">
                   <p>{`${(
@@ -70,7 +70,7 @@ export class HedgeFundStats extends React.Component {
                   ).toFixed(1)}`}</p>
                 </div>
               </div>
-              <div className="singleReturnContainer">
+              <div className="singleStatContainer">
                 <div className="yearReturnLabel">
                   <p>Average Beta</p>
                 </div>

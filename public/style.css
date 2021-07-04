@@ -141,6 +141,7 @@ select:hover {
   /* margin: 0; */
   margin-bottom: 10px;
   margin-top: 10px;
+  /* text-align: center; */
 }
 
 .hedgeFundStatsContainer {
@@ -150,6 +151,15 @@ select:hover {
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   margin-bottom: 4px;
   font-size: 6px;
+  width: 780px;
+  margin-left: 35px;
+}
+
+#fundStatsWholeComponent {
+  margin-bottom: 30px;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
 }
 
 .singleHedgeFundContainer {
@@ -195,6 +205,14 @@ select:hover {
   width: 60%;
 }
 
+.hedgeFundStatsBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* width: 100%; */
+  /* width: 1200px; */
+}
+
 .hedgeFundReturnsContainer p {
   /* padding-top: 8px; */
   font-size: 8px;
@@ -212,6 +230,16 @@ select:hover {
   align-items: center;
   padding-left: 10px;
   width: 85px;
+  flex-direction: column;
+}
+
+.singleStatContainer {
+  /* flex-wrap: wrap; */
+  display: flex;
+  /* padding: 6px 0px 0px 0px; */
+  align-items: center;
+  padding-left: 10px;
+  width: 120px;
   flex-direction: column;
 }
 
