@@ -466,13 +466,13 @@ tr:nth-child(even) {
   flex-direction: column;
   left: 0;
   width: 70%;
-  margin-left: 20px;
+  margin-left: 40px;
 }
 
 #right-half-hedgefunds-page {
   right: 0;
-  width: 30%;
-  margin-right: 30px;
+  width: 35%;
+  margin-right: 40px;
 }
 
 .nav-bar-link:hover {
@@ -525,16 +525,81 @@ nav a:hover {
   }
 } */
 
-/* #growth {
- ...
- overflow-y: scroll;
-} */
+#growth {
+  overflow-y: scroll;
+}
 
 /* Stock Stats CSS */
 .stock-stats-container {
   display: flex;
   flex-direction: column;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  height: 378px;
 }
 
 .stock-stats-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.data-labels {
+  display: flex;
+  justify-content: center;
+  /* position: fixed; */
+  position: relative;
+  border-collapse: collapse;
+}
+
+.data-labels p {
+  font-size: 12px;
+  margin: 7px;
+  font-weight: 600;
+  text-align: center;
+  color: rgb(157, 97, 255);
+}
+
+.data-container {
+  display: flex;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  width: 420px;
+  margin-bottom: 3px;
+}
+
+.data-container p {
+  /* padding: 4px;
+  margin-left: 8px;
+  margin: 0 8px; */
+  font-size: 13px;
+  margin: 0;
+}
+
+#rank {
+  width: 47px;
+  margin-left: 7px;
+  text-align: center;
+}
+
+#ticker {
+  width: 51px;
+  text-align: center;
+}
+
+#count {
+  width: 120px;
+  text-align: center;
+}
+
+#percentage {
+  width: 132px;
+  text-align: center;
+}
+
+#invested {
+  width: 55px;
+  text-align: center;
 }
