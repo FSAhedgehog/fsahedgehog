@@ -529,3 +529,12 @@ nav a:hover {
  ...
  overflow-y: scroll;
 } */
+
+/* Stock Stats CSS */
+.stock-stats-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.stock-stats-box {
+}

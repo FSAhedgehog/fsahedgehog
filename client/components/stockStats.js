@@ -6,11 +6,11 @@ export class StockStats extends React.Component {
     let stockStats = this.props.stockStats
     if (!this.props.loading) {
       return (
-        <div>
-          <div>
+        <div className="stock-stats-container">
+          <div className="stock-stats-box">
             {stockStats
               .sort((a, b) => b.count - a.count)
-              .map((stock) => (
+              .map((stock, index) => (
                 <div key={stock.id}>{stock.ticker}</div>
               ))}
           </div>
