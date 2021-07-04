@@ -6,12 +6,6 @@ import {getHedgeFunds} from '../store/funds'
 
 export class HedgeFundStats extends React.Component {
   render() {
-    // Math.round(Number(this.props.hedgeStats.avgPortfolioAmount) / 10000) *
-    //   (10000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    // let avgPortfolio = Math.round(
-    //   parseInt(this.props.hedgeStats.avgPortfolioAmount)
-    // )
-    // console.log(avgPortfolio)
     if (!this.props.loading) {
       return (
         <div id="fundStatsWholeComponent">
