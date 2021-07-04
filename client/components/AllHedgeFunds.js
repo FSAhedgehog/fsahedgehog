@@ -82,7 +82,6 @@ class AllHedgeFunds extends React.Component {
       indexOfLastHedge
     )
 
-    console.log(currentHedgeFunds[0], 'HERE')
     if (this.props.hedgeFunds.length) {
       return (
         <div>
@@ -198,9 +197,10 @@ class AllHedgeFunds extends React.Component {
                           </div>
                           <div className="yearReturnNumber">
                             <p>
-                              {`${(hedgeFund.maxReturn * 100 - 100).toFixed(
-                                1
-                              )}%`}
+                              {`${(
+                                Number(hedgeFund.maxReturn.slice(6)) * 100 -
+                                100
+                              ).toFixed(1)}%`}
                             </p>
                           </div>
                         </div>
