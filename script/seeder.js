@@ -33,14 +33,14 @@ const HEDGEFUNDS = [
   // 'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
   // 'Pershing Square Capital Management, L.P.',
-  'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
   'International Value Advisers, LLC',
   'FAIRHOLME CAPITAL MANAGEMENT LLC',
   'ARIEL INVESTMENTS, LLC',
   'Appaloosa LP',
   // 'TIGER GLOBAL MANAGEMENT LLC',
-  // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
-  // 'WEDGEWOOD PARTNERS INC',
+  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  'WEDGEWOOD PARTNERS INC',
 ]
 
 const SIZE = String(HEDGEFUNDS.length * 5)
@@ -234,10 +234,11 @@ async function setBeta() {
 
       const stockTickers = latest13F.stocks.map((stock) => stock.ticker)
       const betasObj = await getBeta(stockTickers)
-
+      if (!betasObj) {
+        console.log(betasObj)
+      }
       for (let j = 0; j < latest13F.stocks.length; j++) {
         const stock = latest13F.stocks[j]
-
         if (betasObj[stock.ticker]) {
           stock.beta = betasObj[stock.ticker]
           await stock.save()

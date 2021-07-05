@@ -363,6 +363,7 @@ function getNextYearAndQuarter(year, quarter) {
 
 async function getBeta(tickers) {
   try {
+    console.log(tickers.length)
     const response = await yahooFinance.quote({
       symbols: tickers,
       modules: ['summaryDetail'],
@@ -375,12 +376,12 @@ async function getBeta(tickers) {
           : (response[key] = null)
       }
     }
-
     return response
   } catch (err) {
     console.error(err)
   }
 }
+
 async function fundRisk(thirteenFId) {
   try {
     const data = await Stock.findAll({
