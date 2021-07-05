@@ -79,7 +79,7 @@ class AllHedgeFunds extends React.Component {
         <div>
           <div>
             <div id="hedgefunds-container">
-              <div>
+              <div className="sort-bar">
                 <select
                   name="sort"
                   id="return"
@@ -200,7 +200,7 @@ class AllHedgeFunds extends React.Component {
                                 {`${(
                                   hedgeFund.yearOneReturn * 100 -
                                   100
-                                ).toFixed(1)}%`}
+                                ).toFixed(0)}%`}
                               </p>
                             </div>
                           </div>
@@ -213,7 +213,7 @@ class AllHedgeFunds extends React.Component {
                                 {`${(
                                   hedgeFund.yearThreeReturn * 100 -
                                   100
-                                ).toFixed(1)}%`}
+                                ).toFixed(0)}%`}
                               </p>
                             </div>
                           </div>
@@ -226,7 +226,7 @@ class AllHedgeFunds extends React.Component {
                                 {`${(
                                   hedgeFund.yearFiveReturn * 100 -
                                   100
-                                ).toFixed(1)}%`}
+                                ).toFixed(0)}%`}
                               </p>
                             </div>
                           </div>
@@ -239,7 +239,7 @@ class AllHedgeFunds extends React.Component {
                                 {`${(
                                   Number(hedgeFund.maxReturn.slice(6)) * 100 -
                                   100
-                                ).toFixed(1)}%`}
+                                ).toFixed(0)}%`}
                               </p>
                             </div>
                           </div>

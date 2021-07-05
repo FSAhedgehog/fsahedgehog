@@ -20,30 +20,32 @@ export class StockStats extends React.Component {
     if (!this.props.loading) {
       return (
         <div id="growth" className="stock-stats-container">
-          <div className="sort-bar">
-            <select
-              name="sort"
-              id="return"
-              onChange={this.updateSort}
-              className="sort"
-            >
-              <option id="count" value="count" defaultValue="count">
-                Sorted by Ownership Count
-              </option>
-              <option id="totalPercentage" value="totalPercentage">
-                Sorted by Total % of Portfolios
-              </option>
-              <option id="totalInvested" value="totalInvested">
-                Sorted by Total $
-              </option>
-            </select>
-          </div>
-          <div className="data-labels">
-            <p>Rank</p>
-            <p>Ticker</p>
-            <p>Ownership Count</p>
-            <p>Total % of Portfolios</p>
-            <p>Total $</p>
+          <div id="top-sticky-section">
+            <div className="sort-bar">
+              <select
+                name="sort"
+                id="return"
+                onChange={this.updateSort}
+                className="sort"
+              >
+                <option id="count" value="count" defaultValue="count">
+                  Sorted by Ownership Count
+                </option>
+                <option id="totalPercentage" value="totalPercentage">
+                  Sorted by Total % of Portfolios
+                </option>
+                <option id="totalInvested" value="totalInvested">
+                  Sorted by Total $
+                </option>
+              </select>
+            </div>
+            <div className="data-labels">
+              <p>Rank</p>
+              <p>Ticker</p>
+              <p>Ownership Count</p>
+              <p>Total % of Portfolios</p>
+              <p>Total $</p>
+            </div>
           </div>
           <div className="stock-stats-box">
             {stockStats
