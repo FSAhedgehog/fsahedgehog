@@ -19,7 +19,7 @@ export class StockStats extends React.Component {
     let stockStats = this.props.stockStats
     if (!this.props.loading) {
       return (
-        <div id="growth" className="stock-stats-container">
+        <div className="stock-stats-container growth">
           <div id="top-sticky-section">
             <div className="sort-bar">
               <select
