@@ -31,16 +31,16 @@ const HEDGEFUNDS = [
   // 'BERKSHIRE HATHAWAY INC',
   // 'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'Scion Asset Management, LLC',
-  // 'GREENLIGHT CAPITAL INC',
+  'GREENLIGHT CAPITAL INC',
   // 'Pershing Square Capital Management, L.P.',
   // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
-  'International Value Advisers, LLC',
-  'FAIRHOLME CAPITAL MANAGEMENT LLC',
-  'ARIEL INVESTMENTS, LLC',
-  'Appaloosa LP',
+  // 'International Value Advisers, LLC',
+  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  // 'ARIEL INVESTMENTS, LLC',
+  // 'Appaloosa LP',
   // 'TIGER GLOBAL MANAGEMENT LLC',
-  'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
-  'WEDGEWOOD PARTNERS INC',
+  // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  // 'WEDGEWOOD PARTNERS INC',
 ]
 
 const SIZE = String(HEDGEFUNDS.length * 5)
@@ -233,10 +233,30 @@ async function setBeta() {
       const latest13F = hedgeFunds[i].thirteenFs[0]
 
       const stockTickers = latest13F.stocks.map((stock) => stock.ticker)
+      // const chunkedStocks = breakIntoChunks(allStocks)
+
+      // const timer = setInterval(throttleApiCall, 2500)
+
+      // let index = 0
+      // let lastOne = false
+
+      // async function throttleApiCall() {
+      //   try {
+      //     if (index === chunkedStocks.length - 1) lastOne = true
+      //     if (index < chunkedStocks.length) {
+      //       const stocks = chunkedStocks[index]
+      //       index++
+      //       if (lastOne) endThrottle(timer)
+
+      //       await findTickers(timer, stocks, lastOne)
+      //     }
+      //   } catch (err) {
+      //     console.error(err)
+      //   }
+      // }
+
       const betasObj = await getBeta(stockTickers)
-      if (!betasObj) {
-        console.log(betasObj)
-      }
+
       for (let j = 0; j < latest13F.stocks.length; j++) {
         const stock = latest13F.stocks[j]
         if (betasObj[stock.ticker]) {

@@ -380,6 +380,32 @@ async function getBeta(tickers) {
   } catch (err) {
     console.error(err)
   }
+  // try {
+  //   //MAX 44 at a time!!!! maybe I should break into chunks of 40
+  //   let batchSize = 45
+  //   let times = Math.ceil(tickers.length / batchSize)
+  //   let location = 0
+  //   let final = {}
+  //   for (let i = 0; i < times; i++) {
+  //     let tickersToSend = tickers.slice(location, location + batchSize)
+  //     let response = await yahooFinance.quote({
+  //       symbols: tickersToSend,
+  //       modules: ['summaryDetail'],
+  //     })
+  //     location += batchSize
+  //     final = Object.assign(final, response)
+  //   }
+  //   for (let key in final) {
+  //     if (final.hasOwnProperty(key)) {
+  //       final[key].summaryDetail.beta
+  //         ? (final[key] = final[key].summaryDetail.beta)
+  //         : (final[key] = null)
+  //     }
+  //   }
+  //   return final
+  // } catch (err) {
+  //   console.error(err)
+  // }
 }
 
 async function fundRisk(thirteenFId) {
