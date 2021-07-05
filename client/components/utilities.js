@@ -61,6 +61,10 @@ export function sortHedgeFunds(hedgeFunds, sort) {
     return hedgeFunds.sort((a, b) => a.yearThreeReturn - b.yearThreeReturn)
   } else if (sort === '5Year') {
     return hedgeFunds.sort((a, b) => a.yearFiveReturn - b.yearFiveReturn)
+  } else if (sort === 'max') {
+    return hedgeFunds.sort(
+      (a, b) => Number(a.maxReturn.slice(6)) - Number(b.maxReturn.slice(6))
+    )
   }
 }
 

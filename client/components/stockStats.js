@@ -2,11 +2,42 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 export class StockStats extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      sort: 'count',
+    }
+    this.updateSort = this.updateSort.bind(this)
+    // this.handleClick = this.handleClick.bind(this)
+  }
+
+  updateSort(event) {
+    this.setState({sort: event.target.value})
+  }
+
   render() {
     let stockStats = this.props.stockStats
     if (!this.props.loading) {
       return (
         <div id="growth" className="stock-stats-container">
+          <div className="sort-bar">
+            <select
+              name="sort"
+              id="return"
+              onChange={this.updateSort}
+              className="sort"
+            >
+              <option id="count" value="count" defaultValue="count">
+                Sorted by Ownership Count
+              </option>
+              <option id="totalPercentage" value="totalPercentage">
+                Sorted by Total % of Portfolios
+              </option>
+              <option id="totalInvested" value="totalInvested">
+                Sorted by Total $
+              </option>
+            </select>
+          </div>
           <div className="data-labels">
             <p>Rank</p>
             <p>Ticker</p>
@@ -16,7 +47,7 @@ export class StockStats extends React.Component {
           </div>
           <div className="stock-stats-box">
             {stockStats
-              .sort((a, b) => b.count - a.count)
+              .sort((a, b) => b[this.state.sort] - a[this.state.sort])
               .map((stock, index) => {
                 let totalInvested = stock.totalInvested
                 let amntIndicator
