@@ -1,8 +1,8 @@
 import React from 'react'
-import AllHedgeFunds from './AllHedgeFunds'
+// import AllHedgeFunds from './AllHedgeFunds'
 import {connect} from 'react-redux'
-import {findAverageReturn} from './utilities'
-import {getHedgeFunds} from '../store/funds'
+// import {findAverageReturn} from './utilities'
+// import {getHedgeFunds} from '../store/funds'
 
 export class HedgeFundStats extends React.Component {
   render() {

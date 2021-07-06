@@ -127,21 +127,21 @@ async function getOldestYearAndQuarter(hedgeFundId) {
   }
 }
 
-async function getNewestYearAndQuarter(hedgeFundId) {
-  try {
-    const thirteenFs = await ThirteenF.findAll({
-      where: {
-        hedgeFundId: hedgeFundId,
-      },
-      order: [['dateOfFiling', 'DESC']],
-    })
-    const newest13F = thirteenFs[0]
+// async function getNewestYearAndQuarter(hedgeFundId) {
+//   try {
+//     const thirteenFs = await ThirteenF.findAll({
+//       where: {
+//         hedgeFundId: hedgeFundId,
+//       },
+//       order: [['dateOfFiling', 'DESC']],
+//     })
+//     const newest13F = thirteenFs[0]
 
-    return [newest13F.year, newest13F.quarter]
-  } catch (err) {
-    console.error(err)
-  }
-}
+//     return [newest13F.year, newest13F.quarter]
+//   } catch (err) {
+//     console.error(err)
+//   }
+// }
 
 function isYearAndQuarterLesser(year, quarter, curYear, curQuarter) {
   if (year > curYear) return false

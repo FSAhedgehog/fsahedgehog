@@ -1,6 +1,6 @@
 const axios = require('axios')
 const db = require('../server/db')
-const {HedgeFund, ThirteenF, Stock, StockStats} = require('../server/db/models')
+const {HedgeFund, ThirteenF, Stock} = require('../server/db/models')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const {
@@ -14,7 +14,7 @@ const {
   breakIntoChunks,
   getOldestYearAndQuarter,
   getCurrentYearAndQuarter,
-  getCurrentYearAndQuarterForEveryone,
+  // getCurrentYearAndQuarterForEveryone,
 } = require('./seederUtility')
 require('dotenv').config()
 
@@ -428,28 +428,28 @@ async function calculateSPValue() {
   }
 }
 
-function findYearAndQuarterYearsAgo(curQuarter) {
-  let yearSubtractor
-  let quarter
-  switch (curQuarter) {
-    case 1:
-      quarter = 2
-      yearSubtractor = 1
-      return [yearSubtractor, quarter]
-    case 2:
-      quarter = 3
-      yearSubtractor = 1
-      return [yearSubtractor, quarter]
-    case 3:
-      quarter = 4
-      yearSubtractor = 1
-      return [yearSubtractor, quarter]
-    default:
-      quarter = 1
-      yearSubtractor = 0
-      return [yearSubtractor, quarter]
-  }
-}
+// function findYearAndQuarterYearsAgo(curQuarter) {
+//   let yearSubtractor
+//   let quarter
+//   switch (curQuarter) {
+//     case 1:
+//       quarter = 2
+//       yearSubtractor = 1
+//       return [yearSubtractor, quarter]
+//     case 2:
+//       quarter = 3
+//       yearSubtractor = 1
+//       return [yearSubtractor, quarter]
+//     case 3:
+//       quarter = 4
+//       yearSubtractor = 1
+//       return [yearSubtractor, quarter]
+//     default:
+//       quarter = 1
+//       yearSubtractor = 0
+//       return [yearSubtractor, quarter]
+//   }
+// }
 
 async function findThirteenF(hedgeFund, years, curYear, curQuarter) {
   const thirteenF = await ThirteenF.findOne({
