@@ -13,7 +13,7 @@ class AllHedgeFunds extends React.Component {
     this.state = {
       sort: 'none',
       currentPage: 1,
-      hedgeFundsPerPage: 5,
+      hedgeFundsPerPage: 500,
     }
     this.updateSort = this.updateSort.bind(this)
     // this.handleClick = this.handleClick.bind(this)
@@ -77,38 +77,40 @@ class AllHedgeFunds extends React.Component {
     if (this.props.hedgeFunds.length) {
       return (
         <div id="hedgefunds-container" className="growth">
-          <div className="sort-bar">
-            <select
-              name="sort"
-              id="return"
-              onChange={this.updateSort}
-              className="sort"
-            >
-              <option id="none" value="none" defaultValue="none">
-                Sorted by nothing
-              </option>
-              <option id="numberOfStocks" value="numberOfStocks">
-                Sorted by Number of Stocks
-              </option>
-              <option id="yearOneReturn" value="yearOneReturn">
-                Sorted by 1 Year Return
-              </option>
-              <option id="yearThreeReturn" value="yearThreeReturn">
-                Sorted by 3 Year Return
-              </option>
-              <option id="yearFiveReturn" value="yearFiveReturn">
-                Sorted by 5 Year Return
-              </option>
-              <option id="maxReturn" value="maxReturn">
-                Sorted by Total Return
-              </option>
-              <option id="portfolioValue" value="portfolioValue">
-                Sorted by Portfolio Value
-              </option>
-              <option id="thirteenFBeta" value="thirteenFBeta">
-                Sorted by Beta
-              </option>
-            </select>
+          <div id="top-sticky-hedgefund">
+            <div className="hedgefund-sort-bar">
+              <select
+                name="sort"
+                id="return"
+                onChange={this.updateSort}
+                className="sort"
+              >
+                <option id="none" value="none" defaultValue="none">
+                  Sorted by nothing
+                </option>
+                <option id="numberOfStocks" value="numberOfStocks">
+                  Sorted by Number of Stocks
+                </option>
+                <option id="yearOneReturn" value="yearOneReturn">
+                  Sorted by 1 Year Return
+                </option>
+                <option id="yearThreeReturn" value="yearThreeReturn">
+                  Sorted by 3 Year Return
+                </option>
+                <option id="yearFiveReturn" value="yearFiveReturn">
+                  Sorted by 5 Year Return
+                </option>
+                <option id="maxReturn" value="maxReturn">
+                  Sorted by Total Return
+                </option>
+                <option id="portfolioValue" value="portfolioValue">
+                  Sorted by Portfolio Value
+                </option>
+                <option id="thirteenFBeta" value="thirteenFBeta">
+                  Sorted by Beta
+                </option>
+              </select>
+            </div>
           </div>
           <div className="hedgeFundsContainer">
             {currentHedgeFunds

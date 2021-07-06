@@ -9,7 +9,7 @@ const {
   findQuarterOfReport,
   findYearOfReport,
   calcMimicReturn,
-  // getBeta,
+  getBeta,
   fundRisk,
   breakIntoChunks,
   getOldestYearAndQuarter,
@@ -49,6 +49,24 @@ require('dotenv').config()
 //     return 1.0
 //   }
 // }
+const HEDGEFUNDS = [
+  // 'TRIAN FUND MANAGEMENT, L.P.',
+  // 'ValueAct Holdings, L.P.',
+  // 'DAILY JOURNAL CORP',
+  // 'BERKSHIRE HATHAWAY INC',
+  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  // 'Scion Asset Management, LLC',
+  // 'GREENLIGHT CAPITAL INC',
+  // 'Pershing Square Capital Management, L.P.',
+  // 'ATLANTIC INVESTMENT MANAGEMENT, INC.',
+  // 'International Value Advisers, LLC',
+  // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
+  // 'ARIEL INVESTMENTS, LLC',
+  // 'Appaloosa LP',
+  'TIGER GLOBAL MANAGEMENT LLC',
+  // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
+  // 'WEDGEWOOD PARTNERS INC',
+]
 
 // async function findThisQuarters13Fs() {
 //   const [curYear, curQuarter] = await getCurrentYearAndQuarterForEveryone()
@@ -264,7 +282,7 @@ let tickers = [
   'AIN',
   'AIO',
 ]
-async function getBeta(tickers) {
+async function getBetaNew(tickers) {
   try {
     console.log(tickers.length)
     tickers = tickers
@@ -309,7 +327,8 @@ async function setBeta() {
 
       const stockTickers = latest13F.stocks.map((stock) => stock.ticker)
 
-      const betasObj = getBeta2(stockTickers)
+      const betasObj = await getBeta(stockTickers)
+      console.log(betasObj, 'BETAS OBJ')
       for (let j = 0; j < latest13F.stocks.length; j++) {
         const stock = latest13F.stocks[j]
         if (betasObj[stock.ticker]) {
@@ -387,7 +406,12 @@ function endThrottle(timer) {
   }
 }
 
-getBeta2(tickers)
+// getBeta2(tickers)
+async function f() {
+  await setBeta()
+}
+
+f()
 
 // need to figure out what the main differences between mine and logans code
 // need to figure out the best way to fix it;

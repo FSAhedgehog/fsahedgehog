@@ -135,18 +135,21 @@ select:hover {
   border: none;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   margin-right: 25px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
-  height: 620px;
+  height: 520px;
+  /* padding-top: 25px; */
 }
 
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
   width: 860px;
-  /* height: 200px; */
+  /* height: 100px; */
   border-radius: 15px;
+  padding-top: 5px;
+  /* align-content: flex-start; */
 }
 
 .title {
@@ -154,6 +157,7 @@ select:hover {
   margin-bottom: 10px;
   margin-top: 10px;
   font-weight: 600;
+  text-align: center;
   /* text-align: center; */
 }
 
@@ -177,7 +181,7 @@ select:hover {
 
 .singleHedgeFundContainer {
   display: flex;
-  height: 15%;
+  height: 50px;
   border-radius: 15px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   margin-bottom: 4px;
@@ -218,6 +222,7 @@ select:hover {
   display: flex;
   align-items: center;
   width: 60%;
+  /* height: 100px; */
 }
 
 .hedgeFundStatsBox {
@@ -541,13 +546,16 @@ nav a:hover {
 } */
 
 .growth {
-  overflow: hidden;
-}
-
-.growth:hover {
+  /* overflow: hidden; */
+  /* top: 0; */
   overflow-y: scroll;
   overflow-x: scroll;
 }
+/*
+.growth:hover {
+  overflow-y: scroll;
+  overflow-x: scroll;
+} */
 
 /* Stock Stats CSS */
 .stock-stats-container {
@@ -566,10 +574,23 @@ nav a:hover {
   margin: 10px;
 }
 
+.hedgefund-sort-bar {
+  /* padding-top: 25px; */
+  /* padding-top: 10px; */
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
 .stock-stats-box {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#top-sticky-hedgefund {
+  position: sticky;
+  top: 0;
 }
 
 #top-sticky-section {

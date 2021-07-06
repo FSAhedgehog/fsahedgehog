@@ -368,7 +368,6 @@ async function getBeta(tickers) {
       symbols: tickers,
       modules: ['summaryDetail'],
     })
-
     for (let key in response) {
       if (response.hasOwnProperty(key)) {
         response[key].summaryDetail.beta
@@ -376,6 +375,7 @@ async function getBeta(tickers) {
           : (response[key] = null)
       }
     }
+    console.log(response, 'IN HERE')
     return response
   } catch (err) {
     console.error(err)
