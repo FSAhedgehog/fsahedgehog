@@ -233,8 +233,8 @@ let tickers = [
   'ADC',
   'ADCT',
   'ADEX',
-  'ADF',
-  'ADM',
+  // 'ADF',
+  // 'ADM',
   'ADNT',
   'ADS',
   'ADT',
@@ -256,31 +256,31 @@ let tickers = [
   'AFGB',
   'AFGC',
   'AFGD',
-  'AFGE',
-  'AFI',
-  'AFL',
-  'AFT',
-  'AG',
-  'AGAC',
-  'AGCB',
-  'AGCO',
-  'AGD',
-  'AGI',
-  'AGL',
-  'AGM',
-  'AGR',
-  'AGRO',
-  'AGS',
-  'AGTI',
-  'AGX',
-  'AHC',
-  'AHH',
-  'AI',
-  'AIC',
-  'AIF',
-  'AIG',
-  'AIN',
-  'AIO',
+  // 'AFGE',
+  // 'AFI',
+  // 'AFL',
+  // 'AFT',
+  // 'AG',
+  // 'AGAC',
+  // 'AGCB',
+  // 'AGCO',
+  // 'AGD',
+  // 'AGI',
+  // 'AGL',
+  // 'AGM',
+  // 'AGR',
+  // 'AGRO',
+  // 'AGS',
+  // 'AGTI',
+  // 'AGX',
+  // 'AHC',
+  // 'AHH',
+  // 'AI',
+  // 'AIC',
+  // 'AIF',
+  // 'AIG',
+  // 'AIN',
+  // 'AIO',
 ]
 async function getBetaNew(tickers) {
   try {
@@ -350,7 +350,7 @@ function getBeta2(tickers) {
     .filter((tick) => !tick.includes('.'))
     .filter((tick) => !tick.includes('/'))
   console.log(tickers.length)
-  let batchSize = 25
+  let batchSize = 9999
   let times = Math.ceil(tickers.length / batchSize)
   let location = 0
   let final = {}
@@ -406,12 +406,12 @@ function endThrottle(timer) {
   }
 }
 
-// getBeta2(tickers)
+getBeta2(tickers)
 async function f() {
   await setBeta()
 }
 
-f()
+// f()
 
 // need to figure out what the main differences between mine and logans code
 // need to figure out the best way to fix it;
