@@ -28,11 +28,11 @@ const HEDGEFUNDS = [
   // 'TRIAN FUND MANAGEMENT, L.P.',
   // 'ValueAct Holdings, L.P.',
   // 'DAILY JOURNAL CORP',
-  // 'BERKSHIRE HATHAWAY INC',
-  // 'BILL & MELINDA GATES FOUNDATION TRUST',
+  'BERKSHIRE HATHAWAY INC',
+  'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
-  'Appaloosa LP',
+  // 'Appaloosa LP',
   // 'TIGER GLOBAL MANAGEMENT LLC',
   // 'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
@@ -44,7 +44,7 @@ const HEDGEFUNDS = [
 // 'International Value Advisers, LLC',
 // 'WEDGEWOOD PARTNERS INC',
 
-const SIZE = String(HEDGEFUNDS.length * 5)
+const SIZE = String(HEDGEFUNDS.length * 31)
 
 const STARTING_VALUE = 10000
 
@@ -174,7 +174,7 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
   try {
-    await db.sync({force: false})
+    await db.sync({force: true})
     console.log('Database seeding!')
     const query = buildQuery(hedgeFundNames, size)
     const data = await getInitialData(apiKey, query)
