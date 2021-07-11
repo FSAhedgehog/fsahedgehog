@@ -145,7 +145,7 @@ select:hover {
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
-  width: 860px;
+  width: 760px;
   /* height: 100px; */
   border-radius: 15px;
   padding-top: 5px;
@@ -168,8 +168,12 @@ select:hover {
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   margin-bottom: 4px;
   font-size: 6px;
-  width: 780px;
-  margin-left: 35px;
+  margin-right: 25px;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  /* width: 780px; */
+  /* margin-left: 35px; */
 }
 
 #fundStatsWholeComponent {
@@ -197,11 +201,11 @@ select:hover {
 }
 
 .hedgeFundName {
-  width: 40%;
+  width: 37%;
   display: flex;
   padding-left: 9px;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
 }
 
@@ -221,7 +225,7 @@ select:hover {
 .hedgeFundReturnsContainer {
   display: flex;
   align-items: center;
-  width: 60%;
+  width: 63%;
   /* height: 100px; */
 }
 
@@ -248,8 +252,8 @@ select:hover {
   display: flex;
   /* padding: 6px 0px 0px 0px; */
   align-items: center;
-  padding-left: 10px;
-  width: 85px;
+  padding-left: 0px;
+  width: 66px;
   flex-direction: column;
 }
 
@@ -258,7 +262,7 @@ select:hover {
   display: flex;
   /* padding: 6px 0px 0px 0px; */
   align-items: center;
-  padding-left: 10px;
+  padding-left: 4px;
   width: 120px;
   flex-direction: column;
 }
@@ -475,6 +479,8 @@ tr:nth-child(even) {
 .all-hedgefunds-page {
   display: flex;
   margin-top: 110px;
+  align-items: center;
+  justify-content: center;
 }
 
 .single-hedgefunds-page {
@@ -485,14 +491,15 @@ tr:nth-child(even) {
   display: flex;
   flex-direction: column;
   left: 0;
-  width: 65%;
-  margin-left: 40px;
+  width: 55%;
+  /* margin-left: 40px; */
 }
 
 #right-half-hedgefunds-page {
   right: 0;
-  width: 35%;
+  width: 30%;
   margin-right: 40px;
+  margin-top: 6px;
 }
 
 .nav-bar-link:hover {
@@ -564,7 +571,7 @@ nav a:hover {
   border-radius: 8px;
   border: none;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
-  height: 420px;
+  height: 650px;
   /* justify-content: center; */
 }
 
