@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
 import {EmailSub} from './EmailSub'
 import ListWhatToBuy from './ListWhatToBuy'
+import Portfolio from './Portfolio'
 
 export class singleHedgeFund extends React.Component {
   componentDidMount() {
@@ -42,6 +43,13 @@ export class singleHedgeFund extends React.Component {
               <div className="flex-row space">
                 <ListWhatToBuy
                   stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+                  thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
+                />
+              </div>
+              <div className="flex-row space">
+                <Portfolio
+                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+                  thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
                 />
               </div>
             </div>
