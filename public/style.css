@@ -126,9 +126,10 @@ select {
 }
 
 select:hover {
-  background: black;
+  background: rgb(167, 154, 255);
   cursor: pointer;
-  color: #59ea94;
+  color: black;
+  transition: background-color 230ms linear;
 }
 
 #hedgefunds-container {
@@ -199,10 +200,32 @@ select:hover {
 }
 
 .singleHedgeFundContainer:hover {
-  background-color: black;
+  background-color: rgb(167, 154, 255);
   cursor: pointer;
-  color: #59ea94;
+  color: black;
+  transition: background-color 300ms linear;
 }
+
+.singleHedgeFundContainer:hover
+  .hedgeFundReturnsContainer
+  .singleReturnContainer
+  p {
+  color: black;
+  transition: background-color 230ms linear;
+  /* - ABFFDB rgb(171, 255, 219)- light green
+- A79AFF rgb(167, 154, 255)- light purple
+- FFE99A rob(255, 233, 154)- light yellow
+- FF9393 rgb(255, 147, 147)- light pink
+- 93FFD6 rgb(147, 255, 214)- med turquoise
+- 93E1FF rgb(147, 225, 255) - med blue
+- 8BFFCD rgb(139, 255, 205) - med green */
+}
+
+/* .singleHedgeFundContainer:hover
+  .hedgeFundReturnsContainer
+  .singleReturnContainer:nth-child(1) {
+  color: red;
+} */
 
 .hedgeFundName {
   width: 37%;
