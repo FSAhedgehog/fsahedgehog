@@ -23,8 +23,8 @@ class Portfolio extends React.Component {
         <div className="stock-stats-container growth">
           <div id="top-sticky-section">
             <div>
-              <p>ThirteenF Meta Data</p>
-              <p>{thirteenF.dateOfFiling}</p>
+              <p>Portfolio</p>
+              <p>{thirteenF.dateOfFiling.slice(0, 10)}</p>
               <p>
                 {thirteenF.year}
                 {thirteenF.quarter}
@@ -105,4 +105,17 @@ export default Portfolio
 function round(value, precision) {
   var multiplier = Math.pow(10, precision || 0)
   return Math.round(value * multiplier) / multiplier
+}
+
+function quarterEndDate(year, quarter) {
+  switch (quarter) {
+    case 1:
+      return `${year}-3-31`
+    case 2:
+      return `${year}-6-30`
+    case 3:
+      return `${year}-9-30`
+    default:
+      return `${year}-12-31`
+  }
 }

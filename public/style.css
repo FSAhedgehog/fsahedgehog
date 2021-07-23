@@ -12,6 +12,7 @@ FONT
 
 body {
   font-family: 'Poppins', sans-serif;
+  background-image: url('/images/please.jpg');
 }
 
 a {
@@ -143,12 +144,14 @@ select:hover {
   margin-right: 25px;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   height: 60vh;
+  background-color: white;
   /* padding-top: 25px; */
 }
 
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
+  background-color: white;
   /* width: 760px; */
   /* height: 100px; */
   border-radius: 15px;
@@ -163,6 +166,14 @@ select:hover {
   font-size: 2.2vw;
   font-weight: 600;
   text-align: center;
+  color: rgb(255, 147, 147);
+  /* - ABFFDB rgb(171, 255, 219)- light green
+- A79AFF rgb(167, 154, 255)- light purple
+- FFE99A rob(255, 233, 154)- light yellow
+- FF9393 rgb(255, 147, 147)- light pink
+- 93FFD6 rgb(147, 255, 214)- med turquoise
+- 93E1FF rgb(147, 225, 255) - med blue
+- 8BFFCD rgb(139, 255, 205) - med green */
   /* text-align: center; */
 }
 
@@ -177,6 +188,7 @@ select:hover {
   margin-right: 25px;
   align-items: center;
   justify-content: center;
+  background-color: white;
   /* padding: 12px; */
   /* width: 780px; */
   /* margin-left: 35px; */
@@ -465,6 +477,7 @@ tr:nth-child(even) {
   top: 0;
   display: flex;
   z-index: 1000;
+  left: 0;
 }
 
 #Nav-Logo {
@@ -606,6 +619,7 @@ nav a:hover {
   border: none;
   height: 77.7vh;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  background-color: white;
   /* justify-content: center; */
 }
 
