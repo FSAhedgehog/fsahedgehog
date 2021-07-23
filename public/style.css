@@ -269,9 +269,14 @@ select:hover {
   margin: 0px;
 }
 
+/* .currentLink {
+  transform: scale(1.05);
+} */
+
 .hedgeFundReturnsContainer {
   display: flex;
   align-items: center;
+  /* margin-bottom: 1vh; */
   width: 63%;
   /* height: 100px; */
 }
@@ -521,8 +526,44 @@ tr:nth-child(even) {
   width: 13.8vw;
   margin-top: 5px;
   font-size: 1.2vw;
-  transition: all 0.2s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  /* transition: text-shadow 0.3s ease-in-out; */
   font-weight: 600;
+}
+
+.nav-bar-link:hover {
+  text-decoration: none;
+  transform: scale(1.1);
+  text-shadow: 0 3px 0 white;
+}
+
+.currentLink {
+  /* color: rgb(157, 97, 255); */
+  /* border-bottom: 8px solid rgb(157, 97, 255);
+  border-bottom-style: inherit; */
+  text-shadow: 0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147);
+  /* text-shadow: 0 4px 0 rgb(255, 147, 147); */
+  /* 0 0 7.5px rgb(157, 97, 255), 0 0 10px rgb(157, 97, 255); */
 }
 
 .all-hedgefunds-page {
@@ -553,10 +594,6 @@ tr:nth-child(even) {
   /* height: 100%; */
 }
 
-.nav-bar-link:hover {
-  text-decoration: none;
-  transform: scale(1.1);
-}
 /* nav a {
   display: inline-block;
   margin: 1rem;
