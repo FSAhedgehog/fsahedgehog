@@ -142,7 +142,7 @@ select:hover {
   flex-direction: column;
   /* justify-content: center; */
   margin-right: 25px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65);
   height: 60vh;
   background-color: white;
   /* padding-top: 25px; */
@@ -160,13 +160,14 @@ select:hover {
 }
 
 .title {
-  /* margin: 0; */
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin: 0;
+  /* margin-bottom: 10px;
+  margin-top: 10px; */
   font-size: 2.2vw;
   font-weight: 600;
   text-align: center;
   color: rgb(255, 147, 147);
+  /* text-shadow: 0 0 2.5px #fff, 0 0 5px #fff, 0 0 7.5px #fff, 0 0 10px #fff; */
   /* - ABFFDB rgb(171, 255, 219)- light green
 - A79AFF rgb(167, 154, 255)- light purple
 - FFE99A rob(255, 233, 154)- light yellow
@@ -176,19 +177,21 @@ select:hover {
 - 8BFFCD rgb(139, 255, 205) - med green */
   /* text-align: center; */
 }
+.hedgeFundTitle {
+  border-radius: 8px;
+  box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65);
+  background-color: white;
+  margin-right: 25px;
+}
 
 .hedgeFundStatsContainer {
   display: flex;
   /* height: 15%; */
   height: 3.4vw;
-  border-radius: 15px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   margin-bottom: 4px;
   font-size: 6px;
-  margin-right: 25px;
   align-items: center;
   justify-content: center;
-  background-color: white;
   /* padding: 12px; */
   /* width: 780px; */
   /* margin-left: 35px; */
@@ -538,6 +541,7 @@ tr:nth-child(even) {
   flex-direction: column;
   left: 0;
   width: 55%;
+  padding-top: 4px;
   /* margin-left: 40px; */
 }
 
@@ -618,7 +622,7 @@ nav a:hover {
   border-radius: 8px;
   border: none;
   height: 77.7vh;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65);
   background-color: white;
   /* justify-content: center; */
 }
