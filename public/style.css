@@ -123,6 +123,7 @@ select {
   border: none;
   box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
   font-size: 0.85vw;
+  transition: all 0.3s ease-in-out;
 }
 
 select:hover {
@@ -130,6 +131,7 @@ select:hover {
   cursor: pointer;
   color: black;
   transition: background-color 230ms linear;
+  transform: scale(1.017);
 }
 
 #hedgefunds-container {
@@ -196,6 +198,7 @@ select:hover {
   font-size: 6px;
   margin-left: 10px;
   margin-right: 10px;
+  transition: all 0.3s ease-in-out;
   /* width: 100%; */
 }
 
@@ -203,7 +206,9 @@ select:hover {
   background-color: rgb(167, 154, 255);
   cursor: pointer;
   color: black;
-  transition: background-color 300ms linear;
+  /* transition: background-color 300ms linear; */
+  transform: scale(1.017);
+  /* -webkit-transform: scale(1.1) all 0.8s ease-in-out; */
 }
 
 .singleHedgeFundContainer:hover
