@@ -693,6 +693,12 @@ nav a:hover {
   margin-bottom: 8px;
 }
 
+.portfolio-sort-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
 .hedgefund-sort-bar {
   /* padding-top: 25px; */
   /* padding-top: 10px; */

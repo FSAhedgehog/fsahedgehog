@@ -18,21 +18,73 @@ class Portfolio extends React.Component {
     let stocks = this.props.stocks || []
     let thirteenF = this.props.thirteenF
     console.log(stocks.length)
+    let portfolioValue = thirteenF.portfolioValue
+    let valueIndicator
+    if (portfolioValue > 1000000000) {
+      portfolioValue = portfolioValue / 1000000000
+      portfolioValue = round(portfolioValue, 1)
+      valueIndicator = 'B'
+    } else {
+      portfolioValue = portfolioValue / 1000000
+      portfolioValue = round(portfolioValue, 0)
+      valueIndicator = 'M'
+    }
     if (stocks.length) {
       return (
         <div className="stock-stats-container growth">
           <div id="top-sticky-section">
-            <div>
-              <p>Portfolio</p>
-              <p>{thirteenF.dateOfFiling.slice(0, 10)}</p>
-              <p>
-                {thirteenF.year}
-                {thirteenF.quarter}
-              </p>
-              <p>{thirteenF.portfolioValue}</p>
-              <p>{this.props.stocks.length}</p>
+            <div id="fundStatsWholeComponent">
+              <div className="hedgeFundTitle">
+                <h2 id="stock-stats-title">Portfolio</h2>
+                <div className="hedgeFundStatsContainer">
+                  <div className="hedgeFundStatsBox">
+                    <div className="singleStatContainer">
+                      <div className="yearReturnLabel">
+                        <p>Quarter</p>
+                      </div>
+                      <div className="yearReturnNumber">
+                        <p>{`${thirteenF.year} Q${thirteenF.quarter}`}</p>
+                      </div>
+                    </div>
+                    <div className="singleStatContainer">
+                      <div className="yearReturnLabel">
+                        <p>Date Recorded</p>
+                      </div>
+                      <div className="yearReturnNumber">
+                        <p>
+                          {quarterEndDate(thirteenF.year, thirteenF.quarter)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="singleStatContainer">
+                      <div className="yearReturnLabel">
+                        <p>Date Released</p>
+                      </div>
+                      <div className="yearReturnNumber">
+                        <p>{thirteenF.dateOfFiling.slice(0, 10)}</p>
+                      </div>
+                    </div>
+                    <div className="singleStatContainer">
+                      <div className="yearReturnLabel">
+                        <p>Value </p>
+                      </div>
+                      <div className="yearReturnNumber">
+                        <p>{`$${portfolioValue}${valueIndicator}`}</p>
+                      </div>
+                    </div>
+                    <div className="singleStatContainer">
+                      <div className="yearReturnLabel">
+                        <p># of Stocks </p>
+                      </div>
+                      <div className="yearReturnNumber">
+                        <p>{this.props.stocks.length}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="sort-bar">
+            <div className="portfolio-sort-bar">
               <select
                 name="sort"
                 id="return"
