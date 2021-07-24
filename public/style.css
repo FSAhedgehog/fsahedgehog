@@ -539,31 +539,19 @@ tr:nth-child(even) {
 
 .currentLink {
   /* color: rgb(157, 97, 255); */
-  /* border-bottom: 8px solid rgb(157, 97, 255);
-  border-bottom-style: inherit; */
-  text-shadow: 0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
-    0 0 3px rgb(255, 147, 147);
+  border-bottom: 5px solid rgb(157, 97, 255);
+
+  /* border-bottom-style: inherit; */
+  /* text-shadow: 0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147); */
   /* text-shadow: 0 4px 0 rgb(255, 147, 147); */
   /* 0 0 7.5px rgb(157, 97, 255), 0 0 10px rgb(157, 97, 255); */
+}
+
+.currentLink:after {
+  transform-origin: 0% 50%;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
 }
 
 .all-hedgefunds-page {
