@@ -104,6 +104,7 @@ export class LineChart extends React.Component {
               boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
               borderRadius: '15px',
               overflow: 'hidden',
+              backgroundColor: 'white',
             },
           }}
           containerComponent={

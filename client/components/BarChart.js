@@ -69,6 +69,7 @@ export const BarChart = (props) => {
             border: '1px solid #ccc',
             borderRadius: '15px',
             boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
+            backgroundColor: 'white',
           },
         }}
       >

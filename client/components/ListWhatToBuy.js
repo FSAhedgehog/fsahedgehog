@@ -54,7 +54,7 @@ class Test extends React.Component {
       )
     })
     return (
-      <div>
+      <div className="whatToBuy">
         <div className="center-form">
           <form onSubmit={this.handleSubmit}>
             <div className="form">
