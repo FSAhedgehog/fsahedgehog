@@ -21,7 +21,8 @@ export class StockStats extends React.Component {
       return (
         <div className="stock-stats-container growth">
           <div id="top-sticky-section">
-            <div className="sort-bar">
+            <h2 id="stock-stats-title">Stock Stats</h2>
+            <div className="stock-stats-sort-bar">
               <select
                 name="sort"
                 id="return"
@@ -75,20 +76,6 @@ export class StockStats extends React.Component {
                 )
               })}
           </div>
-          {/* <div>
-            {stockStats
-              .sort((a, b) => b.totalInvested - a.totalInvested)
-              .map((stock) => (
-                <div key={stock.id}>{stock.totalInvested}</div>
-              ))}
-          </div>
-          <div>
-            {stockStats
-              .sort((a, b) => b.totalPercentage - a.totalPercentage)
-              .map((stock) => (
-                <div key={stock.id}>{stock.totalPercentage}</div>
-              ))}
-          </div> */}
         </div>
       )
     } else {

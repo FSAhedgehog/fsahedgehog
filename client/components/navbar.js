@@ -87,7 +87,6 @@ export const Navbar = () => (
           alt="Turqoise Hog"
         ></img>
       </a>
-      {/* <div> */}
       <Link
         className="nav-bar-link"
         id="hedgeFundsNavLink"
@@ -99,8 +98,6 @@ export const Navbar = () => (
         Hedgefunds
       </Link>
       <div className="geeks" />
-      {/* </div> */}
-      {/* <div> */}
       <Link
         className="nav-bar-link"
         id="methodologyNavLink"

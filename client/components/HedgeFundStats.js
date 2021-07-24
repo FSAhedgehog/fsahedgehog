@@ -15,7 +15,7 @@ export class HedgeFundStats extends React.Component {
               <div className="hedgeFundStatsBox">
                 <div className="singleStatContainer">
                   <div className="yearReturnLabel">
-                    <p>Average # of Stocks</p>
+                    <p>Avg. # of Stocks</p>
                   </div>
                   <div className="yearReturnNumber">
                     <p>{`${this.props.hedgeStats.avgNumberOfStocks}`}</p>
@@ -23,7 +23,7 @@ export class HedgeFundStats extends React.Component {
                 </div>
                 <div className="singleStatContainer">
                   <div className="yearReturnLabel">
-                    <p>Average 1 Year Return </p>
+                    <p>Avg. 1 Year Return </p>
                   </div>
                   <div className="yearReturnNumber">
                     <p>{`${(
@@ -34,7 +34,7 @@ export class HedgeFundStats extends React.Component {
                 </div>
                 <div className="singleStatContainer">
                   <div className="yearReturnLabel">
-                    <p>Average 3 Year Return </p>
+                    <p>Avg. 3 Year Return </p>
                   </div>
                   <div className="yearReturnNumber">
                     <p>{`${(
@@ -45,7 +45,7 @@ export class HedgeFundStats extends React.Component {
                 </div>
                 <div className="singleStatContainer">
                   <div className="yearReturnLabel">
-                    <p>Average 5 Year Return </p>
+                    <p>Avg. 5 Year Return </p>
                   </div>
                   <div className="yearReturnNumber">
                     <p>{`${(
@@ -56,7 +56,7 @@ export class HedgeFundStats extends React.Component {
                 </div>
                 <div className="singleStatContainer">
                   <div className="yearReturnLabel">
-                    <p>Average Total Return </p>
+                    <p>Avg. Total Return </p>
                   </div>
                   <div className="yearReturnNumber">
                     <p>{`${(
@@ -67,7 +67,7 @@ export class HedgeFundStats extends React.Component {
                 </div>
                 <div className="singleStatContainer">
                   <div className="yearReturnLabel">
-                    <p>Average Beta</p>
+                    <p>Avg. Beta</p>
                   </div>
                   <div className="yearReturnNumber">
                     <p>{`${this.props.hedgeStats.avgBeta.toFixed(2)}`}</p>

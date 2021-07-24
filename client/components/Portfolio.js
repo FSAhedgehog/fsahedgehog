@@ -30,7 +30,7 @@ class Portfolio extends React.Component {
                 {thirteenF.quarter}
               </p>
               <p>{thirteenF.portfolioValue}</p>
-              <p>{thirteenF.numberOfStocks}</p>
+              <p>{this.props.stocks.length}</p>
             </div>
             <div className="sort-bar">
               <select

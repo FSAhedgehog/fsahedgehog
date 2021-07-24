@@ -7,6 +7,7 @@ import {getSingleHedgeFund} from '../store/oneFund'
 import {EmailSub} from './EmailSub'
 import ListWhatToBuy from './ListWhatToBuy'
 import Portfolio from './Portfolio'
+import {camelCase} from './utilities'
 
 export class singleHedgeFund extends React.Component {
   componentDidMount() {
@@ -19,40 +20,41 @@ export class singleHedgeFund extends React.Component {
     if (!this.props.loading) {
       return (
         <div className="single-hedgefunds-page">
-          <div className="flex-column">
-            <div className="flex-row space-around">
-              <div className="flex-row space">
-                <LineChart
-                  thirteenFs={this.props.singleHedgeFund.thirteenFs}
-                  hedgeFund={this.props.singleHedgeFund}
-                />
-              </div>
-              <div className="flex-row">
-                <BarChart
-                  hedgeFunds={this.props.hedgeFunds}
-                  singleHedgeFund={this.props.singleHedgeFund}
-                />
-              </div>
+          <div id="hedge-fund-name">
+            <h2>{camelCase(this.props.singleHedgeFund.name)}</h2>
+          </div>
+          <div className="flex-row">
+            <div className="">
+              <Portfolio
+                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+                thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
+              />
             </div>
-            <div className="flex-row space-around">
-              <div className="flex-row space">
-                <PieChart
-                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-                />
-              </div>
-              <div className="flex-row space">
-                <ListWhatToBuy
-                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-                  thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
-                />
-              </div>
-              <div className="flex-row space">
-                <Portfolio
-                  stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
-                  thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
-                />
-              </div>
+            <div className="">
+              <LineChart
+                thirteenFs={this.props.singleHedgeFund.thirteenFs}
+                hedgeFund={this.props.singleHedgeFund}
+              />
             </div>
+          </div>
+          <div className="flex-row">
+            <div className="">
+              <PieChart
+                stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+              />
+            </div>
+            <div className="">
+              <BarChart
+                hedgeFunds={this.props.hedgeFunds}
+                singleHedgeFund={this.props.singleHedgeFund}
+              />
+            </div>
+          </div>
+          <div className="">
+            <ListWhatToBuy
+              stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
+              thirteenF={this.props.singleHedgeFund.thirteenFs[0]}
+            />
           </div>
         </div>
       )
