@@ -12,7 +12,7 @@ FONT
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-image: url('/images/please-3.png');
+  /* background-image: url('/images/please-3.png'); */
 }
 
 a {
@@ -122,7 +122,7 @@ form div {
 select {
   border-radius: 8px;
   border: none;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65); */
   font-size: 0.85vw;
   transition: all 0.3s ease-in-out;
 }
@@ -144,14 +144,14 @@ select:hover {
   /* margin-right: 25px; */
   /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
   height: 60vh;
-  background-color: white;
+  background-color: rgb(211, 211, 211);
   /* padding-top: 25px; */
 }
 
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: rgb(211, 211, 211);
   /* width: 760px; */
   /* height: 100px; */
   border-radius: 15px;
@@ -180,7 +180,7 @@ select:hover {
 .hedgeFundTitle {
   border-radius: 8px;
   /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
-  background-color: white;
+  background-color: rgb(211, 211, 211);
   /* margin-right: 25px; */
 }
 
@@ -208,7 +208,8 @@ select:hover {
   display: flex;
   height: 50px;
   border-radius: 15px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65); */
+  background-color: white;
   margin-bottom: 4px;
   font-size: 6px;
   margin-left: 10px;
@@ -674,8 +675,8 @@ nav a:hover {
   border-radius: 8px;
   border: none;
   height: 77.7vh;
-  box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65);
-  background-color: white;
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  background-color: rgb(211, 211, 211);
   /* justify-content: center; */
 }
 
@@ -721,7 +722,7 @@ nav a:hover {
 #top-sticky-section {
   position: sticky;
   top: 0;
-  background: white;
+  background-color: rgb(211, 211, 211);
   margin-bottom: 5px;
   width: 100%;
   display: flex;
@@ -733,7 +734,7 @@ nav a:hover {
 .data-labels {
   display: flex;
   justify-content: space-between;
-  background: white;
+  background-color: rgb(211, 211, 211);
   /* margin-bottom: 5px; */
   /* margin-right: 0px; */
   width: 94%;
@@ -752,8 +753,9 @@ nav a:hover {
 .data-container {
   display: flex;
   border-radius: 8px;
+  background-color: rgb(235, 235, 235);
   border: none;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65); */
   width: 95%;
   margin-bottom: 3px;
 }
@@ -805,7 +807,7 @@ nav a:hover {
   /* border: 5px solid red; */
   border: none;
   margin-right: 25px;
-  box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65);
-  background: white;
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  background-color: rgb(211, 211, 211);
   border-radius: 8px;
 }

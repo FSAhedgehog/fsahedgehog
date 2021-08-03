@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Some Hedgehogs are shakin'!",
   "engines": {
-    "node": "~12.11.1"
+    "node": "14.15.1"
   },
   "main": "index.js",
   "scripts": {
@@ -40,6 +40,8 @@
     "@mailchimp/mailchimp_marketing": "^3.0.41",
     "axios": "^0.21.1",
     "bootstrap": "^3.4.1",
+    "browserslist": "^4.16.6",
+    "caniuse-lite": "^1.0.30001248",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^6.0.0",
     "cors": "^2.8.5",
