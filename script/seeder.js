@@ -34,9 +34,9 @@ const HEDGEFUNDS = [
   // 'ARIEL INVESTMENTS, LLC',
   // 'Appaloosa LP',
   // 'TIGER GLOBAL MANAGEMENT LLC',
-  'Scion Asset Management, LLC',
+  // 'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
-  // 'Pershing Square Capital Management, L.P.',
+  'Pershing Square Capital Management, L.P.',
   // 'SEMPER AUGUSTUS INVESTMENTS GROUP LLC',
 ]
 
