@@ -25,15 +25,15 @@ const EDGAR_KEY = process.env.EDGAR_KEY
 // NEED TO BE THE EXACT CASES AS SEEN IN THE EDGAR RESPONSE
 // --------------------------------------------------------
 const HEDGEFUNDS = [
-  'TRIAN FUND MANAGEMENT, L.P.',
-  'ValueAct Holdings, L.P.',
-  'DAILY JOURNAL CORP',
+  // 'TRIAN FUND MANAGEMENT, L.P.',
+  // 'ValueAct Holdings, L.P.',
+  // 'DAILY JOURNAL CORP',
   // 'BERKSHIRE HATHAWAY INC',
   // 'BILL & MELINDA GATES FOUNDATION TRUST',
   // 'FAIRHOLME CAPITAL MANAGEMENT LLC',
   // 'ARIEL INVESTMENTS, LLC',
   // 'Appaloosa LP',
-  // 'TIGER GLOBAL MANAGEMENT LLC',
+  'TIGER GLOBAL MANAGEMENT LLC',
   // 'Scion Asset Management, LLC',
   // 'GREENLIGHT CAPITAL INC',
   // 'Pershing Square Capital Management, L.P.',
@@ -119,30 +119,6 @@ async function create13F(createdHedgeFund, filing) {
   }
 }
 
-function filterStocks(holdings) {
-  const sumStocks = {}
-  if (!holdings) {
-    return 5
-  }
-  const filteredStocks = holdings.filter((holding) => !holding.putCall)
-
-  for (let i = 0; i < filteredStocks.length; i++) {
-    const holding = filteredStocks[i]
-    if (!sumStocks[holding.cusip]) {
-      sumStocks[holding.cusip] = {
-        name: holding.nameOfIssuer,
-        totalValue: holding.value,
-        qtyOfSharesHeld: holding.shrsOrPrnAmt.sshPrnamt,
-      }
-    } else {
-      sumStocks[holding.cusip].totalValue += holding.value
-      sumStocks[holding.cusip].qtyOfSharesHeld += holding.shrsOrPrnAmt.sshPrnamt
-    }
-  }
-
-  return sumStocks
-}
-
 async function createStocks(createdHedgeFund, created13F, holdings) {
   try {
     const sumStocks = filterStocks(holdings)
@@ -170,6 +146,30 @@ async function createStocks(createdHedgeFund, created13F, holdings) {
   } catch (err) {
     console.error(err)
   }
+}
+
+function filterStocks(holdings) {
+  const sumStocks = {}
+  if (!holdings) {
+    return 5
+  }
+  const filteredStocks = holdings.filter((holding) => !holding.putCall)
+
+  for (let i = 0; i < filteredStocks.length; i++) {
+    const holding = filteredStocks[i]
+    if (!sumStocks[holding.cusip]) {
+      sumStocks[holding.cusip] = {
+        name: holding.nameOfIssuer,
+        totalValue: holding.value,
+        qtyOfSharesHeld: holding.shrsOrPrnAmt.sshPrnamt,
+      }
+    } else {
+      sumStocks[holding.cusip].totalValue += holding.value
+      sumStocks[holding.cusip].qtyOfSharesHeld += holding.shrsOrPrnAmt.sshPrnamt
+    }
+  }
+
+  return sumStocks
 }
 
 async function buildHedgeFunds(apiKey, hedgeFundNames, size) {
