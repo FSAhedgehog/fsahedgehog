@@ -1,5 +1,8 @@
-const axios = require('axios')
-const db = require('../server/db')
+// const axios = require('axios')
+// const db = require('../server/db')
+// const Sequelize = require('sequelize')
+// const Op = Sequelize.Op
+
 const {
   HedgeFund,
   ThirteenF,
@@ -7,8 +10,7 @@ const {
   StockStats,
   HedgeFundStats,
 } = require('../server/db/models')
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
+
 const {getCurrentYearAndQuarterForEveryone} = require('./seederUtility')
 
 async function findThisQuarters13Fs() {
