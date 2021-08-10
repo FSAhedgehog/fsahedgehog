@@ -30,13 +30,8 @@ export const BarChart = (props) => {
           .join(' ')
       ),
       value: singleFundBeta,
-      fill: determineColor(singleFundBeta),
+      fill: 'rgb(147, 225, 255)',
     },
-    // {
-    //   type: 'HF Average',
-    //   value: averageBeta,
-    //   fill: determineColor(averageBeta),
-    // },
   ]
 
   const legendData = [
@@ -54,6 +49,7 @@ export const BarChart = (props) => {
 
   return (
     <div>
+      {/* <h2 id="line-chart-title">Hedge Fund Volatility</h2> */}
       <VictoryChart
         animate={{
           duration: 2000,
@@ -66,10 +62,10 @@ export const BarChart = (props) => {
           labels: {fontFamily: font},
           parent: {
             fontFamily: font,
-            border: '1px solid #ccc',
+            // border: '1px solid #ccc',
             borderRadius: '15px',
-            boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
-            backgroundColor: 'white',
+            // boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
+            backgroundColor: 'rgb(215,215,215)',
           },
         }}
       >
@@ -89,15 +85,21 @@ export const BarChart = (props) => {
         />
         <VictoryLegend
           title="Hedge Fund Volatility"
-          orientation="horizontal"
-          data={legendData}
+          // orientation="center"
+          // data={legendData}
           centerTitle
           gutter={20}
-          x={80}
-          y={50}
+          x={95}
+          y={14}
           style={{
-            title: {fontSize: 20, fontFamily: font},
-            labels: {fontSize: 11, fontFamily: font},
+            title: {
+              fontSize: 26,
+              fontFamily: font,
+              fill: 'rgb(255, 147, 147)',
+              fontWeight: '600',
+            },
+            labels: {fontSize: 0, fontFamily: font, fill: 'rgb(215,215,215)'},
+            symbol: {fill: 'rgb(215,215,215)'},
           }}
         />
         <VictoryBar

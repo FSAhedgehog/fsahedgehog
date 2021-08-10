@@ -192,9 +192,12 @@ class AllHedgeFunds extends React.Component {
                         </div>
                         <div className="yearReturnNumber">
                           <p>
-                            {`${(hedgeFund.yearOneReturn * 100 - 100).toFixed(
-                              0
-                            )}%`}
+                            {hedgeFund.yearOneReturn * 100 - 100 !== -100
+                              ? `${(
+                                  hedgeFund.yearOneReturn * 100 -
+                                  100
+                                ).toFixed(0)}%`
+                              : 'NA'}
                           </p>
                         </div>
                       </div>
@@ -204,9 +207,12 @@ class AllHedgeFunds extends React.Component {
                         </div>
                         <div className="yearReturnNumber">
                           <p>
-                            {`${(hedgeFund.yearThreeReturn * 100 - 100).toFixed(
-                              0
-                            )}%`}
+                            {hedgeFund.yearThreeReturn * 100 - 100 !== -100
+                              ? `${(
+                                  hedgeFund.yearThreeReturn * 100 -
+                                  100
+                                ).toFixed(0)}%`
+                              : 'NA'}
                           </p>
                         </div>
                       </div>

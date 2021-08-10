@@ -77,7 +77,8 @@ export class LineChart extends React.Component {
     let font = "'Poppins', sans-serif"
     let quarterIndex = quarterlyValue.length - 1
     return (
-      <div>
+      <div id="line-chart-tab">
+        <h2 id="line-chart-title">Historical Return</h2>
         <ul>
           <button type="button" value={99} onClick={this.onClick}>
             Max
@@ -101,18 +102,27 @@ export class LineChart extends React.Component {
           style={{
             parent: {
               border: '1px solid #ccc',
-              boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
+              // boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
               borderRadius: '15px',
               overflow: 'hidden',
-              backgroundColor: 'white',
+              backgroundColor: 'rgb(215,215,215)',
             },
           }}
           containerComponent={
             <VictoryVoronoiContainer
               labels={({datum}) => {
+                console.log(datum.y, 'y', datum.childName)
                 let label = ``
-                if (datum.childName === 'chart-line-5') {
+                if (datum.childName === 'chart-line-6') {
                   label += `S&P500: ${datum.y}%`
+                } else if (datum.childName === 'chart-line-5') {
+                  label += `${
+                    camelCase(hedgeFund.name).split(' ')[0]
+                  } Bottom Ten: ${datum.y}%`
+                } else if (datum.childName === 'chart-line-4') {
+                  label += `${
+                    camelCase(hedgeFund.name).split(' ')[0]
+                  } Top Ten: ${datum.y}%`
                 } else {
                   label += `${camelCase(hedgeFund.name).split(' ')[0]}: ${
                     datum.y
@@ -127,7 +137,7 @@ export class LineChart extends React.Component {
                   flyoutStyle={{
                     fill: '#cccccc',
                     strokeWidth: 0.8,
-                    opacity: 0.77,
+                    // opacity: 0.77,
                   }}
                 />
               }
@@ -168,7 +178,7 @@ export class LineChart extends React.Component {
                   quarterlyValue[quarterIndex].y
                 }%) `,
                 labels: {fill: '#59EA94'},
-                symbol: {fill: 'rgb(255,255,255)'},
+                symbol: {fill: 'rgb(215,215,215)'},
               },
               {
                 name: `${
@@ -180,7 +190,7 @@ export class LineChart extends React.Component {
                   topTenValue[quarterIndex].y
                 }%) `,
                 labels: {fill: 'rgb(99, 222, 251)'},
-                symbol: {fill: 'rgb(255,255,255)'},
+                symbol: {fill: 'rgb(215,215,215)'},
               },
               {
                 name: `${
@@ -191,13 +201,13 @@ export class LineChart extends React.Component {
                   ' Bottom Ten (' +
                   bottomTenValue[quarterIndex].y
                 }%) `,
-                labels: {fill: 'rgb(255, 120, 61)'},
-                symbol: {fill: 'rgb(255,255,255)'},
+                labels: {fill: 'rgb(255, 147, 147)'},
+                symbol: {fill: 'rgb(215,215,215)'},
               },
               {
                 name: `S&P500 (${spValue[quarterIndex].y}%)`,
                 labels: {fill: 'rgb(157, 97, 255)'},
-                symbol: {fill: 'rgb(255,255,255)'},
+                symbol: {fill: 'rgb(215,215,215)'},
                 // helloooooo
               },
             ]}
@@ -252,10 +262,10 @@ export class LineChart extends React.Component {
           <VictoryLine
             data={bottomTenValue}
             style={{
-              data: {stroke: 'rgb(255, 120, 61)'},
+              data: {stroke: 'rgb(255, 147, 147)'},
               labels: {
                 y: -20,
-                fill: 'rgb(99, 222, 251)',
+                fill: 'rgb(255, 147, 147)',
                 fontSize: '18px',
               },
             }}

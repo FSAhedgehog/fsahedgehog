@@ -95,7 +95,7 @@ export const Navbar = () => (
         onMouseOut={(el) => goBlackColor(el)}
         onClick={(el) => activate(el)}
       >
-        Hedgefunds
+        Hedge Funds
       </Link>
       <div className="geeks" />
       <Link

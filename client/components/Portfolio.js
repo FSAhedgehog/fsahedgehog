@@ -31,7 +31,7 @@ class Portfolio extends React.Component {
     }
     if (stocks.length) {
       return (
-        <div className="stock-stats-container growth">
+        <div className="portfolio-container growth">
           <div id="top-sticky-section">
             <div id="fundStatsWholeComponent">
               <div className="hedgeFundTitle">

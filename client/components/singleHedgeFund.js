@@ -37,7 +37,7 @@ export class singleHedgeFund extends React.Component {
               />
             </div>
           </div>
-          <div className="flex-row">
+          <div className="flex-row pie-bar-row">
             <div className="">
               <PieChart
                 stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
