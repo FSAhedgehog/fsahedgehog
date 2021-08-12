@@ -880,6 +880,43 @@ nav a:hover {
   text-align: center;
 }
 
+#pRank {
+  width: 2vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pTicker {
+  width: 7.6vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pPercentage {
+  width: 8vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pInvested {
+  width: 7.7vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pPrice {
+  width: 6.3vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pShares {
+  width: 9vw;
+  font-size: 0.73vw;
+  text-align: center;
+  margin-left: 1.7vw;
+}
+
 .left-half-tab {
   /* border: 5px solid red; */
   border: none;

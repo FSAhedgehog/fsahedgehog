@@ -130,14 +130,16 @@ class Portfolio extends React.Component {
                 }
                 return (
                   <div key={stock.id} className="data-container">
-                    <p id="rank">{index + 1}</p>
-                    <p id="ticker">{stock.ticker}</p>
-                    <p id="percentage">{`${(
+                    <p id="pRank">{index + 1}</p>
+                    <p id="pTicker">{stock.ticker}</p>
+                    <p id="pPercentage">{`${(
                       Number(stock.percentageOfPortfolio) * 100
                     ).toFixed(2)}%`}</p>
-                    <p id="invested">{`$${totalInvested} ${amntIndicator}`}</p>
-                    <p id="invested">{`$${stock.price}`}</p>
-                    <p id="invested">{`${stock.qtyOfSharesHeld}`}</p>
+                    <p id="pInvested">{`$${totalInvested} ${amntIndicator}`}</p>
+                    <p id="pPrice">{`$${stock.price}`}</p>
+                    <p id="pShares">{`${numberWithCommas(
+                      stock.qtyOfSharesHeld
+                    )}`}</p>
                   </div>
                 )
               })}
@@ -168,4 +170,8 @@ function quarterEndDate(year, quarter) {
     default:
       return `${year}-12-31`
   }
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
