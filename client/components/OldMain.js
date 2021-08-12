@@ -2,6 +2,11 @@ import React from 'react'
 import AllHedgeFunds from './AllHedgeFunds'
 import {LineChart} from './LineChart'
 import {BarChart, PieChart, StockStats} from '../components'
+
+import {HedgeFundStats} from '../components'
+import {getHedgeFunds} from '../store/funds'
+import {getHedgeStats} from '../store/hedgeStats.js'
+import {getStockStats} from '../store/stockStats.js'
 import {connect} from 'react-redux'
 import {getSingleHedgeFund} from '../store/oneFund'
 import {EmailSub} from './EmailSub'
@@ -11,22 +16,12 @@ import ListWhatToBuy from './ListWhatToBuy'
 export class Main extends React.Component {
   componentDidMount() {
     this.props.getMySingleHedgeFund()
+    this.props.getHedgeFunds()
+    this.props.getHedgeStats()
+    this.props.getStockStats()
   }
 
   render() {
-    // let yearOneReturn = findAverageReturn(
-    //   this.props.hedgeFunds,
-    //   'yearOneReturn'
-    // )
-    // let yearThreeReturn = findAverageReturn(
-    //   this.props.hedgeFunds,
-    //   'yearThreeReturn'
-    // )
-    // let yearFiveReturn = findAverageReturn(
-    //   this.props.hedgeFunds,
-    //   'yearFiveReturn'
-    // )
-    // let maxReturn = findAverageReturn(this.props.hedgeFunds, 'maxReturn')
     if (!this.props.loading) {
       return (
         <div>
@@ -34,10 +29,6 @@ export class Main extends React.Component {
             <div className="flex-row sml-bottom">
               <div className="flex-column">
                 <h2 className="flex-row text">Step one: Choose a Hedge Fund</h2>
-                {/* <h2>{yearOneReturn}</h2>
-                <h2>{yearThreeReturn}</h2>
-                <h2>{yearFiveReturn}</h2>
-                <h2>{maxReturn}</h2> */}
                 <p className="flex-row left right top explainer">
                   Each quarter we get a glimpse into super-investors' portfolios
                   when they release their holdings via a &nbsp;
@@ -51,6 +42,7 @@ export class Main extends React.Component {
               </div>
             </div>
             <div className="flex-row sml-bottom">
+              <HedgeFundStats />
               <AllHedgeFunds />
             </div>
             <div className="flex-row sml-bottom">
@@ -113,7 +105,6 @@ export class Main extends React.Component {
                   stocks={this.props.singleHedgeFund.thirteenFs[0].stocks}
                 />
               </div>
-              <StockStats />
             </div>
           </div>
         </div>
@@ -135,6 +126,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getMySingleHedgeFund: (id) => dispatch(getSingleHedgeFund(id)),
+    getHedgeFunds: () => {
+      dispatch(getHedgeFunds())
+    },
+    getHedgeStats: () => {
+      dispatch(getHedgeStats())
+    },
+    getStockStats: () => {
+      dispatch(getStockStats())
+    },
   }
 }
 

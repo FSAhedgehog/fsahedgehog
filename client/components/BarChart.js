@@ -1,5 +1,11 @@
 import React from 'react'
-import {VictoryBar, VictoryChart, VictoryLegend, VictoryAxis} from 'victory'
+import {
+  VictoryBar,
+  VictoryChart,
+  VictoryLegend,
+  VictoryAxis,
+  VictoryLabel,
+} from 'victory'
 import {findAverageBeta, camelCase, determineColor} from './utilities'
 import {std} from 'mathjs'
 
@@ -90,12 +96,12 @@ export const BarChart = (props) => {
           centerTitle
           gutter={20}
           x={95}
-          y={14}
+          y={8}
           style={{
             title: {
               fontSize: 26,
               fontFamily: font,
-              fill: 'rgb(255, 147, 147)',
+              // fill: 'rgb(255, 147, 147)',
               fontWeight: '600',
             },
             labels: {fontSize: 0, fontFamily: font, fill: 'rgb(215,215,215)'},

@@ -58,7 +58,7 @@ export class LineChart extends React.Component {
     } else if (this.state.lineChart === 1) {
       indexNumberOf13Fs = 5
     }
-
+    // makeActiveButton(this.state.lineChart)
     let quarterlyValue = this.renderQuarterlyValues(
       'quarterlyValue',
       indexNumberOf13Fs
@@ -78,21 +78,8 @@ export class LineChart extends React.Component {
     let quarterIndex = quarterlyValue.length - 1
     return (
       <div id="line-chart-tab">
-        <h2 id="line-chart-title">Historical Return</h2>
-        <ul>
-          <button type="button" value={99} onClick={this.onClick}>
-            Max
-          </button>
-          <button type="button" value={5} onClick={this.onClick}>
-            5 years
-          </button>
-          <button type="button" value={3} onClick={this.onClick}>
-            3 years
-          </button>
-          <button type="button" value={1} onClick={this.onClick}>
-            1 year
-          </button>
-        </ul>
+        {/* <h2 id="line-chart-title">Historical Return</h2> */}
+
         <VictoryChart
           animate={{
             duration: 500,
@@ -101,7 +88,7 @@ export class LineChart extends React.Component {
           }}
           style={{
             parent: {
-              border: '1px solid #ccc',
+              // border: '1px solid #ccc',
               // boxShadow: '1px 2px 5px rgba(0, 0, 0, 0.65)',
               borderRadius: '15px',
               overflow: 'hidden',
@@ -111,15 +98,15 @@ export class LineChart extends React.Component {
           containerComponent={
             <VictoryVoronoiContainer
               labels={({datum}) => {
-                console.log(datum.y, 'y', datum.childName)
+                console.log(datum)
                 let label = ``
-                if (datum.childName === 'chart-line-6') {
+                if (datum.childName === 'sp500') {
                   label += `S&P500: ${datum.y}%`
-                } else if (datum.childName === 'chart-line-5') {
+                } else if (datum.childName === 'bottomTen') {
                   label += `${
                     camelCase(hedgeFund.name).split(' ')[0]
                   } Bottom Ten: ${datum.y}%`
-                } else if (datum.childName === 'chart-line-4') {
+                } else if (datum.childName === 'topTen') {
                   label += `${
                     camelCase(hedgeFund.name).split(' ')[0]
                   } Top Ten: ${datum.y}%`
@@ -155,12 +142,50 @@ export class LineChart extends React.Component {
               fontSize: 20,
             }}
           /> */}
-          <VictoryLegend
-            x={30}
-            y={45}
+          {/* <VictoryLegend
+            // orientation="center"
+            // data={legendData}
             centerTitle
+            gutter={20}
+            x={95}
+            y={14}
+            style={{
+              title: {
+                fontSize: 26,
+                fontFamily: font,
+                fill: 'rgb(255, 147, 147)',
+                fontWeight: '600',
+              },
+              labels: {fontSize: 0, fontFamily: font, fill: 'rgb(215,215,215)'},
+              symbol: {fill: 'rgb(215,215,215)'},
+            }}
+          /> */}
+          <VictoryLabel
+            text="Historical Return"
+            x={158}
+            y={25}
+            // textAnchor="middle"
+            style={{
+              fontSize: 24,
+              fontFamily: font,
+              fontWeight: '600',
+              // paddingTop: 40,
+            }}
+          />
+          <VictoryLegend
+            // title="Historical Return"
+            centerTitle
+            // gutter={20}
+            x={30}
+            y={43}
             orientation="vertical"
             style={{
+              // title: {
+              //   fontSize: 20,
+              //   fontFamily: font,
+              //   fontWeight: '600',
+              //   marginLeft: '50px',
+              // },
               data: {fontFamily: font},
               labels: {
                 fontFamily: font,
@@ -238,6 +263,7 @@ export class LineChart extends React.Component {
           />
           <VictoryLine
             data={quarterlyValue}
+            name="total"
             style={{
               data: {stroke: '#59EA94'},
 
@@ -250,6 +276,7 @@ export class LineChart extends React.Component {
           />
           <VictoryLine
             data={topTenValue}
+            name="topTen"
             style={{
               data: {stroke: 'rgb(99, 222, 251)'},
               labels: {
@@ -261,6 +288,7 @@ export class LineChart extends React.Component {
           />
           <VictoryLine
             data={bottomTenValue}
+            name="bottomTen"
             style={{
               data: {stroke: 'rgb(255, 147, 147)'},
               labels: {
@@ -272,6 +300,7 @@ export class LineChart extends React.Component {
           />
           <VictoryLine
             data={spValue}
+            name="sp500"
             style={{
               data: {stroke: 'rgb(157, 97, 255)'},
               labels: {
@@ -281,6 +310,40 @@ export class LineChart extends React.Component {
             }}
           />
         </VictoryChart>
+        <ul>
+          <button
+            type="button"
+            value={99}
+            onClick={this.onClick}
+            id="max-button"
+          >
+            Max
+          </button>
+          <button
+            type="button"
+            value={5}
+            onClick={this.onClick}
+            id="five-year-button"
+          >
+            5 years
+          </button>
+          <button
+            type="button"
+            value={3}
+            onClick={this.onClick}
+            id="three-year-button"
+          >
+            3 years
+          </button>
+          <button
+            type="button"
+            value={1}
+            onClick={this.onClick}
+            id="one-year-button"
+          >
+            1 year
+          </button>
+        </ul>
       </div>
     )
   }
@@ -296,6 +359,25 @@ function getNextYearAndQuarter(year, quarter) {
     quarter++
   }
   return {year, quarter}
+}
+
+function getButtonIdWithLineChartState(lineChartState) {
+  switch (lineChartState) {
+    case 99:
+      return 'max-button'
+    case 5:
+      return 'five-year-button'
+    case 3:
+      return 'three-year-button'
+    default:
+      return 'one-year-button'
+  }
+}
+
+function makeActiveButton(lineChartState) {
+  let id = getButtonIdWithLineChartState(lineChartState)
+  let button = document.getElementById(id)
+  button.style.color = 'rgb(167, 154, 255)'
 }
 
 function addGaps(dataArr) {

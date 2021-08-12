@@ -159,6 +159,34 @@ select:hover {
   /* align-content: flex-start; */
 }
 
+ul {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  justify-content: center;
+}
+
+ul button {
+  padding: 5px;
+  width: 5vw;
+  margin-top: 4px;
+  margin-right: 4px;
+  border: none;
+  background-color: white;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+ul button:hover {
+  background-color: rgb(167, 154, 255);
+  cursor: pointer;
+  color: black;
+  /* transition: background-color 300ms linear; */
+  transform: scale(1.07);
+  /* -webkit-transform: scale(1.1) all 0.8s ease-in-out; */
+}
+
 .title {
   margin: 0;
   /* margin-bottom: 10px;
@@ -166,7 +194,7 @@ select:hover {
   font-size: 2.2vw;
   font-weight: 600;
   text-align: center;
-  color: rgb(255, 147, 147);
+  /* color: rgb(255, 147, 147); */
   /* text-shadow: 0 0 2.5px #fff, 0 0 5px #fff, 0 0 7.5px #fff, 0 0 10px #fff; */
   /* - ABFFDB rgb(171, 255, 219)- light green
 - A79AFF rgb(167, 154, 255)- light purple
@@ -262,7 +290,7 @@ select:hover {
   /* margin: 6px; */
   font-size: 1.2vw;
   font-weight: 600;
-  color: rgb(147, 255, 214);
+  /* color: rgb(147, 255, 214); */
   border-radius: 8px;
   /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
   border: none;
@@ -370,6 +398,7 @@ select:hover {
 #line-chart-tab {
   border-radius: 8px;
   background-color: rgb(215, 215, 215);
+  display: flex;
 }
 
 #line-chart-title {
@@ -507,7 +536,7 @@ tr:nth-child(even) {
   margin: 0;
   font-size: 1.7vw;
   font-weight: 600;
-  color: rgb(255, 147, 147);
+  /* color: rgb(255, 147, 147); */
   padding-top: 10px;
 }
 
@@ -733,7 +762,7 @@ nav a:hover {
   margin: 6px;
   font-size: 1.7vw;
   font-weight: 600;
-  color: rgb(255, 147, 147);
+  /* color: rgb(255, 147, 147); */
 }
 
 .stock-stats-sort-bar {
@@ -858,4 +887,14 @@ nav a:hover {
   /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
   background-color: rgb(211, 211, 211);
   border-radius: 8px;
+}
+
+#methodology {
+  margin-top: 110px;
+  text-align: center;
+}
+
+#about {
+  margin-top: 110px;
+  text-align: center;
 }

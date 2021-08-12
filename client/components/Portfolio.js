@@ -17,7 +17,6 @@ class Portfolio extends React.Component {
   render() {
     let stocks = this.props.stocks || []
     let thirteenF = this.props.thirteenF
-    console.log(stocks.length)
     let portfolioValue = thirteenF.portfolioValue
     let valueIndicator
     if (portfolioValue > 1000000000) {
@@ -119,7 +118,6 @@ class Portfolio extends React.Component {
               .sort((a, b) => b[this.state.sort] - a[this.state.sort])
               .map((stock, index) => {
                 let totalInvested = stock.totalValue
-                console.log(totalInvested)
                 let amntIndicator
                 if (totalInvested > 1000000000) {
                   totalInvested = totalInvested / 1000000000

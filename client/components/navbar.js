@@ -16,11 +16,6 @@ function getRandomLogo() {
   let currentLogo = image.src
   let newLogo = arrOfLogos[Math.floor(Math.random() * arrOfLogos.length)]
 
-  console.log(
-    String(currentLogo).slice(currentLogo.length - 7),
-    String(newLogo).slice(newLogo.length - 7),
-    'THIS'
-  )
   while (
     String(currentLogo).slice(currentLogo.length - 7) ===
     String(newLogo).slice(currentLogo.length - 7)
@@ -53,11 +48,9 @@ function goBlackColor(el) {
 }
 
 function activate(el) {
-  console.log(el.target.style.color)
   let newLink = document.getElementById(el.target.id)
   let oldLink = document.getElementsByClassName('currentLink')[0]
   if (oldLink) oldLink.classList.remove('currentLink')
-  console.log(oldLink)
   // newLink.style.color = 'red'
   // newLink.style.backgroundColor = 'red'
   newLink.classList.add('currentLink')

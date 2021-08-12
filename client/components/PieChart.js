@@ -39,9 +39,11 @@ export class PieChart extends React.Component {
           labels={({datum}) => `${datum.x}\n ${datum.y.toFixed(2)}%`}
           padding={75}
           colorScale={[
-            'rgb(167, 154, 255)',
+            // 'rgb(167, 154, 255)',
             'rgb(147, 225, 255)',
             // 'rgb(255, 233, 154)',
+            'rgb(255, 147, 147)',
+            'rgb(157, 97, 255)',
             '#59ea94',
           ]}
           theme={VictoryTheme.material}

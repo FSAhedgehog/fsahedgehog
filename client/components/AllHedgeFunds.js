@@ -31,7 +31,6 @@ class AllHedgeFunds extends React.Component {
 
   updateSort(event) {
     this.setState({sort: event.target.value})
-    console.log('hello', this.state.sort, event.target.value)
   }
 
   render() {
