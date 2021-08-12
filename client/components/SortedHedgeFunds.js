@@ -6,7 +6,7 @@ const SortedHedgeFunds = (props) => {
   const {
     currentHedgeFunds,
     renderPageNumbers,
-    moveHedgeHogToState,
+    // moveHedgeHogToState,
     clickHedgeFund,
     updateSort,
   } = props
@@ -40,10 +40,10 @@ const SortedHedgeFunds = (props) => {
               className="singleHedgeFundContainer"
               key={hedgeFund.id}
             >
-              <div className="hedgeFundName">
-                <p>{camelCase(hedgeFund.name)}</p>
-                <div>{moveHedgeHogToState(hedgeFund.id)}</div>
-              </div>
+              {/* <div> */}
+              <p className="hedgeFundName">{camelCase(hedgeFund.name)}</p>
+              {/* <div>{moveHedgeHogToState(hedgeFund.id)}</div> */}
+              {/* </div> */}
               <div className="hedgeFundReturnsContainer">
                 <div className="singleReturnContainer">
                   <div className="yearReturnLabel">
@@ -80,9 +80,9 @@ const SortedHedgeFunds = (props) => {
           )
         })}
       </div>
-      <div className="pages-container">
+      {/* <div className="pages-container">
         <div id="page-numbers">{renderPageNumbers} </div>
-      </div>
+      </div> */}
       <Link
         className="Link"
         spy={true}

@@ -1,5 +1,18 @@
+/* COLORS
+- ABFFDB rgb(171, 255, 219)- light green
+- A79AFF rgb(167, 154, 255)- light purple
+- FFE99A rob(255, 233, 154)- light yellow
+- FF9393 rgb(255, 147, 147)- light pink
+- 93FFD6 rgb(147, 255, 214)- med turquoise
+- 93E1FF rgb(147, 225, 255) - med blue
+- 8BFFCD rgb(139, 255, 205) - med green
+
+FONT
+- font-family: Cern,Helvetica,Arial,sans-serif */
+
 body {
   font-family: 'Poppins', sans-serif;
+  /* background-image: url('/images/please-3.png'); */
 }
 
 a {
@@ -19,16 +32,6 @@ h6 {
   font-size: 1.3rem;
 }
 
-nav a {
-  display: inline-block;
-  margin: 1rem;
-  color: #59ea94;
-}
-
-nav a:hover {
-  color: rgb(157, 97, 255);
-}
-
 img {
   width: 7%;
   height: 7%;
@@ -38,6 +41,14 @@ form div {
   margin: 1rem;
   display: inline-block;
 }
+
+#mce-EMAIL {
+  width: 400px;
+}
+/*
+#emailIFrame {
+  display: none !important;
+} */
 
 .Link {
   all: initial;
@@ -103,54 +114,204 @@ form div {
 
 .explainer {
   text-align: center;
-  font-style: italic;
+  /* font-style: italic; */
+  font-weight: 700;
 }
 
 /* ALL HEDGE FUNDS STYLING */
 select {
   border-radius: 8px;
   border: none;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65); */
+  font-size: 0.85vw;
+  transition: all 0.3s ease-in-out;
 }
 
 select:hover {
-  background: black;
+  background: rgb(167, 154, 255);
   cursor: pointer;
-  color: #59ea94;
+  color: black;
+  transition: background-color 230ms linear;
+  transform: scale(1.017);
+}
+
+#hedgefunds-container {
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* margin-right: 25px; */
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  height: 60vh;
+  background-color: rgb(211, 211, 211);
+  /* padding-top: 25px; */
 }
 
 .hedgeFundsContainer {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  background-color: rgb(211, 211, 211);
+  /* width: 760px; */
+  /* height: 100px; */
   border-radius: 15px;
+  padding-top: 5px;
+  /* align-content: flex-start; */
+}
+
+ul {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  justify-content: center;
+}
+
+ul button {
+  padding: 5px;
+  width: 5vw;
+  margin-top: 4px;
+  margin-right: 4px;
+  border: none;
+  background-color: white;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+ul button:hover {
+  background-color: rgb(167, 154, 255);
+  cursor: pointer;
+  color: black;
+  /* transition: background-color 300ms linear; */
+  transform: scale(1.07);
+  /* -webkit-transform: scale(1.1) all 0.8s ease-in-out; */
+}
+
+.title {
+  margin: 0;
+  /* margin-bottom: 10px;
+  margin-top: 10px; */
+  font-size: 2.2vw;
+  font-weight: 600;
+  text-align: center;
+  /* color: rgb(255, 147, 147); */
+  /* text-shadow: 0 0 2.5px #fff, 0 0 5px #fff, 0 0 7.5px #fff, 0 0 10px #fff; */
+  /* - ABFFDB rgb(171, 255, 219)- light green
+- A79AFF rgb(167, 154, 255)- light purple
+- FFE99A rob(255, 233, 154)- light yellow
+- FF9393 rgb(255, 147, 147)- light pink
+- 93FFD6 rgb(147, 255, 214)- med turquoise
+- 93E1FF rgb(147, 225, 255) - med blue
+- 8BFFCD rgb(139, 255, 205) - med green */
+  /* text-align: center; */
+}
+.hedgeFundTitle {
+  border-radius: 8px;
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  background-color: rgb(211, 211, 211);
+  /* margin-right: 25px; */
+}
+
+.hedgeFundStatsContainer {
+  display: flex;
+  /* height: 15%; */
+  height: 3.4vw;
+  /* margin-bottom: 4px; */
+  font-size: 6px;
+  align-items: center;
+  justify-content: center;
+  /* padding: 12px; */
+  /* width: 780px; */
+  /* margin-left: 35px; */
+}
+
+#fundStatsWholeComponent {
+  /* margin-bottom: 30px; */
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
 }
 
 .singleHedgeFundContainer {
   display: flex;
-  height: 15%;
+  height: 50px;
   border-radius: 15px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65); */
+  background-color: white;
   margin-bottom: 4px;
   font-size: 6px;
+  margin-left: 10px;
+  margin-right: 10px;
+  transition: all 0.3s ease-in-out;
+  /* width: 100%; */
 }
 
 .singleHedgeFundContainer:hover {
-  background-color: black;
+  background-color: rgb(167, 154, 255);
   cursor: pointer;
-  color: #59ea94;
+  color: black;
+  /* transition: background-color 300ms linear; */
+  transform: scale(1.017);
+  /* -webkit-transform: scale(1.1) all 0.8s ease-in-out; */
 }
+
+.singleHedgeFundContainer:hover
+  .hedgeFundReturnsContainer
+  .singleReturnContainer
+  p {
+  color: black;
+  transition: background-color 230ms linear;
+  /* - ABFFDB rgb(171, 255, 219)- light green
+- A79AFF rgb(167, 154, 255)- light purple
+- FFE99A rob(255, 233, 154)- light yellow
+- FF9393 rgb(255, 147, 147)- light pink
+- 93FFD6 rgb(147, 255, 214)- med turquoise
+- 93E1FF rgb(147, 225, 255) - med blue
+- 8BFFCD rgb(139, 255, 205) - med green */
+}
+
+/* .singleHedgeFundContainer:hover
+  .hedgeFundReturnsContainer
+  .singleReturnContainer:nth-child(1) {
+  color: red;
+} */
 
 .hedgeFundName {
-  width: 70%;
+  width: 37%;
   display: flex;
-  padding-left: 5px;
+  padding-left: 9px;
+  align-items: center;
+  font-size: 0.9vw;
+  font-weight: 400;
 }
 
-.hedgeFundName p {
-  font-size: 13px;
-  padding: 6px 5px 5px 5px;
+#hedge-fund-name {
+  /* text-align: center; */
+  /* margin: 6px; */
+  font-size: 1.2vw;
+  font-weight: 600;
+  /* color: rgb(147, 255, 214); */
+  border-radius: 8px;
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  border: none;
+  padding: 10px;
+  background-color: rgb(211, 211, 211);
+  margin-bottom: 20px;
 }
+/*
+    'rgb(167, 154, 255)',
+    'rgb(255, 147, 147)',
+    'rgb(147, 225, 255)',
+    '#59ea94' */
+#hedge-fund-name h2 {
+  margin: 0;
+}
+
+/* .hedgeFundName p {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 12px;
+} */
 
 .hedgeFundHog {
   height: 32px;
@@ -159,41 +320,94 @@ select:hover {
   margin: 0px;
 }
 
+/* .currentLink {
+  transform: scale(1.05);
+} */
+
 .hedgeFundReturnsContainer {
   display: flex;
-  width: 50%;
-  padding: 0px;
+  align-items: center;
+  /* margin-bottom: 1vh; */
+  width: 63%;
+  /* height: 100px; */
+}
+
+.hedgeFundStatsBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 0 2vw; */
+  width: 100%;
+  /* width: 1200px; */
 }
 
 .hedgeFundReturnsContainer p {
-  padding-top: 8px;
+  /* padding-top: 8px; */
   font-size: 8px;
 }
 
 .hedgeFundReturnsContainer .assetsReturn {
-  padding-top: 8px;
+  /* padding-top: 8px; */
   font-size: 8px;
 }
 
 .singleReturnContainer {
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   display: flex;
-  padding: 6px 0px 0px 0px;
+  /* padding: 6px 0px 0px 0px; */
   align-items: center;
-  width: 85px;
+  padding-left: 0px;
+  width: 5vw;
+  flex-direction: column;
+}
+
+.singleStatContainer {
+  /* flex-wrap: wrap; */
+  display: flex;
+  /* padding: 6px 0px 0px 0px; */
+  align-items: center;
+  padding-left: 4px;
+  width: 8.7vw;
+  flex-direction: column;
 }
 
 .yearReturnLabel p {
-  font-size: 11px;
-  margin-right: 3px;
+  font-size: 0.73vw;
+  margin: 0px;
+  font-weight: 600;
+  text-align: center;
+  /* margin-right: 3px; */
   color: rgb(157, 97, 255);
 }
 
+.yearReturnNumber p {
+  font-size: 0.73vw;
+  margin: 0px;
+  /* margin-right: 3px; */
+  /* color: rgb(157, 97, 255); */
+}
+
 /* VICTORY LINE CHART STYLING */
-.lineChart {
-  width: 450px;
+/* .lineChart {
+  width: 850px;
   height: 350px;
   border-radius: 15px;
+  overflow: hidden;
+} */
+
+#line-chart-tab {
+  border-radius: 8px;
+  background-color: rgb(215, 215, 215);
+  display: flex;
+}
+
+#line-chart-title {
+  text-align: center;
+  margin: 0;
+  font-size: 1.7vw;
+  font-weight: 600;
+  color: rgb(255, 147, 147);
+  padding-top: 10px;
 }
 
 /* HOG BASKET STYLING */
@@ -301,7 +515,7 @@ tr:nth-child(even) {
   padding-top: 25px;
 }
 
-/*mobile 400px and less*/
+/* mobile 400px and less
 @media screen and (max-width: 480px) {
   .mobile {
     width: 58%;
@@ -314,14 +528,410 @@ tr:nth-child(even) {
   .hedgeFundReturnContainer {
     align-items: justify;
   }
-}
+} */
 
 /* PIE STYLING */
 .pie-title {
-  padding-top: 14px;
+  text-align: center;
+  margin: 0;
+  font-size: 1.7vw;
+  font-weight: 600;
+  /* color: rgb(255, 147, 147); */
+  padding-top: 10px;
+}
+
+.pie-bar-row {
+  margin-top: 15px;
+}
+/* .po {
+  color: rgb(255, 233, 154);
+  color: rgb(147, 225, 255);
+  color: rgb(167, 154, 255);
+} */
+.whatToBuy {
+  background-color: white;
 }
 
 .pie-chart {
-  border-radius: 15px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65);
+  border-radius: 8px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65); */
+  background-color: rgb(215, 215, 215);
+}
+
+/* Navbar */
+
+#nav-bar {
+  border-bottom: solid lightgray 1px;
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  background-color: #ffffff;
+  top: 0;
+  display: flex;
+  z-index: 1000;
+  left: 0;
+}
+
+#Nav-Logo {
+  /* height: 90%; */
+  width: 14vw;
+  /* padding: 1.5px;
+  margin: 1.5px; */
+  margin-right: 100px;
+  /* padding-bottom: 20px; */
+  transition: all 0.2s ease-in-out;
+}
+
+#nav-logo-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 6px;
+}
+
+#Nav-Logo:hover {
+  transform: scale(1.05);
+}
+
+.grow {
+  transition: all 0.2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.1);
+}
+
+.nav-bar-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: black;
+  width: 13.8vw;
+  margin-top: 5px;
+  font-size: 1.2vw;
+  transition: all 0.3s ease-in-out;
+  /* transition: text-shadow 0.3s ease-in-out; */
+  font-weight: 600;
+}
+
+.nav-bar-link:hover {
+  text-decoration: none;
+  transform: scale(1.1);
+  text-shadow: 0 3px 0 white;
+}
+
+.currentLink {
+  /* color: rgb(157, 97, 255); */
+  border-bottom: 5px solid rgb(157, 97, 255);
+  /* border-bottom-style: inherit; */
+  /* text-shadow: 0 0 3px rgb(255, 147, 147), 0 0 3px rgb(255, 147, 147),
+    0 0 3px rgb(255, 147, 147); */
+  /* text-shadow: 0 4px 0 rgb(255, 147, 147); */
+  /* 0 0 7.5px rgb(157, 97, 255), 0 0 10px rgb(157, 97, 255); */
+}
+
+/* .currentLink:after {
+  transform-origin: 0% 50%;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+} */
+
+.all-hedgefunds-page {
+  display: flex;
+  margin-top: 110px;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.single-hedgefunds-page {
+  margin-top: 110px;
+  display: flex;
+  flex-direction: column;
+  /* display: flex;
+  align-items: center; */
+  /* justify-content: center; */
+  align-items: center;
+}
+
+#left-half-hedgefunds-page {
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  width: 55%;
+  /* padding-top: 4px; */
+  /* margin-left: 40px; */
+}
+
+#right-half-hedgefunds-page {
+  /* right: 0; */
+  width: 30%;
+  margin-right: 1vw;
+  /* margin-top: 6px; */
+  /* height: 100%; */
+}
+
+/* nav a {
+  display: inline-block;
+  margin: 1rem;
+  color: #59ea94;
+}
+
+nav a:hover {
+  color: rgb(157, 97, 255);
+} */
+
+/*
+.geeks {
+  width: 0px;
+  height: 5px;
+  background: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.geeks::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100;
+  height: 100%;
+  background: yellow;
+  animation: animate 1s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    left: 0;
+  }
+
+  50% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+} */
+
+.growth {
+  /* overflow: hidden; */
+  /* top: 0; */
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+/*
+.growth:hover {
+  overflow-y: scroll;
+  overflow-x: scroll;
+} */
+
+/* Stock Stats CSS */
+.stock-stats-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: none;
+  height: 77.7vh;
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  background-color: rgb(211, 211, 211);
+  /* justify-content: center; */
+}
+
+.portfolio-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: none;
+  max-height: 400px;
+  min-height: 300px;
+  /* height: 55vh; */
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  background-color: rgb(211, 211, 211);
+  margin-right: 15px;
+  /* justify-content: center; */
+}
+
+#stock-stats-title {
+  text-align: center;
+  margin: 6px;
+  font-size: 1.7vw;
+  font-weight: 600;
+  /* color: rgb(255, 147, 147); */
+}
+
+.stock-stats-sort-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.portfolio-sort-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.hedgefund-sort-bar {
+  /* padding-top: 25px; */
+  /* padding-top: 10px; */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.stock-stats-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#top-sticky-hedgefund {
+  position: sticky;
+  top: 0;
+}
+
+#top-sticky-section {
+  position: sticky;
+  top: 0;
+  background-color: rgb(211, 211, 211);
+  margin-bottom: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.data-labels {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(211, 211, 211);
+  /* margin-bottom: 5px; */
+  /* margin-right: 0px; */
+  width: 94%;
+  /* padding: 0 0.3vw; */
+  padding-left: 0.75vw;
+}
+
+.data-labels p {
+  font-size: 0.8vw;
+  margin: 0.3vw;
+  font-weight: 600;
+  text-align: center;
+  color: rgb(157, 97, 255);
+}
+
+.data-container {
+  display: flex;
+  border-radius: 8px;
+  background-color: rgb(235, 235, 235);
+  border: none;
+  /* box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.65); */
+  width: 95%;
+  margin-bottom: 3px;
+}
+
+.data-container p {
+  /* padding: 4px;
+  margin-left: 8px;
+  margin: 0 8px; */
+  font-size: 0.73vw;
+  margin: 0;
+}
+
+#rank {
+  /* width: 47px; */
+  width: 2.8vw;
+  font-size: 0.73vw;
+  /* margin-left: 0.2vw; */
+  text-align: center;
+}
+
+#ticker {
+  /* width: 51px; */
+  width: 4.13vw;
+  /* font-size: 0.73vw; */
+  text-align: center;
+}
+
+#count {
+  width: 7.8vw;
+  /* font-size: 0.73vw; */
+  /* width: 120px; */
+  text-align: center;
+}
+
+#percentage {
+  width: 9.6vw;
+  /* font-size: 0.73vw; */
+  /* width: 132px; */
+  text-align: center;
+}
+
+#invested {
+  width: 3.8vw;
+  /* width: 55px; */
+  text-align: center;
+}
+
+#pRank {
+  width: 2vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pTicker {
+  width: 7.6vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pPercentage {
+  width: 8vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pInvested {
+  width: 7.7vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pPrice {
+  width: 6.3vw;
+  font-size: 0.73vw;
+  text-align: center;
+}
+
+#pShares {
+  width: 9vw;
+  font-size: 0.73vw;
+  text-align: center;
+  margin-left: 1.7vw;
+}
+
+.left-half-tab {
+  /* border: 5px solid red; */
+  border: none;
+  margin-right: 25px;
+  /* box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.65); */
+  background-color: rgb(211, 211, 211);
+  border-radius: 8px;
+}
+
+#methodology {
+  margin-top: 110px;
+  text-align: center;
+}
+
+#about {
+  margin-top: 110px;
+  text-align: center;
 }

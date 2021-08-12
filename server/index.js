@@ -5,10 +5,13 @@ const compression = require('compression')
 const session = require('express-session')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
+require('dotenv').config()
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 module.exports = app
+const http = require('http')
+var server = http.createServer(app)
 
 if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
@@ -16,12 +19,9 @@ if (process.env.NODE_ENV === 'test') {
 
 const createApp = () => {
   app.use(morgan('dev'))
-
   app.use(express.json())
   app.use(express.urlencoded({extended: true}))
-
   app.use(compression())
-
   app.use('/api', require('./api'))
 
   app.use(express.static(path.join(__dirname, '..', 'public')))
@@ -48,7 +48,7 @@ const createApp = () => {
 }
 
 const startListening = () => {
-  app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
+  server.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 }
 
 const syncDb = () => db.sync()

@@ -1,10 +1,12 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-export class Disclaimer extends React.Component {
+export class Methodology extends React.Component {
   render() {
     return (
-      <div>
+      <div id="methodology">
+        <h2>Methodology Coming soon! :)</h2>
+        <h4>Disclaimer:</h4>
         <div className="left right">
           HedgeHog is not a registered investment, legal, or tax advisor or a
           broker/dealer. All investment/ financial opinions expressed by

@@ -1,5 +1,8 @@
 export {Navbar} from './navbar'
+export {Footer} from './Footer'
 export {default as AllHedgeFunds} from './AllHedgeFunds'
 export {Main} from './Main'
 export {PieChart} from './PieChart'
 export {BarChart} from './BarChart'
+export {default as HedgeFundStats} from './HedgeFundStats'
+export {default as StockStats} from './stockStats'

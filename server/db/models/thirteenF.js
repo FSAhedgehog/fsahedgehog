@@ -25,11 +25,20 @@ const ThirteenF = db.define('thirteenF', {
   quarterlyValue: {
     type: Sequelize.FLOAT,
   },
+  topTenQuarterlyValue: {
+    type: Sequelize.FLOAT,
+  },
+  bottomTenQuarterlyValue: {
+    type: Sequelize.FLOAT,
+  },
   spValue: {
     type: Sequelize.FLOAT,
   },
   thirteenFBeta: {
     type: Sequelize.FLOAT,
+  },
+  numberOfStocks: {
+    type: Sequelize.INTEGER,
   },
 })
 
